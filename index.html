@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoho RevIQ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="sidebar">  
+    <div class="sidebar-logo">Z</div>  
+    <button class="nav-item active" onclick="goTo('home',this)" title="Overview">    
+        <span class="nav-icon">▦</span>    <span class="nav-label">Overview</span>  
+    </button>  
+    <button class="nav-item" onclick="goTo('pipeline',this)" title="Pipeline">    
+        <span class="nav-icon">◈</span>    <span class="nav-label">Pipeline</span>    <span class="nav-badge">5</span>  
+    </button>  
+    <button class="nav-item" onclick="goTo('regions',this)" title="Regions">    
+        <span class="nav-icon">◉</span>    <span class="nav-label">Regions</span>  
+    </button>  
+    <button class="nav-item" onclick="goTo('orgchart',this)" title="Org Chart">    
+        <span class="nav-icon">⊞</span>    <span class="nav-label">Org</span>  
+    </button>  
+    <div class="nav-divider"></div>  
+    <button class="nav-item" onclick="goTo('targets',this)" title="Targets">    
+        <span class="nav-icon">◎</span>    <span class="nav-label">Targets</span>  
+    </button>  
+    <div class="nav-spacer"></div>  
+    <div class="sidebar-avatar" title="Peter Balaji — Director">PB</div>
+</nav>
+
+<div class="app-body">
+    <header class="topbar" style="height: 64px;">    
+        <div class="search-wrap">      
+            <span class="search-icon">
+                <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>      
+            <input type="text" placeholder="Search teams, people, targets...">    
+        </div>    
+        <div class="topbar-right">      
+            
+            <div class="th-year-select-wrap" style="position: relative;">
+                <div class="th-year-select" onclick="toggleYearMenu(event)">
+                    <span>2026</span>
+                    <span class="th-badge-active">ACTIVE</span>
+                    <span style="font-size:10px; margin-left:4px; color:var(--t3);">▼</span>
+                </div>
+                
+                <div class="th-year-dropdown" id="yearMenu">
+                    <div class="th-year-item">
+                        <svg class="check-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" fill="none" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>2026</span>
+                        <span class="th-badge-active" style="text-transform: lowercase;">active</span>
+                    </div>
+                    <div class="th-year-item">
+                        <span class="check-spacer"></span>
+                        <span>2025</span>
+                        <span class="th-badge-locked">
+                            <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            locked
+                        </span>
+                    </div>
+                    <div class="th-year-item">
+                        <span class="check-spacer"></span>
+                        <span>2024</span>
+                        <span class="th-badge-locked">
+                            <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                            locked
+                        </span>
+                    </div>
+                    <div class="th-year-item">
+                        <span class="check-spacer"></span>
+                        <span>2027</span>
+                        <span class="th-badge-draft">
+                            <svg viewBox="0 0 24 24" width="10" height="10" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            draft
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="la-top-btn" id="laTrigger" onmouseenter="openLA()">
+                <span class="pulse-dot"></span> Live Activity
+            </button>      
+            
+            
+            <button class="th-icon-btn" onclick="goTo('settings', this)" title="Settings">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
+            
+            <div class="th-profile-wrap" style="position: relative; display: flex; align-items: center;">
+                <button class="th-icon-btn" onclick="toggleProfileMenu(event)" title="Profile">
+                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </button>
+                
+                <div class="th-profile-dropdown" id="profileMenu">
+                    <div class="th-profile-item">
+                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                        <span>Logout</span>
+                    </div>
+                </div>
+            </div>        </div>  
+    </header>
+
+    <div class="content-area">    
+        <div class="content-scroll">
+            
+            <div class="section active" id="sec-home">
+                <div class="home-hero">          
+                    <div>            
+                        <div class="home-greeting">Good morning, Peter</div>            
+                        <div class="home-subtext">FY2024-25 Q4 · Last updated just now</div>          
+                    </div>          
+                    <div class="home-hero-badge">            
+                        <span class="home-hero-num">$382M</span>            
+                        <span class="home-hero-lbl" style="margin-bottom: 12px;">Q4 Revenue · 89% of target</span>
+                        <button onclick="goTo('orgchart', document.querySelectorAll('.nav-item')[3]); setTimeout(() => document.getElementById('org-targets-section').scrollIntoView({behavior:'smooth', block:'start'}), 100);" class="btn-accent" style="padding: 8px 16px; font-size: 11px;">
+                            🎯 Set Target
+                        </button>
+                    </div>        
+                </div>
+
+                <div class="kpi-bento">          
+                    <div class="kpi-bento-card kb-blue kb-wide">            
+                        <div class="kb-label">Total Targeted Revenue</div>            
+                        <div class="kb-value">$382M</div>            
+                        <div class="kb-sub">              
+                            <span class="kb-delta up">↑ 14.2%</span> vs last quarter            
+                        </div>            
+                        <div class="kb-mini-bar-wrap"><div class="kb-mini-bar" style="width:89%"></div></div>            
+                        <div class="kb-bar-label">89% of $428M target</div>          
+                    </div>          
+                    <div class="kpi-bento-card kb-green">            
+                        <div class="kb-label">Deals Closed</div>            
+                        <div class="kb-value">1,248</div>            
+                        <div class="kb-sub"><span class="kb-delta up">↑ 142</span> deals this quarter</div>          
+                    </div>          
+                    <div class="kpi-bento-card kb-amber">            
+                        <div class="kb-label">Win Rate</div>            
+                        <div class="kb-value">64.8%</div>            
+                        <div class="kb-sub"><span class="kb-delta up">↑ 3.8pp</span> QoQ improvement</div>          
+                    </div>          
+                    <div class="kpi-bento-card kb-purple">            
+                        <div class="kb-label">Pipeline</div>            
+                        <div class="kb-value">$1,240M</div>            
+                        <div class="kb-sub">3.2× revenue coverage</div>          
+                    </div>          
+                    <div class="kpi-bento-card kb-teal">            
+                        <div class="kb-label">Avg Rev / Rep</div>            
+                        <div class="kb-value">$14.2M</div>            
+                        <div class="kb-sub"><span class="kb-delta up">↑ 9.6%</span> vs Q3</div>          
+                    </div>          
+                    <div class="kpi-bento-card kb-red">            
+                        <div class="kb-label">At-Risk Deals</div>            
+                        <div class="kb-value">38</div>            
+                        <div class="kb-sub">$42M exposure</div>          
+                    </div>          
+                    <div class="kpi-bento-card kb-orange">            
+                        <div class="kb-label">Commission Pool</div>            
+                        <div class="kb-value">$18.4M</div>            
+                        <div class="kb-sub">Accrued YTD</div>          
+                    </div>        
+                </div>
+
+                <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px">          
+                    <div class="acard" style="margin-bottom:0">            
+                        <div class="acard-head">              
+                            <div class="acard-title">Revenue Trend — FY2024-25</div>            
+                        </div>            
+                        <canvas id="revChart" height="155"></canvas>          
+                    </div>          
+                    <div class="acard" style="margin-bottom:0">            
+                        <div class="acard-head"><div class="acard-title">Manager Attainment</div></div>            
+                        <div id="mgr-bars"></div>          
+                    </div>        
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px">          
+                    <div class="acard" style="margin-bottom:0">            
+                        <div class="acard-head"><div class="acard-title">Top Performers</div><button class="acard-action" onclick="goTo('team',document.querySelectorAll('.nav-item')[1])">All →</button></div>            
+                        <div id="home-top"></div>          
+                    </div>          
+                    <div class="acard" style="margin-bottom:0">            
+                        <div class="acard-head"><div class="acard-title">On Track</div></div>            
+                        <div id="home-avg"></div>          
+                    </div>          
+                    <div class="acard" style="margin-bottom:0">            
+                        <div class="acard-head"><div class="acard-title">Needs Attention</div></div>            
+                        <div id="home-crit"></div>          
+                    </div>        
+                </div>
+
+                <div class="acard">          
+                    <div class="acard-head"><div class="acard-title">Win Rate by Zoho Product</div></div>          
+                    <div id="wr-product"></div>        
+                </div>
+
+
+                <div class="tp-wrap">          
+                    <div class="tp-topbar">            
+                        <div class="tp-title">Team Performance <span class="team-count-badge" style="font-size:11px;margin-left:8px">27</span></div>            
+                        <div style="display:flex;align-items:center;gap:10px">              
+                            <button onclick="refreshTable(this)" title="Refresh" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--t2);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--t2)'">↻</button>              
+                            <button class="tp-view-link">View Details ↗</button>            
+                        </div>          
+                    </div>          
+                    <div class="tp-filters">            
+                        <div class="tp-filter-drop">Service <select id="tpSvc" onchange="renderRepGrid()"><option value="">All</option><option>CRM</option><option>CRM Plus</option><option>Zoho ONE</option><option>Desk</option><option>Analytics</option></select> ▾</div>            
+                        <div class="tp-filter-drop">Region <select id="tpReg" onchange="renderRepGrid()"><option value="">All</option><option>India S</option><option>India N</option><option>India W</option><option>US East</option><option>LATAM</option><option>APAC</option><option>ANZ</option></select> ▾</div>            
+                        <div class="tp-filter-drop">BU Group <select id="tpBU" onchange="renderRepGrid()"><option value="">All</option><option>CRM BU</option><option>Marketing BU</option><option>Finance BU</option><option>HR BU</option><option>Analytics BU</option></select> ▾</div>            
+                        <div class="tp-sep"></div>            
+                        <button class="tp-type-pill active" id="tpT-all"    onclick="setTypeFilter('all',this)">All</button>            
+                        <button class="tp-type-pill"        id="tpT-Sales"  onclick="setTypeFilter('Sales',this)">Sales</button>            
+                        <button class="tp-type-pill"        id="tpT-Partner"onclick="setTypeFilter('Partner',this)">Partner</button>            
+                        <button class="tp-type-pill"        id="tpT-Renewal"onclick="setTypeFilter('Renewal',this)">Renewal</button>            
+                        <div class="tp-toggle">              
+                            <button class="tp-toggle-btn active" id="tpV-self" onclick="setViewToggle('self',this)">Self</button>              
+                            <button class="tp-toggle-btn"        id="tpV-team" onclick="setViewToggle('team',this)">Team</button>            
+                        </div>          
+                    </div>          
+                    <div class="tp-scroll">            
+                        <div class="tp-inner">              
+                            <div class="tp-head">                
+                                <div class="tp-head-cell">Name</div>                
+                                <div class="tp-head-cell">Role</div>                
+                                <div class="tp-head-cell">Target</div>                
+                                <div class="tp-head-cell">Achieved</div>                
+                                <div class="tp-head-cell">Progress</div>                
+                                <div class="tp-head-cell">Gap</div>                
+                                <div class="tp-head-cell">Status</div>                
+                                <div class="tp-head-cell">Est. Incentive</div>              
+                            </div>              
+                            <div id="lbBody"></div>            
+                        </div>          
+                    </div>          
+                    <div class="tp-show-more" id="lbShowMoreWrap" style="display:none">            
+                        <button onclick="lbLoadMore()" id="lbShowMoreBtn">Show more</button>          
+                    </div>        
+                </div>
+
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">          
+                    <div class="acard" style="margin-bottom:0">            
+                        <div class="acard-head"><div class="acard-title">Tenure vs Win Rate</div></div>            
+                        <div id="tenure-bars"></div>          
+                    </div>          
+                    <div class="acard" style="margin-bottom:0">            
+                        <div class="acard-head"><div class="acard-title">Commission by Tier</div></div>            
+                        <div id="comm-bars"></div>          
+                    </div>        
+                </div>      
+            </div>
+
+            <div class="section" id="sec-pipeline">        
+                <div class="pro-stat-strip">          
+                    <div class="pro-stat-item"><div class="pro-stat-val" style="color:var(--accent)">$1,240M</div><div class="pro-stat-lbl">Total Pipeline</div><div class="pro-stat-delta up">3.2× coverage</div></div>          
+                    <div class="pro-stat-sep"></div>          
+                    <div class="pro-stat-item"><div class="pro-stat-val">$648M</div><div class="pro-stat-lbl">Qualified</div><div class="pro-stat-delta up">52% of total</div></div>          
+                    <div class="pro-stat-sep"></div>          
+                    <div class="pro-stat-item"><div class="pro-stat-val">$28.4K</div><div class="pro-stat-lbl">Avg Deal Size</div><div class="pro-stat-delta up">↑ $3.1K QoQ</div></div>          
+                    <div class="pro-stat-sep"></div>          
+                    <div class="pro-stat-item"><div class="pro-stat-val" style="color:var(--red)">38</div><div class="pro-stat-lbl">At-Risk Deals</div><div class="pro-stat-delta dn">$42M exposure</div></div>          
+                    <div class="pro-stat-sep"></div>          
+                    <div class="pro-stat-item"><div class="pro-stat-val" style="color:var(--green)">62</div><div class="pro-stat-lbl">High-Conv. Opps</div><div class="pro-stat-delta up">≥70% probability</div></div>        
+                </div>        
+                <div class="grid-2">          
+                    <div class="acard"><div class="acard-head"><div class="acard-title">Pipeline Funnel</div></div><div id="funnel"></div></div>          
+                    <div class="acard">
+                        <div class="acard-head" style="margin-bottom:14px;">
+                            <div class="acard-title">Revenue by Product</div>
+                            <div style="font-size:10px;font-weight:800;color:var(--t3);background:var(--surface2);padding:4px 8px;border-radius:6px;letter-spacing:0.5px;text-transform:uppercase;">Q4 Pipeline</div>
+                        </div>
+                        <div id="appProdRev" style="display:flex; flex-direction:column; gap:4px;"></div>
+                    </div>                
+                </div>        
+                <div class="acard">          
+                    <div class="acard-head"><div class="acard-title">Pipeline Anomalies <span class="chip anom" style="margin-left:8px">5 Active</span></div></div>          
+                    <div id="anomalies"></div>        
+                </div>        
+                <div class="acard">          
+                    <div class="acard-head"><div class="acard-title">High Conversion Opportunities</div></div>          
+                    <div class="twrap"><table class="dtable"><thead><tr><th>Company</th><th>Rep</th><th>Stage</th><th>Product</th><th>Region</th><th>Value</th><th>Conv %</th><th>Close</th></tr></thead><tbody id="hconv"></tbody></table></div>        
+                </div>      
+            </div>
+
+            <div class="section" id="sec-regions">
+                <div class="region-hero">          
+                    <div class="region-hero-left">            
+                        <div class="region-hero-title">Regional Performance</div>            
+                        <div class="region-hero-sub">12 active regions · Win rate, revenue & deal intelligence</div>          
+                    </div>          
+                    <div class="region-hero-stats">            
+                        <div class="rh-stat"><div class="rh-stat-val" style="color:var(--green)">India S</div><div class="rh-stat-lbl">Top Region</div></div>            
+                        <div class="rh-divider"></div>            
+                        <div class="rh-stat"><div class="rh-stat-val" style="color:var(--red)">LATAM</div><div class="rh-stat-lbl">Needs Attention</div></div>            
+                        <div class="rh-divider"></div>            
+                        <div class="rh-stat"><div class="rh-stat-val">76%</div><div class="rh-stat-lbl">Best Win Rate</div></div>            
+                        <div class="rh-divider"></div>            
+                        <div class="rh-stat"><div class="rh-stat-val" style="color:var(--red)">52%</div><div class="rh-stat-lbl">Lowest Win Rate</div></div>          
+                    </div>        
+                </div>
+                <div class="acard" style="padding:20px">          
+                    <div class="acard-head"><div class="acard-title">Win Rate by Region</div></div>          
+                    <div id="regionCards"></div>        
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">          
+                    <div class="region-spotlight green-spot">            
+                        <div class="rspot-header">              
+                            <div class="rspot-flag">🇮🇳</div>              
+                            <div>                
+                                <div class="rspot-name">India South</div>                
+                                <div class="rspot-tag green-tag">Best Performing</div>              
+                            </div>              
+                            <div class="rspot-wr green-wr">76%</div>            
+                        </div>            
+                        <div id="best-region"></div>            
+                        <div class="rspot-products">              
+                            <div class="rspot-prod-title">Top Products</div>              
+                            <div style="display:flex;gap:6px;flex-wrap:wrap">                
+                                <span class="rprod-tag">CRM 80%</span>                
+                                <span class="rprod-tag">CRM Plus 76%</span>                
+                                <span class="rprod-tag">Zoho ONE 74%</span>              
+                            </div>            
+                        </div>          
+                    </div>          
+                    <div class="region-spotlight red-spot">            
+                        <div class="rspot-header">              
+                            <div class="rspot-flag">🌎</div>              
+                            <div>                
+                                <div class="rspot-name">LATAM</div>                
+                                <div class="rspot-tag red-tag">Needs Attention</div>              
+                            </div>              
+                            <div class="rspot-wr red-wr">52%</div>            
+                        </div>            
+                        <div id="worst-region"></div>            
+                        <div class="rspot-products">              
+                            <div class="rspot-prod-title">Struggling Products</div>              
+                            <div style="display:flex;gap:6px;flex-wrap:wrap">                
+                                <span class="rprod-tag red-prod">People 44%</span>                
+                                <span class="rprod-tag red-prod">Zoho ONE 50%</span>                
+                                <span class="rprod-tag red-prod">Analytics 46%</span>              
+                            </div>            
+                        </div>          
+                    </div>        
+                </div>
+                <div class="acard">          
+                    <div class="acard-head">            
+                        <div class="acard-title">Win Rate Heat Matrix — Product × Region</div>            
+                        <div style="font-size:11px;color:var(--t3);display:flex;align-items:center;gap:10px">              
+                            <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--green);border-radius:2px;display:inline-block"></span>≥74%</span>              
+                            <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--accent2);border-radius:2px;display:inline-block"></span>65–73%</span>              
+                            <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--amber);border-radius:2px;display:inline-block"></span>55–64%</span>              
+                            <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--red);border-radius:2px;display:inline-block"></span>&lt;55%</span>            
+                        </div>          
+                    </div>          
+                    <div class="twrap" id="heatMatrix"></div>        
+                </div>
+                <div class="acard">          
+                    <div class="acard-head"><div class="acard-title">Top 10 Logos</div></div>          
+                    <div id="topLogos"></div>        
+                </div>      
+            </div>
+
+            <div class="section" id="sec-orgchart">        
+                
+                <div class="acard" style="margin-bottom:24px">
+                    <div class="acard-head">
+                        <div class="acard-title">Quarterly Breakdown</div>
+                        <div id="global-filter-container" class="filter-button-group">
+                            <button data-filter-type="all" onclick="setGlobalFilter('all', this)" class="active">All</button>
+                            <div class="filter-divider"></div>
+                            <button data-filter-type="my_target" onclick="setGlobalFilter('my_target', this)">Individual</button>
+                            <div class="filter-divider"></div>
+                            <button data-filter-type="my_team" onclick="setGlobalFilter('my_team', this)">Roll-up</button>
+                        </div>
+                    </div>
+                
+                    <div>
+                        <div id="sales-head-row" class="hier-node" onclick="toggleDropdown('sales-head-data', 'sales-head-arrow', event)">
+                            <svg id="sales-head-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <div class="node-level">2</div>
+                            <div class="node-content">
+                                <div>
+                                    <div class="node-name">Peter</div>
+                                    <div class="node-role">Sales Head | Sales</div>
+                                </div>
+                                <div data-filter-for="peter" class="filter-button-group" onclick="event.stopPropagation()">
+                                    <button data-filter-type="all" onclick="setIndividualFilter('peter', 'all', this)" class="active">All</button><div class="filter-divider"></div>
+                                    <button data-filter-type="my_target" onclick="setIndividualFilter('peter', 'my_target', this)">Individual</button><div class="filter-divider"></div>
+                                    <button data-filter-type="my_team" onclick="setIndividualFilter('peter', 'my_team', this)">Roll-up</button>
+                                </div>
+                            </div>
+                        </div>
+                
+                        <div id="sales-head-data" class="hidden hierarchy-container">
+                            <div class="qb-data-panel">
+                                <div class="qb-table-wrap">
+                                    <table class="quarter-table">
+                                        <thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th></tr></thead>
+                                        <tbody id="peter-q-data"></tbody>
+                                    </table>
+                                </div>
+                                <div class="qb-ytd-card" id="peter-ytd-summary">
+                                    <div class="qb-ytd-title">YTD Summary</div>
+                                    <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                    <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                    <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                    <div style="margin-top:12px">
+                                        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                        <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="hierarchy-item">
+                                <div id="regional-peter-row" class="hier-node" onclick="toggleDropdown('regional-peter-data', 'regional-peter-arrow', event)">
+                                    <svg id="regional-peter-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    <div class="node-level">2</div>
+                                    <div class="node-content">
+                                        <div>
+                                            <div class="node-name">Logan <span class="node-path">USA <span>&gt;</span> Peter</span></div>
+                                            <div class="node-role">Regional Manager | Sales</div>
+                                        </div>
+                                        <div data-filter-for="logan" class="filter-button-group" onclick="event.stopPropagation()">
+                                            <button data-filter-type="all" onclick="setIndividualFilter('logan', 'all', this)" class="active">All</button><div class="filter-divider"></div>
+                                            <button data-filter-type="my_target" onclick="setIndividualFilter('logan', 'my_target', this)">Individual</button><div class="filter-divider"></div>
+                                            <button data-filter-type="my_team" onclick="setIndividualFilter('logan', 'my_team', this)">Roll-up</button>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div id="regional-peter-data" class="hidden hierarchy-container">
+                                    <div class="qb-data-panel">
+                                        <div class="qb-table-wrap">
+                                            <table class="quarter-table">
+                                                <thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th></tr></thead>
+                                                <tbody id="logan-q-data"></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="qb-ytd-card" id="logan-ytd-summary">
+                                            <div class="qb-ytd-title">YTD Summary</div>
+                                            <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                            <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                            <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                            <div style="margin-top:12px">
+                                                <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                                <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="hierarchy-item">
+                                        <div class="hier-node" onclick="toggleDropdown('binny-data', 'binny-arrow', event)">
+                                            <svg id="binny-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <div class="node-level" style="background:var(--surface2)">👤</div>
+                                            <div class="node-content">
+                                                <div>
+                                                    <div class="node-name">Binny <span class="node-path">USA <span>&gt;</span> Logan <span>&gt;</span> Peter</span></div>
+                                                    <div class="node-role">Team Lead | Sales</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="binny-data" class="hidden qb-data-panel" style="margin-top:8px">
+                                            <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th></tr></thead><tbody id="binny-q-data"></tbody></table></div>
+                                            <div class="qb-ytd-card" id="binny-ytd-summary">
+                                                <div class="qb-ytd-title">YTD Summary</div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                                <div style="margin-top:12px">
+                                                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                                    <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="hierarchy-item">
+                                        <div class="hier-node" onclick="toggleDropdown('foumin-data', 'foumin-arrow', event)">
+                                            <svg id="foumin-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <div class="node-level" style="background:var(--surface2)">👤</div>
+                                            <div class="node-content">
+                                                <div>
+                                                    <div class="node-name">Foumin <span class="node-path">USA <span>&gt;</span> Logan <span>&gt;</span> Peter</span></div>
+                                                    <div class="node-role">Team Lead | Sales</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="foumin-data" class="hidden qb-data-panel" style="margin-top:8px">
+                                            <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th></tr></thead><tbody id="foumin-q-data"></tbody></table></div>
+                                            <div class="qb-ytd-card" id="foumin-ytd-summary">
+                                                <div class="qb-ytd-title">YTD Summary</div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                                <div style="margin-top:12px">
+                                                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                                    <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="hierarchy-item">
+                                <div id="regional-jinil-row" class="hier-node" onclick="toggleDropdown('regional-jinil-data', 'regional-jinil-arrow', event)">
+                                    <svg id="regional-jinil-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                    <div class="node-level">2</div>
+                                    <div class="node-content">
+                                        <div>
+                                            <div class="node-name">Jinil <span class="node-path">India <span>&gt;</span> Peter</span></div>
+                                            <div class="node-role">Regional Manager | Sales</div>
+                                        </div>
+                                        <div data-filter-for="jinil" class="filter-button-group" onclick="event.stopPropagation()">
+                                            <button data-filter-type="all" onclick="setIndividualFilter('jinil', 'all', this)" class="active">All</button><div class="filter-divider"></div>
+                                            <button data-filter-type="my_target" onclick="setIndividualFilter('jinil', 'my_target', this)">Individual</button><div class="filter-divider"></div>
+                                            <button data-filter-type="my_team" onclick="setIndividualFilter('jinil', 'my_team', this)">Roll-up</button>
+                                        </div>
+                                    </div>
+                                </div>
+                
+                                <div id="regional-jinil-data" class="hidden hierarchy-container">
+                                    <div class="qb-data-panel">
+                                        <div class="qb-table-wrap">
+                                            <table class="quarter-table">
+                                                <thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th></tr></thead>
+                                                <tbody id="jinil-q-data"></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="qb-ytd-card" id="jinil-ytd-summary">
+                                            <div class="qb-ytd-title">YTD Summary</div>
+                                            <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                            <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                            <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                            <div style="margin-top:12px">
+                                                <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                                <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="hierarchy-item">
+                                        <div class="hier-node" onclick="toggleDropdown('dhana-data', 'dhana-arrow', event)">
+                                            <svg id="dhana-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <div class="node-level" style="background:var(--surface2)">👤</div>
+                                            <div class="node-content">
+                                                <div>
+                                                    <div class="node-name">Dhana <span class="node-path">India <span>&gt;</span> Jinil <span>&gt;</span> Peter</span></div>
+                                                    <div class="node-role">Team Lead | Sales</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="dhana-data" class="hidden qb-data-panel" style="margin-top:8px">
+                                            <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th></tr></thead><tbody id="dhana-q-data"></tbody></table></div>
+                                            <div class="qb-ytd-card" id="dhana-ytd-summary">
+                                                <div class="qb-ytd-title">YTD Summary</div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                                <div style="margin-top:12px">
+                                                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                                    <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                    <div class="hierarchy-item">
+                                        <div class="hier-node" onclick="toggleDropdown('dhruv-data', 'dhruv-arrow', event)">
+                                            <svg id="dhruv-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <div class="node-level" style="background:var(--surface2)">👤</div>
+                                            <div class="node-content">
+                                                <div>
+                                                    <div class="node-name">Dhruv <span class="node-path">India <span>&gt;</span> Jinil <span>&gt;</span> Peter</span></div>
+                                                    <div class="node-role">Team Lead | Sales</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="dhruv-data" class="hidden qb-data-panel" style="margin-top:8px">
+                                            <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th></tr></thead><tbody id="dhruv-q-data"></tbody></table></div>
+                                            <div class="qb-ytd-card" id="dhruv-ytd-summary">
+                                                <div class="qb-ytd-title">YTD Summary</div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                                <div style="margin-top:12px">
+                                                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                                    <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="org-targets-section" style="display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start;margin-top:24px;">
+                    
+                    <div class="acard" style="padding:0; overflow:hidden;">
+                        <div style="padding:20px; border-bottom:1px solid var(--border);">
+                            <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
+                                <span style="color:var(--accent2); font-size:18px;">◎</span> Organization Targets
+                            </div>
+                            <div style="font-size:12px; color:var(--t3); margin-top:4px;">Select a node to configure its target</div>
+                        </div>
+                        <div id="newHierTree" style="padding:16px;"></div>
+                    </div>
+
+                    <div class="acard" style="padding:0; overflow:hidden; position:sticky; top:80px;">
+                        <div style="padding:20px; border-bottom:1px solid var(--border);">
+                            <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
+                                <span style="color:var(--accent2); font-size:18px;">◎</span> Target Configuration
+                            </div>
+                        </div>
+                        <div id="targetConfigPanel" style="padding:20px;"></div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="section" id="sec-targets">        
+                <div class="tconfig-section">          
+                    <div class="acard-title" style="margin-bottom:18px">Target Configuration</div>          
+                    <div class="form-grid">            
+                        <div class="form-group">              
+                            <label>Target Level</label>              
+                            <div class="tpill-group">                
+                                <button class="tpill active" onclick="setPill(this)">Individual</button>                
+                                <button class="tpill" onclick="setPill(this)">Team Roll-Up</button>              
+                            </div>            
+                        </div>            
+                        <div class="form-group">              
+                            <label>Target Type</label>              
+                            <div class="tpill-group">                
+                                <button class="tpill active" onclick="setPill(this)">Sales</button>                
+                                <button class="tpill" onclick="setPill(this)">Partner</button>                
+                                <button class="tpill" onclick="setPill(this)">Renewal</button>              
+                            </div>            
+                        </div>            
+                        <div class="form-group">              
+                            <label>Period</label>              
+                            <select class="form-input"><option>FY2024-25 Q4</option><option>FY2025-26 Q1</option><option>FY2025-26 Full Year</option></select>            
+                        </div>            
+                        <div class="form-group">              
+                            <label>BU Group</label>              
+                            <select class="form-input"><option value="">All BU Groups</option><option>CRM BU</option><option>Marketing BU</option><option>Finance BU</option><option>HR BU</option><option>Analytics BU</option></select>            
+                        </div>            
+                        <div class="form-group">              
+                            <label>Product</label>              
+                            <select class="form-input"><option value="">All Products</option><option>CRM</option><option>CRM Plus</option><option>Zoho ONE</option><option>Desk</option><option>People</option><option>Analytics</option></select>            
+                        </div>            
+                        <div class="form-group">              
+                            <label>Region</label>              
+                            <select class="form-input"><option value="">All Regions</option><option>India N</option><option>India S</option><option>India W</option><option>India E</option><option>India Central</option><option>US East</option><option>US West</option><option>LATAM</option><option>APAC</option><option>ANZ</option></select>            
+                        </div>            
+                        <div class="form-group">              
+                            <label>Reporting Manager</label>              
+                            <select class="form-input"><option value="">All Managers</option><option>Ananya Iyer</option><option>Rajesh Menon</option><option>Priya Suresh</option><option>Vikram Nair</option></select>            
+                        </div>          
+                    </div>          
+                    <div style="margin-top:4px;margin-bottom:16px">            
+                        <div style="font-size:12px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px">Per-Rep Targets</div>            
+                        <div id="targetRows"></div>          
+                    </div>          
+                    <div style="display:flex;gap:10px;flex-wrap:wrap">            
+                        <button class="btn-accent" onclick="saveT(event)">💾 Save Targets</button>            
+                        <button class="btn-ghost" onclick="distT(event)">⚡ Auto-Distribute</button>            
+                        <button class="btn-ghost" onclick="copyT(event)">📋 Copy Last Quarter</button>          
+                    </div>        
+                </div>        
+                <div class="acard">          
+                    <div class="acard-head"><div class="acard-title">Targets vs Actuals</div></div>          
+                    <div class="twrap"><table class="dtable"><thead><tr><th>Rep</th><th>Type</th><th>Region</th><th>BU</th><th>Target</th><th>Actual</th><th>Gap</th><th>% Ach.</th><th>Status</th></tr></thead><tbody id="tvsaBody"></tbody></table></div>        
+                </div>      
+            </div>
+
+            <div class="section" id="sec-settings" style="max-width: 740px; margin-right: auto; margin-left: 0;">
+                <div style="margin-bottom: 32px;">
+                    <h1 style="font-size: 24px; font-weight: 800; color: var(--t1); margin-bottom: 6px; letter-spacing: -0.5px;">Settings</h1>
+                    <p style="font-size: 13px; color: var(--t2);">Configure your preferences and account settings</p>
+                </div>
+
+                <div style="display: flex; flex-direction: column; gap: 24px;">
+                    
+                    <div class="acard" style="padding: 0; border-radius: 12px; border: 1px solid var(--border); box-shadow: none;">
+                        <div style="padding: 24px 24px 16px;">
+                            <div style="font-size: 16px; font-weight: 800; color: var(--t1); display: flex; align-items: center; gap: 10px;">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent2)" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                Profile
+                            </div>
+                            <div style="font-size: 12px; color: var(--t3); margin-top: 4px; margin-left: 28px;">Your account information</div>
+                        </div>
+                        <div style="padding: 0 24px 24px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px 32px; border-top: 1px solid var(--border); padding-top: 20px;">
+                                <div>
+                                    <div style="font-size: 10px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px;">First Name</div>
+                                    <div style="font-size: 14px; font-weight: 600; color: var(--t1);">Sri Dhanalakshmi</div>
+                                </div>
+                                <div>
+                                    <div style="font-size: 10px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px;">Last Name</div>
+                                    <div style="font-size: 14px; font-weight: 600; color: var(--t1);">K</div>
+                                </div>
+                                <div style="grid-column: span 2; border-top: 1px solid var(--border); padding-top: 20px;">
+                                    <div style="font-size: 10px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px;">Email</div>
+                                    <div style="font-size: 14px; font-weight: 600; color: var(--t1);">sridhanalakshmi.k@zohocorp.com</div>
+                                </div>
+                                <div style="border-top: 1px solid var(--border); padding-top: 20px;">
+                                    <div style="font-size: 10px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px;">Role</div>
+                                    <div style="font-size: 14px; font-weight: 600; color: var(--t1);">—</div>
+                                </div>
+                                <div style="border-top: 1px solid var(--border); padding-top: 20px;">
+                                    <div style="font-size: 10px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 6px;">Time Zone</div>
+                                    <div style="font-size: 14px; font-weight: 600; color: var(--t1);">Asia/Kolkata</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="acard" style="padding: 0; border-radius: 12px; border: 1px solid var(--border); box-shadow: none;">
+                        <div style="padding: 24px 24px 16px;">
+                            <div style="font-size: 16px; font-weight: 800; color: var(--t1); display: flex; align-items: center; gap: 10px;">
+                                <svg viewBox="0 0 24 24" width="18" height="18" stroke="var(--accent2)" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                                Appearance
+                            </div>
+                            <div style="font-size: 12px; color: var(--t3); margin-top: 4px; margin-left: 28px;">Customize your experience</div>
+                        </div>
+                        
+                        <div style="padding: 0 24px 24px;">
+                            <div style="border-top: 1px solid var(--border); padding-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="var(--t2)" fill="none" stroke-width="2" style="margin-top: 2px;"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                                    <div>
+                                        <div style="font-size: 14px; font-weight: 700; color: var(--t1);">Dark Mode</div>
+                                        <div style="font-size: 12px; color: var(--t3); margin-top: 4px;">Switch between light and dark theme</div>
+                                    </div>
+                                </div>
+                                <label class="setting-switch">
+                                    <input type="checkbox" id="settingDarkToggle" onchange="setTheme(this.checked ? 'dark' : 'light')" checked>
+                                    <span class="setting-slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div style="border-top: 1px solid var(--border); padding-top: 20px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                                    <div style="width: 16px; height: 16px;"></div>
+                                    <div>
+                                        <div style="font-size: 14px; font-weight: 700; color: var(--t1);">Compact Mode</div>
+                                        <div style="font-size: 12px; color: var(--t3); margin-top: 4px;">Show more content with smaller spacing</div>
+                                    </div>
+                                </div>
+                                <label class="setting-switch">
+                                    <input type="checkbox">
+                                    <span class="setting-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div> </div> </div> <div id="activityFeed" style="display:none"></div>
+
+<div class="la-panel" id="laPanel" onmouseleave="closeLA()">  
+    <div class="la-feed-header">Live Feed</div>
+    
+    <div class="la-body" id="laFeed"></div>
+    
+    <div style="border-top:1px solid var(--border);padding:14px 16px 4px">    
+        <div style="font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Revenue Classification</div>    
+        <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:10px">      
+            <button style="flex:1;background:none;border:none;border-bottom:2px solid var(--accent);color:var(--accent);font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;padding:6px 4px;cursor:pointer" id="laRcT1" onclick="switchLARC('service')">Product</button>      
+            <button style="flex:1;background:none;border:none;border-bottom:2px solid transparent;color:var(--t3);font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;padding:6px 4px;cursor:pointer" id="laRcT2" onclick="switchLARC('region')">Region</button>      
+            <button style="flex:1;background:none;border:none;border-bottom:2px solid transparent;color:var(--t3);font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:700;padding:6px 4px;cursor:pointer" id="laRcT3" onclick="switchLARC('bu')">BU</button>    
+        </div>    
+        <div id="laRcContent"></div>    
+    </div>
+</div>
+<button class="qs-trigger" onclick="toggleQS()" title="Quick Stats">📊</button>
+
+<div class="qs-panel" id="qsPanel">  
+    <div class="qs-panel-head">    
+        <div class="qs-panel-title">⚡ Quick Stats — Q4</div>    
+        <button class="qs-close" onclick="toggleQS()">✕</button>  
+    </div>  
+    <div class="qs-body">    
+        <div class="qs-kpi">      
+            <div><div class="qs-kpi-val">$382M</div><div class="qs-kpi-lbl">Total Revenue</div></div>      
+            <div class="qs-kpi-delta up">↑ 14.2%</div>    
+        </div>    
+        <div class="qs-kpi">      
+            <div><div class="qs-kpi-val" style="color:var(--amber)">89%</div><div class="qs-kpi-lbl">Target Attainment</div></div>      
+            <div class="qs-kpi-delta dn">↓ 11pp gap</div>    
+        </div>    
+        <div class="qs-kpi">      
+            <div><div class="qs-kpi-val" style="color:var(--green)">64.8%</div><div class="qs-kpi-lbl">Win Rate</div></div>      
+            <div class="qs-kpi-delta up">↑ 3.8pp</div>    
+        </div>    
+        <div class="qs-kpi">      
+            <div><div class="qs-kpi-val">1,248</div><div class="qs-kpi-lbl">Deals Closed</div></div>      
+            <div class="qs-kpi-delta up">↑ 142</div>    
+        </div>    
+        <div class="qs-kpi">      
+            <div><div class="qs-kpi-val" style="color:var(--purple)">$1,240M</div><div class="qs-kpi-lbl">Pipeline</div></div>      
+            <div class="qs-kpi-delta up">3.2× cov.</div>    
+        </div>    
+        <div class="qs-kpi">      
+            <div><div class="qs-kpi-val" style="color:var(--red)">38</div><div class="qs-kpi-lbl">At-Risk Deals</div></div>      
+            <div class="qs-kpi-delta dn">$42M</div>    
+        </div>  
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script src="quarterly.js"></script>
+<script src="pipeline-products.js"></script>
+<script src="org-targets.js"></script> 
+</body>
+</html>
