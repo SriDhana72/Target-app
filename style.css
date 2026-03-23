@@ -1101,3 +1101,71 @@ input:checked + .setting-slider:before {
     cursor: pointer; transition: background 0.15s;
 }
 .th-profile-item:hover { background: var(--surface2); }
+/* ─── CUSTOM MULTI-SELECT ─── */
+.tc-multiselect-wrap { position: relative; margin-bottom: 16px; }
+.tc-ms-trigger { 
+    display: flex; justify-content: space-between; align-items: center; 
+    margin-bottom: 0; user-select: none; 
+}
+.tc-ms-dropdown { 
+    position: absolute; top: calc(100% + 4px); left: 0; right: 0; 
+    background: var(--surface); border: 1px solid var(--border-hi); 
+    border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.15); 
+    z-index: 100; max-height: 220px; overflow-y: auto; display: none; 
+}
+.tc-ms-dropdown.open { display: block; }
+.tc-ms-item { 
+    padding: 10px 12px; display: flex; align-items: center; gap: 10px; 
+    font-size: 13px; font-weight: 600; color: var(--t1); cursor: pointer; 
+    transition: background 0.15s; border-bottom: 1px solid var(--border); 
+}
+.tc-ms-item:last-child { border-bottom: none; }
+.tc-ms-item:hover { background: var(--surface2); }
+.tc-ms-item input[type="checkbox"] { 
+    accent-color: var(--accent); cursor: pointer; width: 15px; height: 15px; 
+}
+.tc-ms-empty { padding: 12px; font-size: 12px; color: var(--t3); text-align: center; }
+
+/* ─── COUNTRY AUTO-TAGS ─── */
+.tc-country-tags-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 16px;
+    max-height: 180px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+.tc-country-tags-wrap::-webkit-scrollbar { width: 4px; }
+.tc-country-tags-wrap::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
+
+.tc-country-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(46, 168, 122, 0.12);
+    color: var(--green);
+    border: 1px solid rgba(46, 168, 122, 0.25);
+    padding: 5px 10px;
+    border-radius: 14px;
+    font-size: 11px;
+    font-weight: 700;
+    transition: background 0.15s;
+    user-select: none;
+}
+.tc-country-tag:hover {
+    background: rgba(46, 168, 122, 0.2);
+}
+.tc-tag-close {
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--green);
+    opacity: 0.6;
+    transition: all 0.15s;
+    line-height: 1;
+}
+.tc-tag-close:hover {
+    opacity: 1;
+    color: var(--red);
+}

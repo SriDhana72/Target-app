@@ -100,7 +100,8 @@
                         <span>Logout</span>
                     </div>
                 </div>
-            </div>        </div>  
+            </div>        
+        </div>  
     </header>
 
     <div class="content-area">    
@@ -597,25 +598,28 @@
                     </div>
                 </div>
 
-                <div id="org-targets-section" style="display:grid;grid-template-columns:1fr 380px;gap:18px;align-items:start;margin-top:24px;">
+                <div id="org-targets-section" style="display:flex; flex-direction:column; gap:24px; margin-top:24px;">
                     
+                    <!-- Target Configuration (Moved to Top) -->
                     <div class="acard" style="padding:0; overflow:hidden;">
-                        <div style="padding:20px; border-bottom:1px solid var(--border);">
-                            <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
-                                <span style="color:var(--accent2); font-size:18px;">◎</span> Organization Targets
-                            </div>
-                            <div style="font-size:12px; color:var(--t3); margin-top:4px;">Select a node to configure its target</div>
-                        </div>
-                        <div id="newHierTree" style="padding:16px;"></div>
-                    </div>
-
-                    <div class="acard" style="padding:0; overflow:hidden; position:sticky; top:80px;">
                         <div style="padding:20px; border-bottom:1px solid var(--border);">
                             <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
                                 <span style="color:var(--accent2); font-size:18px;">◎</span> Target Configuration
                             </div>
+                            <div style="font-size:12px; color:var(--t3); margin-top:4px;">Configure target parameters for the selected node below</div>
                         </div>
-                        <div id="targetConfigPanel" style="padding:20px;"></div>
+                        <div id="targetConfigPanel" style="padding:24px;"></div>
+                    </div>
+
+                    <!-- Organization Targets (Moved to Bottom) -->
+                    <div class="acard" style="padding:0; overflow:hidden;">
+                        <div style="padding:20px; border-bottom:1px solid var(--border);">
+                            <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
+                                <span style="color:var(--accent2); font-size:18px;">👥</span> Organization Hierarchy
+                            </div>
+                            <div style="font-size:12px; color:var(--t3); margin-top:4px;">Select a person to edit their target</div>
+                        </div>
+                        <div id="newHierTree" style="padding:16px;"></div>
                     </div>
 
                 </div>
@@ -647,11 +651,27 @@
                         </div>            
                         <div class="form-group">              
                             <label>BU Group</label>              
-                            <select class="form-input"><option value="">All BU Groups</option><option>CRM BU</option><option>Marketing BU</option><option>Finance BU</option><option>HR BU</option><option>Analytics BU</option></select>            
+                            <select class="form-input" id="tconf-bu" onchange="updateServices()">
+                                <option value="">Select BU Group</option>
+                                <option value="Project Management">Project Management</option>
+                                <option value="Productivity">Productivity</option>
+                                <option value="Other BU's">Other BU's</option>
+                                <option value="Marketing">Marketing</option>
+                                <option value="HRMS">HRMS</option>
+                                <option value="HR">HR</option>
+                                <option value="Finance">Finance</option>
+                                <option value="Developer">Developer</option>
+                                <option value="Communication">Communication</option>
+                                <option value="CRM Group">CRM Group</option>
+                                <option value="BI and Analytics">BI and Analytics</option>
+                                <option value="Automation">Automation</option>
+                            </select>            
                         </div>            
                         <div class="form-group">              
-                            <label>Product</label>              
-                            <select class="form-input"><option value="">All Products</option><option>CRM</option><option>CRM Plus</option><option>Zoho ONE</option><option>Desk</option><option>People</option><option>Analytics</option></select>            
+                            <label>Service</label>              
+                            <select class="form-input" id="tconf-product">
+                                <option value="">Select BU First</option>
+                            </select>            
                         </div>            
                         <div class="form-group">              
                             <label>Region</label>              
@@ -784,7 +804,7 @@
 
 <div class="qs-panel" id="qsPanel">  
     <div class="qs-panel-head">    
-        <div class="qs-panel-title">⚡ Quick Stats — Q4</div>    
+        <div class="qs-panel-title">Quick Stats — Q4</div>    
         <button class="qs-close" onclick="toggleQS()">✕</button>  
     </div>  
     <div class="qs-body">    

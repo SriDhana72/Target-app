@@ -131,6 +131,8 @@ const REPS=[
       {l:"Operations BU",v:4, rev:"$16M", c:"#ec4899"},  
     ],
   };
+
+  
   /* ════ DROPDOWNS ════ */
 function toggleYearMenu(e) {
     e.stopPropagation();
@@ -162,6 +164,11 @@ document.addEventListener('click', e => {
     const profileMenu = document.getElementById('profileMenu');
     if(profileMenu && profileMenu.classList.contains('open') && !e.target.closest('.th-profile-wrap')) {
         profileMenu.classList.remove('open');
+    }
+    // 4. Target Config Multi-select
+    const msDropdown = document.getElementById('tc-ms-dropdown');
+    if(msDropdown && msDropdown.classList.contains('open') && !e.target.closest('#tc-ms-wrap')) {
+        msDropdown.classList.remove('open');
     }
 });
   let rcKey='service', rcN=4;
