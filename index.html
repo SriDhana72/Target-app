@@ -23,9 +23,9 @@
         <span class="nav-icon">⊞</span>    <span class="nav-label">Org</span>  
     </button>  
     <div class="nav-divider"></div>  
-    <button class="nav-item" onclick="goTo('targets',this)" title="Targets">    
-        <span class="nav-icon">◎</span>    <span class="nav-label">Targets</span>  
-    </button>  
+    <button class="nav-item" onclick="goTo('targets',this)" title="Leadership">    
+        <span class="nav-icon">🏆</span>    <span class="nav-label">Leadership</span>  
+    </button> 
     <div class="nav-spacer"></div>  
     <div class="sidebar-avatar" title="Peter Balaji — Director">PB</div>
 </nav>
@@ -626,76 +626,79 @@
 
             </div>
 
-            <div class="section" id="sec-targets">        
-                <div class="tconfig-section">          
-                    <div class="acard-title" style="margin-bottom:18px">Target Configuration</div>          
-                    <div class="form-grid">            
-                        <div class="form-group">              
-                            <label>Target Level</label>              
-                            <div class="tpill-group">                
-                                <button class="tpill active" onclick="setPill(this)">Individual</button>                
-                                <button class="tpill" onclick="setPill(this)">Team Roll-Up</button>              
-                            </div>            
-                        </div>            
-                        <div class="form-group">              
-                            <label>Target Type</label>              
-                            <div class="tpill-group">                
-                                <button class="tpill active" onclick="setPill(this)">Sales</button>                
-                                <button class="tpill" onclick="setPill(this)">Partner</button>                
-                                <button class="tpill" onclick="setPill(this)">Renewal</button>              
-                            </div>            
-                        </div>            
-                        <div class="form-group">              
-                            <label>Period</label>              
-                            <select class="form-input"><option>FY2024-25 Q4</option><option>FY2025-26 Q1</option><option>FY2025-26 Full Year</option></select>            
-                        </div>            
-                        <div class="form-group">              
-                            <label>BU Group</label>              
-                            <select class="form-input" id="tconf-bu" onchange="updateServices()">
-                                <option value="">Select BU Group</option>
-                                <option value="Project Management">Project Management</option>
-                                <option value="Productivity">Productivity</option>
-                                <option value="Other BU's">Other BU's</option>
-                                <option value="Marketing">Marketing</option>
-                                <option value="HRMS">HRMS</option>
-                                <option value="HR">HR</option>
-                                <option value="Finance">Finance</option>
-                                <option value="Developer">Developer</option>
-                                <option value="Communication">Communication</option>
-                                <option value="CRM Group">CRM Group</option>
-                                <option value="BI and Analytics">BI and Analytics</option>
-                                <option value="Automation">Automation</option>
-                            </select>            
-                        </div>            
-                        <div class="form-group">              
-                            <label>Service</label>              
-                            <select class="form-input" id="tconf-product">
-                                <option value="">Select BU First</option>
-                            </select>            
-                        </div>            
-                        <div class="form-group">              
-                            <label>Region</label>              
-                            <select class="form-input"><option value="">All Regions</option><option>India N</option><option>India S</option><option>India W</option><option>India E</option><option>India Central</option><option>US East</option><option>US West</option><option>LATAM</option><option>APAC</option><option>ANZ</option></select>            
-                        </div>            
-                        <div class="form-group">              
-                            <label>Reporting Manager</label>              
-                            <select class="form-input"><option value="">All Managers</option><option>Ananya Iyer</option><option>Rajesh Menon</option><option>Priya Suresh</option><option>Vikram Nair</option></select>            
-                        </div>          
-                    </div>          
-                    <div style="margin-top:4px;margin-bottom:16px">            
-                        <div style="font-size:12px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px">Per-Rep Targets</div>            
-                        <div id="targetRows"></div>          
-                    </div>          
-                    <div style="display:flex;gap:10px;flex-wrap:wrap">            
-                        <button class="btn-accent" onclick="saveT(event)">💾 Save Targets</button>            
-                        <button class="btn-ghost" onclick="distT(event)">⚡ Auto-Distribute</button>            
-                        <button class="btn-ghost" onclick="copyT(event)">📋 Copy Last Quarter</button>          
-                    </div>        
-                </div>        
-                <div class="acard">          
-                    <div class="acard-head"><div class="acard-title">Targets vs Actuals</div></div>          
-                    <div class="twrap"><table class="dtable"><thead><tr><th>Rep</th><th>Type</th><th>Region</th><th>BU</th><th>Target</th><th>Actual</th><th>Gap</th><th>% Ach.</th><th>Status</th></tr></thead><tbody id="tvsaBody"></tbody></table></div>        
-                </div>      
+            <div class="section" id="sec-targets" style="height: 100%; display: flex; flex-direction: column;">        
+                
+                <!-- Dashboard Header -->
+                <div class="ld-header">
+                    <div>
+                        <div class="ld-title-sub">Sales Reps Performance</div>
+                        <div class="ld-title">Overview</div>
+                    </div>
+                    <div class="ld-header-actions">
+                        <div style="font-size:11px; color:var(--t3); margin-right:8px;">Click on Agents below to include [+] them in Performance appraisal</div>
+                        <select class="form-input" style="width:140px; padding:8px 12px;"><option>Top Performers</option><option>Needs Attention</option></select>
+                        <div class="ld-date-picker">
+                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                            YTD September 2026
+                        </div>
+                        <button class="th-icon-btn" style="background:var(--surface2); border:1px solid var(--border);">📊</button>
+                        <button class="th-icon-btn" style="background:var(--surface2); border:1px solid var(--border);">📄</button>
+                    </div>
+                </div>
+
+                <!-- Main Grid Layout -->
+                <div class="ld-main">
+                    
+                    <!-- Left Side (Cards & Chart) -->
+                    <div class="ld-left">
+                        <div class="ld-top-cards">
+                            <div class="acard ld-card">
+                                <div class="ld-card-title">Top Performers by Deals Won</div>
+                                <div id="ld-deals-won"></div>
+                            </div>
+                            <div class="acard ld-card">
+                                <div class="ld-card-title">Top Performers by Win Rate</div>
+                                <div id="ld-win-rate"></div>
+                            </div>
+                            <div class="acard ld-card">
+                                <div class="ld-card-title" style="display:flex;gap:8px;align-items:center;">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                    Agents' Appraisal
+                                </div>
+                                <div class="ld-card-sub">Click on Agents below to exclude [-] from Performance appraisal</div>
+                                <div id="ld-appraisal"></div>
+                            </div>
+                        </div>
+
+                        <div class="acard ld-card" style="flex:1; display:flex; flex-direction:column;">
+                            <div class="ld-card-title" style="display:flex; justify-content:space-between; align-items:center;">
+                                <div style="line-height:1.2;">Opportunities <br><span style="color:var(--t1); font-weight:800; font-size:14px;">By Agent</span></div>
+                                <div class="ld-chart-legend">
+                                    <span style="color:var(--t3); font-size:10px; margin-right:12px;">Circle size = Deal size ($)</span>
+                                    <span><span class="ld-dot" style="background:#e5e7eb;"></span> Open deals</span>
+                                    <span><span class="ld-dot" style="background:var(--red);"></span> Lost deals</span>
+                                    <span><span class="ld-dot" style="background:var(--accent);"></span> Won deals</span>
+                                </div>
+                            </div>
+                            <div style="flex:1; position:relative; min-height:220px; padding: 10px 0;">
+                                <canvas id="oppsBubbleChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Side (Leaderboard) -->
+                    <div class="ld-right">
+                        <div class="ld-lb-header">
+                            <div style="font-size:32px; line-height:1;">👑</div>
+                            <div>
+                                <div class="ld-lb-title">Leaderboard</div>
+                                <div class="ld-lb-sub">See Ranking of Sales Agents by Activities score • This shows each agent's dedication towards closing deals</div>
+                            </div>
+                        </div>
+                        <div class="ld-leaderboard" id="ld-leaderboard"></div>
+                    </div>
+
+                </div>
             </div>
 
             <div class="section" id="sec-settings" style="max-width: 740px; margin-right: auto; margin-left: 0;">
@@ -839,5 +842,6 @@
 <script src="quarterly.js"></script>
 <script src="pipeline-products.js"></script>
 <script src="org-targets.js"></script> 
+<script src="leadership.js"></script>
 </body>
 </html>

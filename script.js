@@ -133,7 +133,7 @@ const REPS=[
   };
 
   
-  /* ════ DROPDOWNS ════ */
+/* ════ DROPDOWNS ════ */
 function toggleYearMenu(e) {
     e.stopPropagation();
     document.getElementById('yearMenu').classList.toggle('open');
@@ -165,6 +165,7 @@ document.addEventListener('click', e => {
     if(profileMenu && profileMenu.classList.contains('open') && !e.target.closest('.th-profile-wrap')) {
         profileMenu.classList.remove('open');
     }
+    
     // 4. Target Config Multi-select
     const msDropdown = document.getElementById('tc-ms-dropdown');
     if(msDropdown && msDropdown.classList.contains('open') && !e.target.closest('#tc-ms-wrap')) {
@@ -224,7 +225,7 @@ const PAGE_TITLES = {
     pipeline: ['Pipeline','Revenue & Opportunities'],
     regions: ['Regions & Products','Win Rate Intelligence'],
     orgchart: ['Org Chart','Reporting Hierarchy'],
-    targets: ['Targets','Configuration & Tracking'],
+    targets: ['Leadership Dashboard','Sales Reps Performance Overview'],
     settings: ['Settings', 'Configure your preferences and account settings']
   };
   
@@ -237,7 +238,6 @@ const PAGE_TITLES = {
     
     if (btn && btn.classList.contains('nav-item')) btn.classList.add('active');  
     
-    // Safely update titles if they exist in the DOM
     const t = PAGE_TITLES[id] || [id, ''];  
     const pt = document.getElementById('pageTitle');
     const ps = document.getElementById('pageSub');
@@ -246,6 +246,7 @@ const PAGE_TITLES = {
     
     if (id === 'pipeline') { setTimeout(() => drawProdChart(), 50); }  
     if (id === 'home') { setTimeout(() => drawRevChart(), 50); }
+    if (id === 'targets') { setTimeout(() => drawOppsBubbleChart(), 10); } // Make sure this line exists!
   }
   
   /* ════ THEME ════ */
@@ -265,6 +266,7 @@ const PAGE_TITLES = {
     setTimeout(() => {
         drawRevChart();
         if(document.getElementById('sec-pipeline').classList.contains('active')) drawProdChart();
+        if(document.getElementById('sec-targets').classList.contains('active')) drawOppsBubbleChart();
     }, 60);
   }
   
@@ -712,12 +714,6 @@ function renderHier(){
     renderLARc();
   }
   
-  /* ════ YEAR DROPDOWN ════ */
-function toggleYearMenu(e) {
-    e.stopPropagation();
-    const menu = document.getElementById('yearMenu');
-    if (menu) menu.classList.toggle('open');
-}
   /* ════ QUICK STATS ════ */
   function toggleQS(){  
     document.getElementById('qsPanel').classList.toggle('open');
@@ -759,4 +755,7 @@ function toggleYearMenu(e) {
   window.addEventListener('resize', () => {  
     drawRevChart();  
     if(document.getElementById('sec-pipeline').classList.contains('active')) drawProdChart();
+    if(document.getElementById('sec-targets').classList.contains('active')) {
+        if(typeof drawOppsBubbleChart === 'function') drawOppsBubbleChart();
+    }
   });

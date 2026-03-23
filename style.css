@@ -1169,3 +1169,73 @@ input:checked + .setting-slider:before {
     opacity: 1;
     color: var(--red);
 }
+/* ─── LEADERSHIP DASHBOARD ─── */
+.ld-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; padding: 0 4px; }
+.ld-title-sub { font-size: 11px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+.ld-title { font-size: 28px; font-weight: 800; color: var(--t1); letter-spacing: -0.5px; line-height: 1; }
+.ld-header-actions { display: flex; align-items: center; gap: 12px; }
+.ld-date-picker { background: var(--surface2); border: 1px solid var(--border); padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 700; color: var(--t2); display: flex; align-items: center; gap: 8px; cursor: pointer; transition: background 0.2s; }
+.ld-date-picker:hover { background: var(--surface3); }
+
+.ld-main { display: flex; gap: 20px; align-items: stretch; flex: 1; min-height: 0; }
+.ld-left { flex: 1; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+.ld-top-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+.ld-card { padding: 0; display: flex; flex-direction: column; margin-bottom: 0; height: 100%; border-radius: 14px; overflow: hidden; background: var(--surface); border: 1px solid var(--border); box-shadow: var(--card-shadow); }
+.ld-card-title { padding: 16px; font-size: 13px; font-weight: 800; color: var(--t1); border-bottom: 1px solid var(--border); background: var(--surface2); }
+.ld-card-sub { padding: 12px 16px 4px; font-size: 10px; font-weight: 600; color: var(--t3); line-height: 1.4; background: var(--surface); }
+
+/* Rep Cards (Left Side) */
+.ld-rep-row { display: flex; gap: 16px; padding: 16px; border-bottom: 1px solid var(--border); background: var(--surface); position: relative; align-items: flex-start; }
+.ld-rep-row:last-child { border-bottom: none; }
+.ld-rep-info { flex: 1; margin-bottom: 20px; }
+.ld-rep-name { font-size: 14px; font-weight: 800; color: var(--accent); margin-bottom: 6px; }
+.ld-rep-stat { font-size: 11px; color: var(--t3); font-weight: 600; margin-bottom: 4px; }
+.ld-rep-stat span { color: var(--t1); font-weight: 800; }
+.ld-rep-tenure { position: absolute; bottom: 12px; left: 16px; font-size: 10px; font-weight: 700; color: var(--t3); }
+
+/* Avatar Images */
+.ld-avatar-img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Chart Legend */
+.ld-chart-legend { display: flex; align-items: center; gap: 16px; font-size: 11px; font-weight: 600; color: var(--t2); }
+.ld-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; vertical-align: middle; margin-right: 4px; }
+
+/* ─── NEW SUBTLE LEADERBOARD UI ─── */
+.ld-right { width: 380px; background: var(--surface); border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; flex-shrink: 0; box-shadow: var(--card-shadow); border: 1px solid var(--border); }
+.ld-lb-header { padding: 24px; display: flex; gap: 16px; align-items: flex-start; border-bottom: 1px solid var(--border); background: var(--surface2); }
+.ld-lb-title { font-size: 18px; font-weight: 800; color: var(--t1); margin-bottom: 6px; }
+.ld-lb-sub { font-size: 11px; color: var(--t3); line-height: 1.5; font-weight: 500; }
+.ld-leaderboard { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.ld-leaderboard::-webkit-scrollbar { width: 4px; }
+.ld-leaderboard::-webkit-scrollbar-thumb { background: var(--border-hi); border-radius: 2px; }
+
+/* Podium (Top 3 Tree Mechanism) */
+.ld-podium-container { display: flex; align-items: flex-end; justify-content: center; gap: 12px; padding: 28px 16px 20px; border-bottom: 1px solid var(--border); background: var(--surface2); }
+.podium-item { display: flex; flex-direction: column; align-items: center; text-align: center; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 10px 16px; width: 105px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.podium-item.rank-1 { width: 120px; transform: translateY(-20px); border-color: var(--amber); box-shadow: 0 8px 24px rgba(196,135,10,0.15); border-width: 2px; padding-top: 24px; }
+.podium-item.rank-2 { border-color: var(--border-hi); }
+.podium-item.rank-3 { border-color: var(--orange); }
+
+.podium-medal { position: absolute; top: -14px; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.2); border: 2px solid var(--surface); }
+.podium-medal.m1 { background: linear-gradient(135deg, #fcd34d, #f59e0b); color: #78350f; top: -16px; width: 32px; height: 32px; font-size: 14px; }
+.podium-medal.m2 { background: linear-gradient(135deg, #e5e7eb, #9ca3af); color: #1f2937; }
+.podium-medal.m3 { background: linear-gradient(135deg, #fdba74, #d97706); color: #78350f; }
+
+.podium-av { width: 48px; height: 48px; border-radius: 50%; overflow: hidden; border: 2px solid var(--surface); background: var(--surface3); margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.rank-1 .podium-av { width: 56px; height: 56px; }
+
+.podium-name { font-size: 12px; font-weight: 800; color: var(--t1); margin-bottom: 4px; line-height: 1.2; }
+.podium-score { font-size: 14px; font-weight: 900; color: var(--t1); margin-bottom: 12px; }
+
+.podium-stat { font-size: 9px; font-weight: 700; color: var(--t3); background: var(--surface2); padding: 4px 6px; border-radius: 6px; width: 100%; display: flex; justify-content: space-between; margin-top: 4px; }
+.podium-stat.ach { color: var(--green); background: rgba(46,168,122,0.1); border: 1px solid rgba(46,168,122,0.2); }
+
+/* Rest of List (4-10) */
+.ld-list { padding: 12px; display: flex; flex-direction: column; gap: 4px; }
+.ld-list-row { display: flex; align-items: center; gap: 14px; padding: 12px; border-radius: 12px; transition: background 0.2s; cursor: default; border: 1px solid transparent; }
+.ld-list-row:hover { background: var(--surface2); border-color: var(--border); }
+.ld-lb-rank { width: 24px; font-size: 13px; font-weight: 800; color: var(--t3); text-align: center; }
+
+.ld-lb-name { font-size: 13px; font-weight: 800; color: var(--t1); }
+.ld-lb-score { font-size: 15px; font-weight: 800; color: var(--t1); margin-left: auto; }
