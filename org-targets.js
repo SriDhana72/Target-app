@@ -55,8 +55,9 @@ let ORG_TARGETS = [
 ];
 
 let activeTargetId = 't2'; 
-let tcTab = 'individual'; // 'individual' or 'rollup'
+let tcTab = 'individual'; 
 let selectedPanelCountries = [];
+let viewTotalInIndividual = false; // New state to track the checkbox
 
 function formatM(val) {
     if (val < 1) return '$' + Math.round(val * 1000) + 'K';
@@ -216,6 +217,11 @@ function switchTCTab(tab) {
     renderTargetConfig();
 }
 
+function toggleTargetView(isChecked) {
+    viewTotalInIndividual = isChecked;
+    renderTargetConfig();
+}
+
 function splitEvenly() {
     const node = ORG_TARGETS.find(n => n.id === activeTargetId);
     if (!node) return;
@@ -234,12 +240,20 @@ function splitEvenly() {
     renderTargetConfig();
 }
 
-function updateRepTarget(repId, value) {
+function updateRepTarget(repId, value, isSelfOnly = false) {
     const rep = ORG_TARGETS.find(n => n.id === repId);
     if (rep) {
         const numericVal = parseFloat(value.replace(/[^0-9.-]+/g,""));
         if (!isNaN(numericVal)) {
-            rep.target = numericVal / 1000000;
+            if (isSelfOnly) {
+                // Find team total and add it to the newly input Self Target to set the new Total Target
+                const directReports = ORG_TARGETS.filter(n => n.parentId === repId);
+                const teamTotalValue = directReports.reduce((sum, r) => sum + (r.target * 1000000), 0);
+                rep.target = (numericVal + teamTotalValue) / 1000000;
+            } else {
+                // Update Total Target directly
+                rep.target = numericVal / 1000000;
+            }
         }
     }
     renderOrgTargetsList();
@@ -296,7 +310,14 @@ function renderTargetConfig() {
 
     const parentNode = ORG_TARGETS.find(n => n.id === node.parentId);
     const reportsToStr = parentNode ? `Reports to: <span>${parentNode.name}</span>` : 'Head of Department';
-    const rawTargetValue = (node.target * 1000000).toLocaleString('en-US');
+    
+    // Core Math for Individual Box breakdown
+    const directReports = ORG_TARGETS.filter(n => n.parentId === node.id);
+    const teamRollupVal = directReports.reduce((sum, r) => sum + Math.round(r.target * 1000000), 0);
+    const totalTargetVal = Math.round(node.target * 1000000);
+    const selfTargetVal = totalTargetVal - teamRollupVal;
+    
+    const rawTargetValue = totalTargetVal.toLocaleString('en-US');
 
     let buOptions = '<option value="">Select BU Group</option>';
     Object.keys(BU_SERVICES_MAP).forEach(bu => {
@@ -308,7 +329,6 @@ function renderTargetConfig() {
         regionOptions += `<option value="${reg}">${reg}</option>`;
     });
 
-    // The header no longer contains the duplicate input box
     const headerContent = `
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
             <div>
@@ -389,20 +409,42 @@ function renderTargetConfig() {
                     </select>
                 </div>
                 
-                <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px;">
-                    <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--t1); margin-bottom: 4px;">
-                        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        Self Target
+                <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: all 0.2s;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                        <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--t1);">
+                            <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            ${viewTotalInIndividual ? 'Total Target' : 'Self Target'}
+                        </div>
+                        <label style="display:flex; align-items:center; gap:6px; font-size:10px; font-weight:700; color:var(--t3); cursor:pointer; user-select:none;">
+                            <input type="checkbox" onchange="toggleTargetView(this.checked)" ${viewTotalInIndividual ? 'checked' : ''} style="cursor:pointer; accent-color:var(--accent);">
+                            Include Team
+                        </label>
                     </div>
-                    <div style="font-size: 11px; color: var(--t3); margin-bottom: 12px;">Direct contribution — not from team rollup.</div>
+                    <div style="font-size: 11px; color: var(--t3); margin-bottom: 12px;">
+                        ${viewTotalInIndividual ? 'Includes self target + team rollup.' : 'Direct contribution — not from team rollup.'}
+                    </div>
                     
                     <div style="display: flex; align-items: center; background: var(--surface); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);">
                         <span style="font-size: 15px; font-weight: 800; color: var(--t2); margin-right: 8px;">$</span>
-                        <input type="text" value="${rawTargetValue}" onchange="updateRepTarget('${node.id}', this.value)" style="background: transparent; border: none; font-size: 15px; font-weight: 800; color: var(--t1); outline: none; width: 100%; text-align: right; font-family: inherit;">
+                        <input type="text" value="${(viewTotalInIndividual ? totalTargetVal : selfTargetVal).toLocaleString('en-US')}" onchange="updateRepTarget('${node.id}', this.value, ${!viewTotalInIndividual})" style="background: transparent; border: none; font-size: 15px; font-weight: 800; color: var(--t1); outline: none; width: 100%; text-align: right; font-family: inherit;">
                         <button class="th-icon-btn" style="background: var(--accent2); color: white; border: none; border-radius: 6px; width: 32px; height: 32px; margin-left: 12px; flex-shrink: 0;" onclick="saveNewTarget(this)" title="Save Target">
                             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                         </button>
                     </div>
+
+                    ${viewTotalInIndividual ? `
+                    <div style="display:flex; justify-content:space-between; margin-top:16px; padding-top:12px; border-top:1px dashed var(--border-hi);">
+                        <div style="font-size:11px;">
+                            <div style="color:var(--t3); font-weight:600; margin-bottom:4px;">Self Target</div>
+                            <div style="color:var(--t1); font-weight:800;">$${selfTargetVal.toLocaleString('en-US')}</div>
+                        </div>
+                        <div style="font-size:11px; text-align:right;">
+                            <div style="color:var(--t3); font-weight:600; margin-bottom:4px;">Team Roll-up</div>
+                            <div style="color:var(--t1); font-weight:800;">$${teamRollupVal.toLocaleString('en-US')}</div>
+                        </div>
+                    </div>
+                    ` : ''}
+
                 </div>
             </div>
         </div>
@@ -511,7 +553,8 @@ function renderTargetConfig() {
 
 function selectTargetNode(id) {
     activeTargetId = id;
-    tcTab = 'individual'; // Reset to individual view when a new node is selected
+    tcTab = 'individual'; 
+    viewTotalInIndividual = false; // reset the checkbox
     renderOrgTargetsList();
     renderTargetConfig();
 }
