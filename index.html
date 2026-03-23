@@ -6,7 +6,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="insight-cards.css">
-    <!-- LINKED WATERFALL CSS HERE -->
     <link rel="stylesheet" href="waterfall-board.css">
 </head>
 <body>
@@ -288,19 +287,34 @@
 
             <!-- REGIONS TAB -->
             <div class="section" id="sec-regions">
-                <div class="region-hero">          
+                
+                <!-- NEW HIGH-LEVEL REGION COMMAND CENTER -->
+                <div class="region-hero" style="background: var(--surface); border: 1px solid var(--border); padding: 24px; border-radius: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">          
                     <div class="region-hero-left">            
-                        <div class="region-hero-title">Regional Performance</div>            
-                        <div class="region-hero-sub">12 active regions · Win rate, revenue & deal intelligence</div>          
+                        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
+                            <div class="region-hero-title" style="font-size: 20px; font-weight: 800; color: var(--t1); margin: 0;">Global Regional Intelligence</div>            
+                            <span style="background: rgba(46, 168, 122, 0.1); color: var(--green); padding: 4px 10px; border-radius: 99px; font-size: 10px; font-weight: 800; letter-spacing: 0.5px; border: 1px solid rgba(46, 168, 122, 0.2); display: flex; align-items: center; gap: 6px;">
+                                <span class="pulse-ai" style="background: var(--green); box-shadow: 0 0 0 0 rgba(46, 168, 122, 0.7); animation: aiPulse 2s infinite;"></span>
+                                CURRENT QUARTER (Q1 2026)
+                            </span>
+                        </div>
+                        <div class="region-hero-sub" style="font-size: 13px; color: var(--t2);">Real-time aggregated view across 12 active territories. All metrics reflect pacing for the current active quarter.</div>          
                     </div>          
-                    <div class="region-hero-stats">            
-                        <div class="rh-stat"><div class="rh-stat-val" style="color:var(--green)">India S</div><div class="rh-stat-lbl">Top Region</div></div>            
-                        <div class="rh-divider"></div>            
-                        <div class="rh-stat"><div class="rh-stat-val" style="color:var(--red)">India N</div><div class="rh-stat-lbl">Needs Attention</div></div>            
-                        <div class="rh-divider"></div>            
-                        <div class="rh-stat"><div class="rh-stat-val">76%</div><div class="rh-stat-lbl">Best Win Rate</div></div>            
-                        <div class="rh-divider"></div>            
-                        <div class="rh-stat"><div class="rh-stat-val" style="color:var(--red)">52%</div><div class="rh-stat-lbl">Lowest Win Rate</div></div>          
+                    <div class="region-hero-stats" style="display: flex; gap: 32px; align-items: center;">            
+                        <div class="rh-stat" style="text-align: right;">
+                            <div class="rh-stat-val" style="font-size: 24px; font-weight: 800; color: var(--t1);">$382M</div>
+                            <div class="rh-stat-lbl" style="font-size: 10px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.5px;">Global Q1 Revenue</div>
+                        </div>            
+                        <div style="width: 1px; height: 32px; background: var(--border);"></div>            
+                        <div class="rh-stat" style="text-align: right;">
+                            <div class="rh-stat-val" style="font-size: 24px; font-weight: 800; color: var(--accent);">8 <span style="font-size: 16px; color: var(--t3);">/ 12</span></div>
+                            <div class="rh-stat-lbl" style="font-size: 10px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.5px;">Regions On Target</div>
+                        </div>            
+                        <div style="width: 1px; height: 32px; background: var(--border);"></div>            
+                        <div class="rh-stat" style="text-align: right;">
+                            <div class="rh-stat-val" style="font-size: 24px; font-weight: 800; color: var(--t1);">$14.5M</div>
+                            <div class="rh-stat-lbl" style="font-size: 10px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.5px;">Cross-Region Upsell</div>
+                        </div>            
                     </div>        
                 </div>
                 
@@ -372,7 +386,7 @@
                     </div>        
                 </div>
 
-                <!-- MOVED: WIN RATE HEAT MATRIX (Now above Pipeline Board) -->
+                <!-- MOVED: WIN RATE HEAT MATRIX -->
                 <div class="acard" style="margin-bottom:16px;">          
                     <div class="acard-head">            
                         <div class="acard-title">Win Rate Heat Matrix — Product × Region</div>            
