@@ -5,6 +5,9 @@
     <title>Zoho RevIQ</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="insight-cards.css">
+    <!-- LINKED WATERFALL CSS HERE -->
+    <link rel="stylesheet" href="waterfall-board.css">
 </head>
 <body>
 
@@ -197,7 +200,6 @@
                     <div id="wr-product"></div>        
                 </div>
 
-
                 <div class="tp-wrap">          
                     <div class="tp-topbar">            
                         <div class="tp-title">Team Performance <span class="team-count-badge" style="font-size:11px;margin-left:8px">27</span></div>            
@@ -284,6 +286,7 @@
                 </div>      
             </div>
 
+            <!-- REGIONS TAB -->
             <div class="section" id="sec-regions">
                 <div class="region-hero">          
                     <div class="region-hero-left">            
@@ -293,58 +296,84 @@
                     <div class="region-hero-stats">            
                         <div class="rh-stat"><div class="rh-stat-val" style="color:var(--green)">India S</div><div class="rh-stat-lbl">Top Region</div></div>            
                         <div class="rh-divider"></div>            
-                        <div class="rh-stat"><div class="rh-stat-val" style="color:var(--red)">LATAM</div><div class="rh-stat-lbl">Needs Attention</div></div>            
+                        <div class="rh-stat"><div class="rh-stat-val" style="color:var(--red)">India N</div><div class="rh-stat-lbl">Needs Attention</div></div>            
                         <div class="rh-divider"></div>            
                         <div class="rh-stat"><div class="rh-stat-val">76%</div><div class="rh-stat-lbl">Best Win Rate</div></div>            
                         <div class="rh-divider"></div>            
                         <div class="rh-stat"><div class="rh-stat-val" style="color:var(--red)">52%</div><div class="rh-stat-lbl">Lowest Win Rate</div></div>          
                     </div>        
                 </div>
-                <div class="acard" style="padding:20px">          
-                    <div class="acard-head"><div class="acard-title">Win Rate by Region</div></div>          
-                    <div id="regionCards"></div>        
-                </div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">          
-                    <div class="region-spotlight green-spot">            
-                        <div class="rspot-header">              
-                            <div class="rspot-flag">🇮🇳</div>              
-                            <div>                
-                                <div class="rspot-name">India South</div>                
-                                <div class="rspot-tag green-tag">Best Performing</div>              
-                            </div>              
-                            <div class="rspot-wr green-wr">76%</div>            
-                        </div>            
-                        <div id="best-region"></div>            
-                        <div class="rspot-products">              
-                            <div class="rspot-prod-title">Top Products</div>              
-                            <div style="display:flex;gap:6px;flex-wrap:wrap">                
-                                <span class="rprod-tag">CRM 80%</span>                
-                                <span class="rprod-tag">CRM Plus 76%</span>                
-                                <span class="rprod-tag">Zoho ONE 74%</span>              
-                            </div>            
-                        </div>          
+                
+                <!-- ANIMATED PREDICTION CARDS -->
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">          
+                    
+                    <div class="insight-card track-green">
+                        <div class="ic-header">
+                            <div class="ic-title-wrap">
+                                <span class="ic-flag">🇮🇳</span>
+                                <div>
+                                    <div class="ic-name">India South</div>
+                                    <div class="ic-status status-green">Exceeding Targets</div>
+                                </div>
+                            </div>
+                            <div class="ic-wr">76% <span class="ic-wr-lbl">Win Rate</span></div>
+                        </div>
+                        
+                        <div class="ic-metrics">
+                            <div class="ic-stat"><div class="ic-val">$18.4M</div><div class="ic-lbl">Revenue Achieved</div></div>
+                            <div class="ic-stat"><div class="ic-val">112%</div><div class="ic-lbl">Target Attainment</div></div>
+                            <div class="ic-stat"><div class="ic-val">$42M</div><div class="ic-lbl">Active Pipeline</div></div>
+                        </div>
+                        
+                        <div class="ic-prediction">
+                            <div class="ic-pred-head">
+                                <div class="pulse-ai"></div>
+                                AI Prediction & Strategy
+                            </div>
+                            <div class="ic-pred-text" style="margin-bottom:8px;">
+                                <strong>What's Lacking:</strong> Upsell velocity on base-tier accounts is slowing down.
+                            </div>
+                            <div class="ic-pred-text">
+                                <strong>Action Plan:</strong> Momentum is high on <span class="highlight">CRM Plus</span>. Target existing CRM accounts with a cross-sell campaign to easily exceed Q4 limits.
+                            </div>
+                        </div>
                     </div>          
-                    <div class="region-spotlight red-spot">            
-                        <div class="rspot-header">              
-                            <div class="rspot-flag">🌎</div>              
-                            <div>                
-                                <div class="rspot-name">LATAM</div>                
-                                <div class="rspot-tag red-tag">Needs Attention</div>              
-                            </div>              
-                            <div class="rspot-wr red-wr">52%</div>            
-                        </div>            
-                        <div id="worst-region"></div>            
-                        <div class="rspot-products">              
-                            <div class="rspot-prod-title">Struggling Products</div>              
-                            <div style="display:flex;gap:6px;flex-wrap:wrap">                
-                                <span class="rprod-tag red-prod">People 44%</span>                
-                                <span class="rprod-tag red-prod">Zoho ONE 50%</span>                
-                                <span class="rprod-tag red-prod">Analytics 46%</span>              
-                            </div>            
-                        </div>          
+
+                    <div class="insight-card track-red">
+                        <div class="ic-header">
+                            <div class="ic-title-wrap">
+                                <span class="ic-flag">🇮🇳</span>
+                                <div>
+                                    <div class="ic-name">India North</div>
+                                    <div class="ic-status status-red">Needs Attention</div>
+                                </div>
+                            </div>
+                            <div class="ic-wr" style="color:var(--red)">52% <span class="ic-wr-lbl" style="color:var(--red)">Win Rate</span></div>
+                        </div>
+                        
+                        <div class="ic-metrics">
+                            <div class="ic-stat"><div class="ic-val">$8.2M</div><div class="ic-lbl">Revenue Achieved</div></div>
+                            <div class="ic-stat"><div class="ic-val">68%</div><div class="ic-lbl">Target Attainment</div></div>
+                            <div class="ic-stat"><div class="ic-val">$18M</div><div class="ic-lbl">Active Pipeline</div></div>
+                        </div>
+                        
+                        <div class="ic-prediction warning-pred">
+                            <div class="ic-pred-head">
+                                <div class="pulse-ai"></div>
+                                AI Prediction & Intervention
+                            </div>
+                            <div class="ic-pred-text" style="margin-bottom:8px;">
+                                <strong>What's Lacking:</strong> Expected to miss Q4 target by $2.4M due to low lead conversion in <span class="highlight">Zoho ONE</span>.
+                            </div>
+                            <div class="ic-pred-text">
+                                <strong>Action Plan:</strong> Pipeline coverage is dangerously low (1.8x). Mandate reps to shift focus entirely to lead generation and Stage 2 progression.
+                            </div>
+                        </div>
                     </div>        
                 </div>
-                <div class="acard">          
+
+                <!-- MOVED: WIN RATE HEAT MATRIX (Now above Pipeline Board) -->
+                <div class="acard" style="margin-bottom:16px;">          
                     <div class="acard-head">            
                         <div class="acard-title">Win Rate Heat Matrix — Product × Region</div>            
                         <div style="font-size:11px;color:var(--t3);display:flex;align-items:center;gap:10px">              
@@ -356,15 +385,67 @@
                     </div>          
                     <div class="twrap" id="heatMatrix"></div>        
                 </div>
-                <div class="acard">          
-                    <div class="acard-head"><div class="acard-title">Top 10 Logos</div></div>          
-                    <div id="topLogos"></div>        
-                </div>      
+
+                <!-- UNIFIED WIN RATE PIPELINE BOARD -->
+                <div class="acard" style="padding:0; overflow:hidden; border:none; box-shadow: 0 12px 32px rgba(0,0,0,0.06); background: transparent; border-radius: 16px; margin-bottom:16px;">
+                    <div class="acard-head" style="padding: 24px; border-bottom: 1px solid var(--border); background: var(--surface); border-radius: 16px 16px 0 0; margin-bottom:0;">
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div>
+                                <div class="acard-title" style="font-size: 18px; display: flex; align-items: center; gap: 10px;">
+                                    <svg viewBox="0 0 24 24" width="20" height="20" stroke="var(--accent)" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                                    Win Rate Pipeline Board
+                                </div>
+                                <div style="font-size:12px; color:var(--t3); margin-top:6px;">Regional and Product combinations modeled dynamically by conversion probability.</div>
+                            </div>
+                            <div style="display:flex; gap:12px;">
+                                <div style="font-size:11px; font-weight:700; padding:6px 12px; background:var(--surface2); border-radius:8px; color:var(--t2); border: 1px solid var(--border);">Waterfall Model v2.4</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="wf-board" id="wfBoard">
+                        <!-- Javascript Populated -->
+                    </div>
+                </div>
+                
+                <!-- SAFETY CONTAINERS: Hidden to absorb old script.js data and prevent crashes -->
+                <div id="regionCards" style="display: none;"></div>
+                <div id="best-region" style="display: none;"></div>
+                <div id="worst-region" style="display: none;"></div>
+                <div id="topLogos" style="display: none;"></div> <!-- Top Logos Absorber -->
+
             </div>
 
             <div class="section" id="sec-orgchart">        
                 
-                <div class="acard" style="margin-bottom:24px">
+                <div id="org-targets-section" style="display:flex; flex-direction:column; gap:24px; margin-bottom:24px;">
+                    
+                    <!-- Target Configuration (Moved to Top) -->
+                    <div class="acard" style="padding:0; overflow:hidden;">
+                        <div style="padding:20px; border-bottom:1px solid var(--border);">
+                            <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
+                                <span style="color:var(--accent2); font-size:18px;">◎</span> Target Configuration
+                            </div>
+                            <div style="font-size:12px; color:var(--t3); margin-top:4px;">Configure target parameters for the selected node below</div>
+                        </div>
+                        <div id="targetConfigPanel" style="padding:24px;"></div>
+                    </div>
+
+                    <!-- Organization Targets (Moved to Middle) -->
+                    <div class="acard" style="padding:0; overflow:hidden;">
+                        <div style="padding:20px; border-bottom:1px solid var(--border);">
+                            <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
+                                <span style="color:var(--accent2); font-size:18px;">👥</span> Organization Hierarchy
+                            </div>
+                            <div style="font-size:12px; color:var(--t3); margin-top:4px;">Select a person to edit their target</div>
+                        </div>
+                        <div id="newHierTree" style="padding:16px;"></div>
+                    </div>
+
+                </div>
+
+                <!-- Quarterly Breakdown (Moved to Bottom) -->
+                <div class="acard">
                     <div class="acard-head">
                         <div class="acard-title">Quarterly Breakdown</div>
                         <div id="global-filter-container" class="filter-button-group">
@@ -598,40 +679,11 @@
                     </div>
                 </div>
 
-                <div id="org-targets-section" style="display:flex; flex-direction:column; gap:24px; margin-top:24px;">
-                    
-                    <!-- Target Configuration (Moved to Top) -->
-                    <div class="acard" style="padding:0; overflow:hidden;">
-                        <div style="padding:20px; border-bottom:1px solid var(--border);">
-                            <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
-                                <span style="color:var(--accent2); font-size:18px;">◎</span> Target Configuration
-                            </div>
-                            <div style="font-size:12px; color:var(--t3); margin-top:4px;">Configure target parameters for the selected node below</div>
-                        </div>
-                        <div id="targetConfigPanel" style="padding:24px;"></div>
-                    </div>
-
-                    <!-- Organization Targets (Moved to Bottom) -->
-                    <div class="acard" style="padding:0; overflow:hidden;">
-                        <div style="padding:20px; border-bottom:1px solid var(--border);">
-                            <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
-                                <span style="color:var(--accent2); font-size:18px;">👥</span> Organization Hierarchy
-                            </div>
-                            <div style="font-size:12px; color:var(--t3); margin-top:4px;">Select a person to edit their target</div>
-                        </div>
-                        <div id="newHierTree" style="padding:16px;"></div>
-                    </div>
-
-                </div>
-
             </div>
 
-            <!-- BUG FIX APPLIED HERE: Removed inline 'display: flex' so it hides properly when inactive -->
             <div class="section" id="sec-targets" style="height: 100%;">        
                 
-                <!-- Added an inner wrapper to restore the flex layout specifically for this tab -->
                 <div style="height: 100%; display: flex; flex-direction: column;">
-                    <!-- Dashboard Header -->
                     <div class="ld-header">
                         <div>
                             <div class="ld-title-sub">Sales Reps Performance</div>
@@ -649,10 +701,8 @@
                         </div>
                     </div>
 
-                    <!-- Main Grid Layout -->
                     <div class="ld-main">
                         
-                        <!-- Left Side (Cards & Chart) -->
                         <div class="ld-left">
                             <div class="ld-top-cards">
                                 <div class="acard ld-card">
@@ -689,7 +739,6 @@
                             </div>
                         </div>
 
-                        <!-- Right Side (Leaderboard) -->
                         <div class="ld-right">
                             <div class="ld-lb-header">
                                 <div style="font-size:32px; line-height:1;">👑</div>
@@ -847,5 +896,7 @@
 <script src="pipeline-products.js"></script>
 <script src="org-targets.js"></script> 
 <script src="leadership.js"></script>
+<script src="waterfall-board.js"></script>
+
 </body>
 </html>

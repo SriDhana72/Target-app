@@ -1239,3 +1239,193 @@ input:checked + .setting-slider:before {
 
 .ld-lb-name { font-size: 13px; font-weight: 800; color: var(--t1); }
 .ld-lb-score { font-size: 15px; font-weight: 800; color: var(--t1); margin-left: auto; }
+
+/* ─── Animated Insight Cards (Replacing old region spotlights) ─── */
+.insight-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    cursor: default;
+}
+
+/* Hover Animations */
+.insight-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+    border-color: var(--border-hi);
+}
+
+/* Animated Top Border */
+.insight-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: var(--border);
+    transition: transform 0.4s ease;
+    transform: scaleX(0);
+    transform-origin: left;
+}
+.insight-card:hover::before { transform: scaleX(1); }
+.insight-card.track-green::before { background: linear-gradient(90deg, var(--green), #4ade80); }
+.insight-card.track-red::before { background: linear-gradient(90deg, var(--red), #f87171); }
+
+/* Card Header Elements */
+.ic-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.ic-title-wrap { display: flex; gap: 12px; align-items: center; }
+.ic-flag { font-size: 24px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+.ic-name { font-size: 15px; font-weight: 800; color: var(--t1); letter-spacing: -0.3px; }
+.ic-status { font-size: 10px; font-weight: 700; padding: 3px 8px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 4px; display: inline-block; }
+.status-green { color: var(--green); background: rgba(46, 168, 122, 0.1); border: 1px solid rgba(46, 168, 122, 0.2); }
+.status-red { color: var(--red); background: rgba(212, 63, 63, 0.1); border: 1px solid rgba(212, 63, 63, 0.2); }
+
+.ic-wr { text-align: right; font-size: 22px; font-weight: 900; color: var(--green); line-height: 1; }
+.ic-wr-lbl { display: block; font-size: 9px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.8px; margin-top: 4px; }
+
+/* Core Metrics (No Deals Closed) */
+.ic-metrics { display: flex; gap: 16px; padding-bottom: 16px; border-bottom: 1px dashed var(--border); }
+.ic-stat { flex: 1; }
+.ic-val { font-size: 16px; font-weight: 800; color: var(--t1); }
+.ic-lbl { font-size: 11px; font-weight: 500; color: var(--t3); margin-top: 2px; }
+
+/* Prediction Engine Box */
+.ic-prediction {
+    background: var(--surface2);
+    border-radius: 8px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    position: relative;
+}
+
+.ic-pred-head { 
+    display: flex; align-items: center; gap: 8px; 
+    font-size: 10px; font-weight: 800; color: var(--accent); 
+    margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; 
+}
+
+/* Pulsating AI Dot Animation */
+.pulse-ai { 
+    width: 6px; height: 6px; background: var(--accent); border-radius: 50%; 
+    box-shadow: 0 0 0 0 rgba(74, 124, 247, 0.7); animation: aiPulse 2s infinite; 
+}
+@keyframes aiPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 124, 247, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(74, 124, 247, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 124, 247, 0); }
+}
+
+/* Warning State for Pulse & Header */
+.warning-pred .ic-pred-head { color: var(--orange); }
+.warning-pred .pulse-ai { background: var(--orange); animation: aiPulseWarn 2s infinite; }
+@keyframes aiPulseWarn {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(196, 98, 10, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(196, 98, 10, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(196, 98, 10, 0); }
+}
+
+.ic-pred-text { font-size: 12px; color: var(--t2); line-height: 1.6; }
+.ic-pred-text strong { color: var(--t1); font-weight: 700; }
+.ic-pred-text span.highlight { color: var(--t1); font-weight: 600; background: var(--surface3); padding: 0 4px; border-radius: 4px; }
+
+/* ════ WIN RATE PIPELINE / WATERFALL BOARD ════ */
+.wf-board {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    background: var(--surface2);
+    gap: 1px; /* Creates sleek, 1px borders between columns automatically */
+    border-radius: 0 0 16px 16px;
+    overflow: hidden;
+}
+
+.wf-col {
+    background: var(--surface);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+}
+
+/* Column Headers */
+.wf-col-head {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start;
+    padding-bottom: 16px; 
+    border-bottom: 3px solid;
+    margin-bottom: 8px;
+}
+.wf-col.crit .wf-col-head { border-bottom-color: var(--red); }
+.wf-col.warn .wf-col-head { border-bottom-color: var(--amber); }
+.wf-col.stable .wf-col-head { border-bottom-color: var(--accent2); }
+.wf-col.optimal .wf-col-head { border-bottom-color: var(--green); }
+
+.wf-col-title { font-size: 14px; font-weight: 800; color: var(--t1); letter-spacing: -0.3px; }
+.wf-badge { font-size: 11px; font-weight: 800; padding: 2px 10px; border-radius: 99px; background: var(--surface2); color: var(--t2); border: 1px solid var(--border); }
+
+/* Animated Flow Cards */
+.wf-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.wf-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: wfSlideUp 0.7s ease backwards;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 3D Hover Lift Effect */
+.wf-card:hover {
+    transform: scale(1.03) translateY(-6px);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+    border-color: var(--border-hi);
+    z-index: 10;
+}
+
+/* Glowing Health Indicator */
+.wf-indicator {
+    position: absolute; top: 20px; right: 18px; width: 8px; height: 8px; border-radius: 50%;
+}
+.wf-col.crit .wf-indicator { background: var(--red); box-shadow: 0 0 10px var(--red); }
+.wf-col.warn .wf-indicator { background: var(--amber); box-shadow: 0 0 10px var(--amber); }
+.wf-col.stable .wf-indicator { background: var(--accent2); box-shadow: 0 0 10px var(--accent2); }
+.wf-col.optimal .wf-indicator { background: var(--green); box-shadow: 0 0 10px var(--green); }
+
+/* Typography */
+.wf-prod { font-size: 15px; font-weight: 800; color: var(--t1); margin-bottom: 6px; padding-right: 16px;}
+.wf-region { font-size: 12px; font-weight: 600; color: var(--t3); display: flex; align-items: center; gap: 6px; margin-bottom: 16px; }
+
+.wf-foot { display: flex; justify-content: space-between; align-items: flex-end; margin-top: auto; border-top: 1px dashed var(--border); padding-top: 14px; }
+
+.wf-vol-lbl { font-size: 10px; font-weight: 700; color: var(--t3); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;}
+.wf-vol-val { font-size: 13px; font-weight: 800; color: var(--t2); }
+
+.wf-wr { font-size: 22px; font-weight: 900; line-height: 1; margin-bottom: 4px; text-align: right;}
+.wf-col.crit .wf-wr { color: var(--red); }
+.wf-col.warn .wf-wr { color: var(--amber); }
+.wf-col.stable .wf-wr { color: var(--accent2); }
+.wf-col.optimal .wf-wr { color: var(--green); }
+
+.wf-trend { font-size: 11px; font-weight: 700; color: var(--t3); display: inline-flex; align-items: center; background: var(--surface2); padding: 3px 8px; border-radius: 6px; }
+
+/* Staggered Entry Animation */
+@keyframes wfSlideUp {
+    0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+}
