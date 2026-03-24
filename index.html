@@ -118,7 +118,7 @@
                         <div class="home-subtext">FY2024-25 Q4 · Last updated just now</div>          
                     </div>          
                     <div class="home-hero-badge">            
-                        <button onclick="goTo('orgchart', document.querySelectorAll('.nav-item')[3]); setTimeout(() => document.getElementById('org-targets-section').scrollIntoView({behavior:'smooth', block:'start'}), 100);" class="btn-accent" style="padding: 10px 20px; font-size: 13px;">
+                        <button onclick="goTo('orgchart', document.querySelectorAll('.nav-item')[3]); setTimeout(() => document.getElementById('org-targets-section').scrollIntoView({behavior:'smooth', block:'start'}), 100);" class="btn-accent" style="padding: 10px 20px; font-size: 13px; background: #52b788; border: none;">
                             🎯 Configure Targets
                         </button>
                     </div>        
@@ -219,44 +219,12 @@
                     </div>
                 </div>
 
-                <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px">          
+                <div style="margin-bottom:16px">                   
                     <div class="acard" style="margin-bottom:0">            
-                        <div class="acard-head">              
-                            <div class="acard-title">Revenue Trajectory — FY25</div>            
-                            <div style="font-size:10px; font-weight:800; color:var(--green); background:rgba(46,168,122,0.1); padding:4px 8px; border-radius:6px;">↑ 18% PROJECTION</div>
-                        </div>            
-                        
-                        <div class="chart-container-new" id="revChartContainer">
-                            </div>
-                    
-                        <div class="chart-milestone-wrap">
-                            <div class="milestone"><span class="ms-label">Q1</span><span class="ms-status ms-up">Closed</span></div>
-                            <div class="milestone"><span class="ms-label">Q2</span><span class="ms-status ms-up">Closed</span></div>
-                            <div class="milestone"><span class="ms-label">Q3</span><span class="ms-status ms-down">Pacing</span></div>
-                            <div class="milestone"><span class="ms-label">Q4</span><span class="ms-status" style="background:var(--surface2); color:var(--t3);">Forecast</span></div>
-                        </div>
-                    </div>          
-                    <div class="acard" style="margin-bottom:0">            
-                        <div class="acard-head"><div class="acard-title">Manager Attainment</div></div>            
+                        <div class="acard-head"><div class="acard-title">BU Attainment</div></div>            
                         <div id="mgr-bars"></div>          
                     </div>        
                 </div>
-
-                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px">          
-                    <div class="acard" style="margin-bottom:0">            
-                        <div class="acard-head"><div class="acard-title">Top Performers</div><button class="acard-action" onclick="goTo('team',document.querySelectorAll('.nav-item')[1])">All →</button></div>            
-                        <div id="home-top"></div>          
-                    </div>          
-                    <div class="acard" style="margin-bottom:0">            
-                        <div class="acard-head"><div class="acard-title">On Track</div></div>            
-                        <div id="home-avg"></div>          
-                    </div>          
-                    <div class="acard" style="margin-bottom:0">            
-                        <div class="acard-head"><div class="acard-title">Needs Attention</div></div>            
-                        <div id="home-crit"></div>          
-                    </div>        
-                </div>
-
 
                 <div class="tp-wrap">          
                     <div class="tp-topbar">            
@@ -301,15 +269,8 @@
                 </div>
                 
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">          
-                    <div class="acard" style="margin-bottom:0">            
-                        <div class="acard-head"><div class="acard-title">Tenure vs Win Rate</div></div>            
-                        <div id="tenure-bars"></div>          
-                    </div>          
-                    <div class="acard" style="margin-bottom:0">            
-                        <div class="acard-head"><div class="acard-title">Commission by Tier</div></div>            
-                        <div id="comm-bars"></div>          
-                    </div>        
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px">                  
+      
                 </div> 
                 <div class="acard" style="margin-top:20px;">
                     <div class="acard-header" style="margin-bottom: 20px;">
@@ -341,8 +302,7 @@
                     <div class="pro-stat-sep"></div>          
                     <div class="pro-stat-item"><div class="pro-stat-val" style="color:var(--green)">62</div><div class="pro-stat-lbl">High-Conv. Opps</div><div class="pro-stat-delta up">≥70% probability</div></div>        
                 </div>        
-                <div class="grid-2">          
-                    <div class="acard"><div class="acard-head"><div class="acard-title">Pipeline Funnel</div></div><div id="funnel"></div></div>          
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">                    <div class="acard"><div class="acard-head"><div class="acard-title">Pipeline Funnel</div></div><div id="funnel"></div></div>          
                     <div class="acard">
                         <div class="acard-head" style="margin-bottom:14px;">
                             <div class="acard-title">Revenue by Product</div>
@@ -798,10 +758,10 @@
                                     <div class="ld-card-title">Top Performers by Win Rate</div>
                                     <div id="ld-win-rate"></div>
                                 </div>
-                                <div class="acard ld-card">
-                                    <div class="ld-card-title">Agents' Appraisal</div>
-                                    <div id="ld-appraisal"></div>
-                                </div>
+                            </div>
+                            <div class="acard ld-card" style="height: max-content;">
+                                <div class="ld-card-title">Tenure vs Win Rate</div>
+                                <div id="tenure-bars" style="padding: 16px;"></div>
                             </div>
                         </div>
                         <div class="ld-right">

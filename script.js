@@ -152,39 +152,6 @@ function animateHomeKPIs() {
         if(behindBar) behindBar.style.width = '15%'; // 4/27
     }, 200);
 }
-
-function renderRevenueTrajectory() {
-    const container = document.getElementById('revChartContainer');
-    if (!container) return;
-
-    // Data points are fine, no change.
-    const data = [30, 55, 45, 85]; 
-  
-    const svgHtml = `
-        <svg viewBox="0 0 400 100" preserveAspectRatio="none" style="width:100%; height:100%; overflow:visible;">
-            <defs>
-                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.2" />
-                    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
-                </linearGradient>
-                </defs>
-            
-            <path class="chart-area-fill" d="M0,100 L0,${100-data[0]} L133,${100-data[1]} L266,${100-data[2]} L400,${100-data[3]} L400,100 Z" fill="url(#areaGrad)" />
-            
-            <path class="chart-path-main" d="M0,${100-data[0]} L133,${100-data[1]} L266,${100-data[2]} L400,${100-data[3]}" 
-                fill="none" 
-                stroke="var(--accent)" 
-                stroke-width="1.75" 
-                stroke-linecap="round" 
-                stroke-linejoin="round" />
-            
-            ${data.map((val, i) => `
-                <circle cx="${i * 133.3}" cy="${100-val}" r="3.5" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.75" />
-            `).join('')}
-        </svg>
-    `;
-    container.innerHTML = svgHtml;
-}
   
 /* ════ DROPDOWNS ════ */
 function toggleYearMenu(e) {
@@ -273,17 +240,23 @@ document.addEventListener('click', e => {
   };
   
 /* ════ MANAGER ATTAINMENT: HIERARCHY PULSE ════ */
+/* ════ BU ATTAINMENT (Previously Manager Pulse) ════ */
 function renderManagerPulse() {
     const container = document.getElementById('mgr-bars'); 
     if (!container) return;
 
-    // Data for Top 5 Managers Current FQ
+    // Data for Top BU Leaders
     const managers = [
         { name: 'Sarah Connor', initial: 'SC', attainment: 104, team: 'US Enterprise' },
+        { name: 'Marcus Johnson', initial: 'MJ', attainment: 101, team: 'US Mid-Market' },
         { name: 'Rajesh Iyer', initial: 'RI', attainment: 98, team: 'India Strategic' },
+        { name: 'Priya Sharma', initial: 'PS', attainment: 95, team: 'India Enterprise' },
         { name: 'Elena Gomez', initial: 'EG', attainment: 92, team: 'LATAM Growth' },
+        { name: 'Chen Wei', initial: 'CW', attainment: 90, team: 'APAC Strategic' },
         { name: 'Liam Wilson', initial: 'LW', attainment: 88, team: 'APAC SMB' },
-        { name: 'Jinil Shah', initial: 'JS', attainment: 85, team: 'India Mid-Market' }
+        { name: 'Ana Silva', initial: 'AS', attainment: 86, team: 'LATAM Enterprise' },
+        { name: 'Jinil Shah', initial: 'JS', attainment: 85, team: 'India Mid-Market' },
+        { name: 'Thomas Wright', initial: 'TW', attainment: 82, team: 'UK Growth' }
     ];
 
     let html = '<div class="mgr-pulse-container">';
@@ -293,7 +266,7 @@ function renderManagerPulse() {
         const crown = index === 0 ? '<span style="position:absolute; top:-10px; left:12px; font-size:14px; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));">👑</span>' : '';
         
         html += `
-            <div class="mgr-node-card" style="transition-delay: ${index * 0.1}s; position:relative;">
+            <div class="mgr-node-card" style="transition-delay: ${index * 0.05}s; position:relative;">
                 ${crown}
                 <div class="mgr-avatar">${mgr.initial}</div>
                 <div class="mgr-info">
@@ -495,12 +468,6 @@ const PAGE_TITLES = {
     renderLbRows();
   }
   
-  function renderCommBars(){  
-    const cats=[{c:'top',l:'Top Performers',col:'var(--green)'},{c:'avg',l:'On Track',col:'var(--amber)'},{c:'critical',l:'Critical',col:'var(--red)'}];  
-    const data=cats.map(x=>({...x,total:REPS.filter(r=>cls(r)===x.c).reduce((s,r)=>s+r.comm,0)}));  
-    const mx=Math.max(...data.map(d=>d.total));  
-    document.getElementById('comm-bars').innerHTML=data.map(d=>`    <div class="pbar-row">      <div class="pbar-label">${d.l}</div>      <div class="pbar-track"><div class="pbar-fill" style="width:${(d.total/mx)*100}%;background:${d.col}"></div></div>      <div class="pbar-val" style="color:${d.col}">$${d.total.toFixed(1)}M</div>    </div>`).join('');
-  }
   
   function renderWRProduct() {
     const container = document.getElementById('wr-product');
@@ -571,8 +538,7 @@ const PAGE_TITLES = {
       const wr=g.length?Math.round(g.reduce((s,r)=>s+r.wr,0)/g.length):0;    
       const att=g.length?Math.round(g.reduce((s,r)=>s+r.att,0)/g.length):0;    
       const col=wr>=68?'var(--green)':wr>=58?'var(--amber)':'var(--red)';    
-      return `<div class="pbar-row"><div class="pbar-label">${b.l} (${g.length} reps)</div><div class="pbar-track"><div class="pbar-fill" style="width:${wr}%;background:${col}"></div></div><div class="pbar-val" style="color:${col}">WR:${wr}% Att:${att}%</div></div>`;  
-    }).join('');
+      return `<div class="pbar-row"><div class="pbar-label">${b.l} (${g.length} reps)</div><div class="pbar-track"><div class="pbar-fill" style="width:${wr}%;background:${col}"></div></div><div class="pbar-val" style="color:${col}; width: auto; white-space: nowrap; padding-left: 12px;">WR: ${wr}% &nbsp; Att: ${att}%</div></div>`;    }).join('');
   }
   
   function inspectRep(r){  
@@ -908,25 +874,16 @@ window.addEventListener('DOMContentLoaded', () => {
     // 1. Core Visuals
     if (document.getElementById('kpi-rev-bar')) animateHomeKPIs();  
     if (document.getElementById('revChart')) drawRevChart();
-    if (document.getElementById('revChartContainer')) renderRevenueTrajectory();  
     
     // 2. YOUR NEW COMPONENT (Manager Attainment)
     // This targets id="mgr-bars" in your HTML
     if (document.getElementById('mgr-bars')) {
         renderManagerPulse(); 
-    }
-
-    // 3. Home Dashboard Cards
-    if (document.getElementById('home-top')) renderHomePerfCards('home-top','top');  
-    if (document.getElementById('home-avg')) renderHomePerfCards('home-avg','avg');  
-    if (document.getElementById('home-crit')) renderHomePerfCards('home-crit','critical');  
+    } 
     
     // 4. Data Tables & Charts
     if (document.getElementById('wr-product')) renderWRProduct();  
-    if (document.getElementById('lbBody')) renderRepGrid();  
-    if (document.getElementById('tenure-bars')) renderTenureBars();  
-    if (document.getElementById('comm-bars')) renderCommBars();  
-    
+    if (document.getElementById('lbBody')) renderRepGrid();      
     // 5. Section Specifics
     if (document.getElementById('funnel')) renderFunnel();  
     if (document.getElementById('anomalies')) renderAnomalies();  
@@ -944,9 +901,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
   
   window.addEventListener('resize', () => {  
-    // Update the new SVG Trajectory Chart
-    renderRevenueTrajectory(); 
-
     // Handle Pipeline Tab if active
     if(document.getElementById('sec-pipeline').classList.contains('active')) {
         drawProdChart();

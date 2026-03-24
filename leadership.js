@@ -163,7 +163,6 @@ function getSeededRandom(seedStr) {
 function renderLeadershipDashboard() {
     const container1 = document.getElementById('ld-deals-won');
     const container2 = document.getElementById('ld-win-rate');
-    const container3 = document.getElementById('ld-appraisal');
     const container4 = document.getElementById('ld-leaderboard');
 
     if(!container1) return;
@@ -282,26 +281,6 @@ function renderLeadershipDashboard() {
     container1.innerHTML = byAchieved.map(renderRepCard).join('');
     container2.innerHTML = byWR.map(renderRepCard).join('');
 
-    // Generate Contextual Appraisals based on performance
-    const appraisals = isTop ? [
-        { rep: byAchieved[0], text: "Outstanding revenue contribution. Extremely reliable core metrics." },
-        { rep: byWR[1], text: "Shows incredible promise. Dominating win rates in their specific region." },
-        { rep: byAchieved[2], text: "Strong negotiation skills. Leading the pack in consistently achieving quotas." }
-    ] : [
-        { rep: byAchieved[0], text: "Revenue volume is critically low. Immediate pipeline generation coaching required." },
-        { rep: byWR[1], text: "Win rate is dropping significantly. Pricing objections seem to be the main blocker." },
-        { rep: byAchieved[2], text: "Struggling to close late-stage deals. Recommend shadowing senior reps." }
-    ];
-    
-    container3.innerHTML = appraisals.map(a => `
-        <div style="padding: 18px 16px; display: flex; gap: 16px; align-items: center; border-bottom: 1px solid var(--border); background: var(--surface);">
-            <div style="width: 46px; height: 46px; border-radius: 50%; overflow: hidden; border: 1px solid var(--border); flex-shrink: 0; background: var(--surface3); box-shadow: 0 2px 8px rgba(0,0,0,0.05);">
-                <img src="${getAvatar(a.rep.name)}" class="ld-avatar-img">
-            </div>
-            <div style="font-size: 12px; font-weight: 600; color: var(--t2); line-height: 1.5;">${a.text}</div>
-        </div>
-    `).join('');
-
     // Dynamically grab the Top 14 or Bottom 14 based strictly on Achieved Revenue ($) sorting
     const lbReps = [...window.DASHBOARD_REPS].sort((a,b) => isTop ? b.score - a.score : a.score - b.score).slice(0, 14);
 
@@ -403,6 +382,7 @@ function renderLeadershipDashboard() {
     }).join('') + `</div>`;
 
     container4.innerHTML = podiumHtml + listHtml;
+    if (document.getElementById('tenure-bars')) renderTenureBars();
 }
 
 let chartDrawAttempts = 0;
