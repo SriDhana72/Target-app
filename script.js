@@ -502,13 +502,67 @@ const PAGE_TITLES = {
     document.getElementById('comm-bars').innerHTML=data.map(d=>`    <div class="pbar-row">      <div class="pbar-label">${d.l}</div>      <div class="pbar-track"><div class="pbar-fill" style="width:${(d.total/mx)*100}%;background:${d.col}"></div></div>      <div class="pbar-val" style="color:${d.col}">$${d.total.toFixed(1)}M</div>    </div>`).join('');
   }
   
-  function renderWRProduct(){  
-    const data=[    {l:"CRM",        v:74, c:"#4a7cf7"},    {l:"CRM Plus",   v:70, c:"#7059c4"},    {l:"Zoho ONE",   v:68, c:"#c4870a"},    {l:"Analytics",  v:65, c:"#2ea87a"},    {l:"Desk",       v:63, c:"#c4620a"},    {l:"People",     v:60, c:"#b83058"},    {l:"People Plus",v:58, c:"#1a7fa0"},    {l:"Projects",   v:56, c:"#7059c4"},    {l:"Webinar",    v:52, c:"#d43f3f"},    {l:"Lens",       v:48, c:"#5a9a2a"},  ];  
-    const left  = data.slice(0, 5);  
-    const right = data.slice(5);  
-    const row = d => `    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)">      <div style="width:80px;flex-shrink:0;font-size:12px;font-weight:600;color:var(--t2);white-space:nowrap">${d.l}</div>      <div style="flex:1;background:var(--border);border-radius:4px;height:6px;overflow:hidden">        <div style="width:${d.v}%;height:100%;background:${d.c};border-radius:4px"></div>      </div>      <div style="width:34px;text-align:right;flex-shrink:0;font-size:12px;font-weight:700;color:${d.c}">${d.v}%</div>    </div>`;  
-    document.getElementById('wr-product').innerHTML = `    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0 28px">      <div>${left.map(row).join('')}</div>      <div>${right.map(row).join('')}</div>    </div>`;
-  }
+  function renderWRProduct() {
+    const container = document.getElementById('wr-product');
+    if (!container) return;
+
+    const data = [
+        { name: "CRM", rate: 74, color: "var(--accent)", x: 10, y: 15 },
+        { name: "CRM Plus", rate: 70, color: "var(--purple)", x: 40, y: 10 },
+        { name: "Zoho ONE", rate: 68, color: "var(--amber)", x: 70, y: 20 },
+        { name: "Analytics", rate: 65, color: "var(--green)", x: 20, y: 55 },
+        { name: "Desk", rate: 63, color: "var(--orange)", x: 50, y: 50 },
+        { name: "People", rate: 60, color: "var(--red)", x: 75, y: 60 },
+        { name: "People Plus", rate: 58, color: "#0891b2", x: 5, y: 70 },
+        { name: "Projects", rate: 56, color: "var(--accent2)", x: 32, y: 32 },
+        { name: "Webinar", rate: 52, color: "#dc2626", x: 60, y: 75 },
+        { name: "Lens", rate: 48, color: "#84cc16", x: 85, y: 40 }
+    ];
+
+    // Build the HTML structure
+    container.innerHTML = `
+        <div class="bubble-chart-wrapper" id="bubble-canvas"></div>
+        <div class="bubble-legend">
+            <div class="bubble-legend-item"><span class="bubble-dot" style="background:var(--accent)"></span> Sales</div>
+            <div class="bubble-legend-item"><span class="bubble-dot" style="background:var(--green)"></span> Analytics</div>
+            <div class="bubble-legend-item"><span class="bubble-dot" style="background:var(--red)"></span> HR/People</div>
+            <div class="bubble-legend-item"><span class="bubble-dot" style="background:var(--purple)"></span> Ops</div>
+        </div>
+    `;
+
+    const canvas = document.getElementById('bubble-canvas');
+
+    data.forEach((item, index) => {
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
+        
+        // Dynamic scaling: size ranges from ~80px to ~140px based on rate
+        const size = 60 + (item.rate * 0.8); 
+        
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.backgroundColor = item.color;
+        bubble.style.left = `${item.x}%`;
+        bubble.style.top = `${item.y}%`;
+        
+        // Staggered entry animation
+        bubble.style.opacity = '0';
+        bubble.style.transform = 'scale(0.5)';
+
+        bubble.innerHTML = `
+            <span class="name">${item.name}</span>
+            <span class="rate">${item.rate}%</span>
+        `;
+
+        canvas.appendChild(bubble);
+
+        // Trigger animation
+        setTimeout(() => {
+            bubble.style.opacity = '1';
+            bubble.style.transform = 'scale(1)';
+        }, index * 50);
+    });
+}
   
   function renderTenureBars(){  
     const buckets=[{l:"0–1 yr",min:0,max:1.9},{l:"2–3 yr",min:2,max:3.9},{l:"4–6 yr",min:4,max:6.9},{l:"7+ yr",min:7,max:99}];  
