@@ -2149,3 +2149,72 @@ input:checked + .setting-slider:before {
 .ap-bar-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 80px; margin: 20px 0; gap: 4px; }
 .ap-bar-col { flex: 1; height: 100%; display: flex; align-items: flex-end; background: #f1f5f9; border-radius: 2px 2px 0 0; }
 .ap-bar-fill { width: 100%; border-radius: 2px 2px 0 0; }
+
+/* Hierarchy Panel Inputs */
+.ap-dropdown, .ap-text-input {
+    width: 100%;
+    padding: 8px 10px;
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    color: #475569;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.ap-dropdown:focus, .ap-text-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-dim);
+}
+
+.ap-filter-group { margin-bottom: 24px; }
+
+.ap-or-divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+}
+.ap-or-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%; left: 0; right: 0;
+    height: 1px;
+    background: #cbd5e1;
+    z-index: 1;
+}
+.ap-or-divider span {
+    background: #f2f2f2;
+    padding: 0 10px;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 800;
+    position: relative;
+    z-index: 2;
+}
+
+.ap-chip-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+.ap-chip {
+    background: #e0e7ff;
+    color: #4338ca;
+    border: 1px solid #a5b4fc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.ap-chip span {
+    cursor: pointer;
+    font-weight: bold;
+    color: #4338ca;
+}

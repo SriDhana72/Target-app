@@ -1009,3 +1009,25 @@ function selectAPRegion(btn) {
   document.querySelectorAll('.ap-region-toggles button').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
 }
+
+const managerReporteesMap = {
+  "Peter": ["Binny", "Foumin", "Dhana", "Dhruv"],
+  "Logan": ["Binny", "Foumin"],
+  "Jinil": ["Dhana", "Dhruv"]
+};
+
+function handleManagerChange(select) {
+  const manager = select.value;
+  const container = document.getElementById('selectedReportees');
+  container.innerHTML = ''; 
+
+  if (manager && managerReporteesMap[manager]) {
+      managerReporteesMap[manager].forEach(rep => {
+          container.innerHTML += `
+              <div class="ap-chip">
+                  ${rep} <span onclick="this.parentElement.remove()">✕</span>
+              </div>
+          `;
+      });
+  }
+}

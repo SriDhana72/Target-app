@@ -133,9 +133,9 @@
                     <div class="agent-perf-wrapper">
                         <div class="ap-sidebar">
                             <div class="ap-side-head">
-                                <div class="ap-info-icon">i</div>
-                                <div class="ap-side-title">AGENT PERFORMANCE<br>DASHBOARD</div>
-                                <div class="ap-side-sub">Edward Robinson | Dec 2025</div>
+                                <div class="ap-info-icon" style="background:var(--accent); border-radius:8px;">👥</div>
+                                <div class="ap-side-title">HIERARCHY<br>PERFORMANCE</div>
+                                <div class="ap-side-sub">Target & Achievement</div>
                             </div>
                             
                             <div class="ap-filter-group">
@@ -144,23 +144,56 @@
                                     <button onclick="selectAPMonth(this)">J</button><button onclick="selectAPMonth(this)">F</button><button onclick="selectAPMonth(this)">M</button><button onclick="selectAPMonth(this)">A</button><button onclick="selectAPMonth(this)">M</button><button onclick="selectAPMonth(this)">J</button><button onclick="selectAPMonth(this)">J</button><button onclick="selectAPMonth(this)">A</button><button onclick="selectAPMonth(this)">S</button><button onclick="selectAPMonth(this)">O</button><button onclick="selectAPMonth(this)">N</button><button class="active" onclick="selectAPMonth(this)">D</button>
                                 </div>
                             </div>
-                            
+                    
                             <div class="ap-filter-group">
-                                <div class="ap-label">SELECT REGION</div>
-                                <div class="ap-region-toggles">
-                                    <button class="active" onclick="selectAPRegion(this)">East</button><button onclick="selectAPRegion(this)">North</button><button onclick="selectAPRegion(this)">South</button><button onclick="selectAPRegion(this)">West</button>
-                                </div>
+                                <div class="ap-label">BUSINESS UNIT</div>
+                                <select class="ap-dropdown">
+                                    <option value="">All BUs</option>
+                                    <option value="CRM">CRM BU</option>
+                                    <option value="Marketing">Marketing BU</option>
+                                    <option value="Finance">Finance BU</option>
+                                    <option value="HR">HR BU</option>
+                                    <option value="Analytics">Analytics BU</option>
+                                </select>
                             </div>
                     
                             <div class="ap-filter-group">
-                                <div class="ap-label">SELECT AGENT</div>
-                                <div class="ap-agent-list" id="apAgentList">
-                                    </div>
+                                <div class="ap-label">REGION</div>
+                                <select class="ap-dropdown">
+                                    <option value="">All Regions</option>
+                                    <option value="India S">India South</option>
+                                    <option value="India N">India North</option>
+                                    <option value="India W">India West</option>
+                                    <option value="US East">US East</option>
+                                    <option value="LATAM">LATAM</option>
+                                    <option value="APAC">APAC</option>
+                                    <option value="ANZ">ANZ</option>
+                                </select>
                             </div>
+                    
+                            <div class="ap-filter-group">
+                                <div class="ap-label">DIRECT MANAGER</div>
+                                <select class="ap-dropdown" id="managerSelect" onchange="handleManagerChange(this)">
+                                    <option value="">Select Manager...</option>
+                                    <option value="Peter">Peter Balaji</option>
+                                    <option value="Logan">Logan</option>
+                                    <option value="Jinil">Jinil</option>
+                                </select>
+                            </div>
+                    
+                            <div class="ap-filter-group">
+                                <div class="ap-label">REPORTEES</div>
+                                <div id="selectedReportees" class="ap-chip-container"></div>
+                            </div>
+                    
+                            <div class="ap-or-divider"><span>OR</span></div>
+                    
+                            <div class="ap-filter-group">
+                                <div class="ap-label">SEARCH AGENT</div>
+                                <input type="text" class="ap-text-input" placeholder="Enter agent name...">
+                            </div>
+                        </div> <div class="ap-main-grid" id="apCardGrid">
                         </div>
-                    
-                        <div class="ap-main-grid" id="apCardGrid">
-                            </div>
                     </div>
                 </div>
 
