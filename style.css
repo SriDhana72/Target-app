@@ -2232,8 +2232,8 @@ input:checked + .setting-slider:before {
     right: -10px;
     width: max-content;
     max-width: 220px;
-    background: #1e293b;
-    color: #f8fafc;
+    background: #52b788;
+    color: #ffffff;
     padding: 8px 12px;
     border-radius: 6px;
     font-size: 11px;
@@ -2317,10 +2317,32 @@ input:checked + .setting-slider:before {
 .tp-val { font-size: 13px; font-weight: 800; color: #111827; }
 
 /* Progress Bar */
-.tp-p-wrap { display: flex; align-items: center; gap: 12px; }
-.tp-p-bar { flex: 1; max-width: 60px; height: 5px; background: #f3f4f6; border-radius: 4px; overflow: hidden; }
-.tp-p-fill { height: 100%; border-radius: 4px; }
-.tp-p-pct { font-size: 12px; font-weight: 800; width: 30px; }
+.tp-p-wrap { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+}
+
+.tp-p-bar { 
+    flex: 1; 
+    max-width: 72px;     /* Slightly wider to match screenshot */
+    height: 8px;         /* Thicker pill shape */
+    background: #f1f5f9; /* Softer, lighter gray background */
+    border-radius: 10px; /* Fully rounded ends */
+}
+
+.tp-p-fill { 
+    height: 100%; 
+    border-radius: 10px; /* Fully rounded inner fill */
+    min-width: 8px;      /* Forces low values (like 4%) to remain a perfect circle */
+}
+
+.tp-p-pct { 
+    font-size: 12px; 
+    font-weight: 600; 
+    width: 36px;         /* Fixed width to prevent jumping */
+    text-align: right;   /* Right-aligns the percentages for a clean column */
+}
 
 /* Gap & Status */
 .tp-gap { font-size: 13px; font-weight: 800; color: #ef4444; text-align: right; }

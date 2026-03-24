@@ -473,92 +473,113 @@ function setTpView(view, btn) {
     applyTpFilters();
 }
 
-/* ════ UPDATED TABLE RENDERING ════ */
+/* ════ EXACT PROTOTYPE TABLE RENDERING ════ */
 function renderLbRows() {  
-    // Fallback to REPS if window._lbReps hasn't been populated yet
-    const reps  = window._lbReps || REPS.filter(r => r.type === 'Sales').sort((a,b) => b.att - a.att);  
-    const shown = reps.slice(0, lbShown);  
-    const wrap  = document.getElementById('lbShowMoreWrap');  
-    const btn   = document.getElementById('lbShowMoreBtn');
+  const reps  = window._lbReps || REPS.filter(r => r.type === activeTpType);  
+  const shown = reps.slice(0, lbShown);  
+  const wrap  = document.getElementById('lbShowMoreWrap');  
+  const btn   = document.getElementById('lbShowMoreBtn');
 
-    if(reps.length === 0){    
-        document.getElementById('lbBody').innerHTML = `
-        <div class="tp-empty" style="padding: 40px; text-align: center; color: #6b7280; font-size: 13px;">
-            No results found. Adjust filters to see data.
-        </div>`;    
-        if(wrap) wrap.style.display = 'none';    
-        return;  
-    }
+  if(reps.length === 0){    
+      document.getElementById('lbBody').innerHTML = `
+      <div class="tp-empty" style="padding: 40px; text-align: center; color: #6b7280; font-size: 13px;">
+          No results found. Adjust filters to see data.
+      </div>`;    
+      if(wrap) wrap.style.display = 'none';    
+      return;  
+  }
 
-    const fmtNumber = (val) => {
-        if (val >= 1) return '$' + val.toFixed(1).replace('.0','') + 'M';
-        return '$' + (val * 1000).toFixed(1).replace('.0','') + 'K';
-    };
+  // Mock data mapped EXACTLY to the numbers in your screenshot
+  const mockData = [
+      { t: 5.0,  a: 0.1813, p: 4 },
+      { t: 11.3, a: 0.450,  p: 4 },
+      { t: 2.5,  a: 0.5296, p: 22 },
+      { t: 1.3,  a: 0.2551, p: 19 },
+      { t: 2.5,  a: 0.1125, p: 5 },
+      { t: 3.8,  a: 0.150,  p: 4 },
+      { t: 2.0,  a: 0.0688, p: 3 },
+      { t: 3.5,  a: 0.1688, p: 5 },
+      { t: 3.9,  a: 0.7399, p: 19 },
+      { t: 2.4,  a: 0.6201, p: 26 },
+      { t: 4.4,  a: 0.1938, p: 4 },
+      { t: 1.8,  a: 1.400,  p: 82 },  // The orange 82% bar
+      { t: 1.6,  a: 0.100,  p: 6 },
+      { t: 1.3,  a: 0.075,  p: 6 },
+      { t: 1.6,  a: 0.200,  p: 12 }
+  ];
 
-    // Grab up to 3 initials for names like "Sanjay Thomas Varghese" -> STV
-    const getMultiInitials = (name) => {
-        return name.split(' ').map(x => x[0]).join('').toUpperCase().slice(0, 3);
-    };
+  const fmtNumber = (val) => {
+      const absVal = Math.abs(val);
+      if (absVal >= 1) return '$' + absVal.toFixed(1).replace('.0','') + 'M';
+      return '$' + (absVal * 1000).toFixed(1).replace('.0','') + 'K';
+  };
 
-    // Exact SVG for the tiny blue circle badge from your screenshot
-    const swapSvg = `<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 4 21 8 17 12"></polyline><line x1="21" y1="8" x2="9" y2="8"></line><polyline points="7 20 3 16 7 12"></polyline><line x1="3" y1="16" x2="15" y2="16"></line></svg>`;
+  const getMultiInitials = (name) => {
+      return name.split(' ').map(x => x[0]).join('').toUpperCase().slice(0, 3);
+  };
 
-    document.getElementById('lbBody').innerHTML = shown.map((r, index) => {    
-        const targetVal   = parseFloat((r.rev / (Math.min(r.att, 78) / 100)).toFixed(2));    
-        const achievedVal = r.rev;    
-        const gapVal      = parseFloat((achievedVal - targetVal).toFixed(2));    
-        const gapFmt      = gapVal < 0 ? "-$" + Math.abs(gapVal).toFixed(1) + "M" : "+$" + Math.abs(gapVal).toFixed(1) + "M";
-        const pct         = parseFloat(((achievedVal / targetVal) * 100).toFixed(1));    
-        const barPct      = Math.min(pct, 100);    
-        
-        const progCol = pct < 50 ? '#ef4444' : '#f59e0b'; 
-        const roleTxt = r.tenure >= 5 ? 'Sales Manager' : 'Business Unit';
+  const swapSvg = `<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 4 21 8 17 12"></polyline><line x1="21" y1="8" x2="9" y2="8"></line><polyline points="7 20 3 16 7 12"></polyline><line x1="3" y1="16" x2="15" y2="16"></line></svg>`;
 
-        return `
-        <div class="tp-row-new" onclick="inspectRep(${JSON.stringify(r).replace(/"/g,'&quot;')})">
-            
-            <div class="tp-n-wrap">
-                <div class="tp-n-av">
-                    ${getMultiInitials(r.name)}
-                    <div class="tp-n-dot">${swapSvg}</div>
-                </div>
-                <div style="display:flex; align-items:center;">
-                    <div class="tp-n-name">${r.name}</div>
-                    <div class="tp-n-badge">Reassigned</div>
-                </div>
-            </div>
-            
-            <div class="tp-role">${roleTxt}</div>
-            <div class="tp-val">${fmtNumber(targetVal)}</div>
-            <div class="tp-val">${fmtNumber(achievedVal)}</div>
-            
-            <div class="tp-p-wrap">
-                <div class="tp-p-bar"><div class="tp-p-fill" style="width:${barPct}%; background:${progCol};"></div></div>
-                <div class="tp-p-pct" style="color:${progCol};">${pct.toFixed(0)}%</div>
-            </div>
-            
-            <div class="tp-gap">${gapFmt}</div>
-            
-            <div class="tp-status-wrap">
-                <div class="tp-status-pill">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 17 22 17 22 11"></polyline></svg>
-                    Behind
-                </div>
-            </div>
-            
-            <div class="tp-inc"><span class="tp-inc-sym">$</span> 0</div>
-        </div>`;  
-    }).join('');
+  document.getElementById('lbBody').innerHTML = shown.map((r, index) => {    
+      
+      // Grab the exact math from the mock array so it matches the design perfectly
+      const mock = mockData[index % mockData.length];
+      const targetVal   = mock.t;
+      const achievedVal = mock.a;
+      const pct         = mock.p;
+      
+      const gapVal      = achievedVal - targetVal;
+      const gapFmt      = gapVal < 0 ? "-" + fmtNumber(gapVal) : "+" + fmtNumber(gapVal);
+      
+      // Red for < 50%, Orange for >= 50%
+      const progCol = pct < 50 ? '#ef4444' : '#f59e0b'; 
+      const roleTxt = r.tenure >= 5 ? 'Sales Manager' : 'Business Unit';
 
-    const remaining = reps.length - lbShown;  
-    if(wrap && btn){    
-        if(remaining > 0){      
-            wrap.style.display = 'block';      
-            btn.textContent = `Show ${Math.min(remaining,10)} more  ·  ${remaining} remaining`;    
-        } else {      
-            wrap.style.display = 'none';    
-        }  
-    }
+      return `
+      <div class="tp-row-new" onclick="inspectRep(${JSON.stringify(r).replace(/"/g,'&quot;')})">
+          
+          <div class="tp-n-wrap">
+              <div class="tp-n-av">
+                  ${getMultiInitials(r.name)}
+                  <div class="tp-n-dot">${swapSvg}</div>
+              </div>
+              <div style="display:flex; align-items:center;">
+                  <div class="tp-n-name">${r.name}</div>
+                  <div class="tp-n-badge">Reassigned</div>
+              </div>
+          </div>
+          
+          <div class="tp-role">${roleTxt}</div>
+          <div class="tp-val">${fmtNumber(targetVal)}</div>
+          <div class="tp-val">${fmtNumber(achievedVal)}</div>
+          
+          <div class="tp-p-wrap">
+              <div class="tp-p-bar"><div class="tp-p-fill" style="width:${pct}%; background:${progCol};"></div></div>
+              <div class="tp-p-pct" style="color:${progCol};">${pct}%</div>
+          </div>
+          
+          <div class="tp-gap">${gapFmt}</div>
+          
+          <div class="tp-status-wrap">
+              <div class="tp-status-pill">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 17 22 17 22 11"></polyline></svg>
+                  Behind
+              </div>
+          </div>
+          
+          <div class="tp-inc"><span class="tp-inc-sym">$</span> 0</div>
+      </div>`;  
+  }).join('');
+
+  const remaining = reps.length - lbShown;  
+  if(wrap && btn){    
+      if(remaining > 0){      
+          wrap.style.display = 'block';      
+          btn.textContent = `Show ${Math.min(remaining,10)} more  ·  ${remaining} remaining`;    
+      } else {      
+          wrap.style.display = 'none';    
+      }  
+  }
 }
   
   function refreshTable(btn){  
@@ -1040,10 +1061,10 @@ const apAgents = [
 const apMetrics = [
   { title: "TOTAL REVENUE ACHIEVED", val: "$128.4K", mom: "115% 🎯", rank: "🏆 2nd of 12", color: "#a3c0a3", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Total closed-won revenue for the selected period." },
   { title: "NEW BUSINESS REVENUE", val: "$85.0K", mom: "108% 🎯", rank: "🏆 1st of 12", color: "#92b4d2", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Revenue generated strictly from new customers." },
-  { title: "UPSELL REVENUE", val: "$43.4K", mom: "92% ⚠️", rank: "5th of 12", color: "#b4a7d6", trend: "down", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Additional revenue from existing customer expansion." },
+  { title: "UPSELL REVENUE", val: "$43.4K", mom: "105% 🎯", rank: "5th of 12", color: "#b4a7d6", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Additional revenue from existing customer expansion." },
   { title: "AVERAGE DEAL SIZE", val: "$14.2K", mom: "▲ $1.2K", rank: "Top 10%", color: "#d9d282", trend: "up", momLbl: "VS LAST QUARTER", rankLbl: "PERCENTILE", desc: "Average monetary value of closed-won deals." },
   { title: "PIPELINE GENERATED", val: "$450.5K", mom: "3.5x 📊", rank: "🏆 1st of 12", color: "#95c2b7", trend: "up", momLbl: "COVERAGE RATIO", rankLbl: "TEAM RANK", desc: "Total value of new qualified opportunities created." },
-  { title: "OVERALL WIN RATE", val: "68.4%", mom: "▲ 4.2 pp", rank: "3rd of 12", color: "#e0a3a3", trend: "up", momLbl: "VS TEAM AVG", rankLbl: "TEAM RANK", desc: "Percentage of total opportunities successfully closed." }
+  { title: "OVERALL WIN RATE", val: "68.4%", mom: "▲ 4.2%", rank: "3rd of 12", color: "#e0a3a3", trend: "up", momLbl: "VS TEAM AVG", rankLbl: "TEAM RANK", desc: "Percentage of total opportunities successfully closed." }
 ];
 
 function renderAPDashboard() {
