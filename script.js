@@ -928,12 +928,12 @@ const apAgents = [
 ];
 
 const apMetrics = [
-  { title: "PERFORMANCE SCORE", val: "128.4%", mom: "▲ 23.4 pp", rank: "2 of 4", color: "#a3c0a3", trend: "up" },
-  { title: "CONVERSION", val: "15.4%", mom: "▼ 2.8 pp", rank: "1 of 4", color: "#92b4d2", trend: "down" },
-  { title: "VOLUME CONVERSION", val: "16.21%", mom: "▼ 3.0 pp", rank: "2 of 4", color: "#b4a7d6", trend: "down" },
-  { title: "LEADS", val: "52", mom: "▲ 4", rank: "2 of 4", color: "#d9d282", trend: "up" },
-  { title: "SALES VOLUME", val: "15,821 €", mom: "▼ 168 €", rank: "2 of 4", color: "#95c2b7", trend: "down" },
-  { title: "CANCELLATION RATE", val: "0.0%", mom: "▼ 7.7 pp", rank: "1 of 4", color: "#e0a3a3", trend: "down" }
+  { title: "TOTAL REVENUE ACHIEVED", val: "$128.4K", mom: "115% 🎯", rank: "🏆 2nd of 12", color: "#a3c0a3", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Total closed-won revenue for the selected period." },
+  { title: "NEW BUSINESS REVENUE", val: "$85.0K", mom: "108% 🎯", rank: "🏆 1st of 12", color: "#92b4d2", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Revenue generated strictly from new customers." },
+  { title: "UPSELL REVENUE", val: "$43.4K", mom: "92% ⚠️", rank: "5th of 12", color: "#b4a7d6", trend: "down", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Additional revenue from existing customer expansion." },
+  { title: "AVERAGE DEAL SIZE", val: "$14.2K", mom: "▲ $1.2K", rank: "Top 10%", color: "#d9d282", trend: "up", momLbl: "VS LAST QUARTER", rankLbl: "PERCENTILE", desc: "Average monetary value of closed-won deals." },
+  { title: "PIPELINE GENERATED", val: "$450.5K", mom: "3.5x 📊", rank: "🏆 1st of 12", color: "#95c2b7", trend: "up", momLbl: "COVERAGE RATIO", rankLbl: "TEAM RANK", desc: "Total value of new qualified opportunities created." },
+  { title: "OVERALL WIN RATE", val: "68.4%", mom: "▲ 4.2 pp", rank: "3rd of 12", color: "#e0a3a3", trend: "up", momLbl: "VS TEAM AVG", rankLbl: "TEAM RANK", desc: "Percentage of total opportunities successfully closed." }
 ];
 
 function renderAPDashboard() {
@@ -941,7 +941,8 @@ function renderAPDashboard() {
   const agentList = document.getElementById('apAgentList');
   if (agentList) {
       agentList.innerHTML = apAgents.map(name => `
-<div class="ap-agent-row" onclick="selectAPAgent(this, '${name}')" style="padding: 6px; margin-left: -6px;">              <div class="ap-agent-av"></div>
+          <div class="ap-agent-row" onclick="selectAPAgent(this, '${name}')" style="padding: 6px; margin-left: -6px;">
+              <div class="ap-agent-av"></div>
               <div class="ap-agent-name">${name}</div>
           </div>
       `).join('');
@@ -954,27 +955,28 @@ function renderAPDashboard() {
           <div class="ap-card">
               <div class="ap-card-head">
                   <div class="ap-card-title">${m.title}</div>
-                  <div class="ap-info-sm">i</div>
+                  <div class="ap-info-sm" data-desc="${m.desc}">i</div>
               </div>
               <div class="ap-card-val" style="color: ${m.color}">${m.val}</div>
               
               <div class="ap-chart-area">
-<div class="ap-bar-chart">
-    ${[40, 70, 45, 90, 60, 80, 50, 100, 75, 85, 60, 95].map(h => 
-        `<div class="ap-bar-col">
-            <div class="ap-bar-fill" style="height: ${h}%; background: ${m.color};"></div>
-        </div>`
-    ).join('')}
-</div>              </div>
+                  <div class="ap-bar-chart">
+                      ${[40, 70, 45, 90, 60, 80, 50, 100, 75, 85, 60, 95].map(h => 
+                          `<div class="ap-bar-col">
+                              <div class="ap-bar-fill" style="height: ${h}%; background: ${m.color};"></div>
+                          </div>`
+                      ).join('')}
+                  </div>
+              </div>
 
               <div class="ap-card-foot">
                   <div class="ap-foot-col">
-                      <div class="ap-foot-lbl">MONTH OVER MONTH</div>
+                      <div class="ap-foot-lbl">${m.momLbl}</div>
                       <div class="ap-foot-box ${m.trend}">${m.mom}</div>
                   </div>
                   <div class="ap-foot-col">
-                      <div class="ap-foot-lbl">CATEGORY RANK</div>
-                      <div class="ap-foot-box rank-box">🥈 ${m.rank}</div>
+                      <div class="ap-foot-lbl">${m.rankLbl}</div>
+                      <div class="ap-foot-box rank-box">${m.rank}</div>
                   </div>
               </div>
           </div>
