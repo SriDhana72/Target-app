@@ -1,63 +1,89 @@
 /* ════ QUARTERLY BREAKDOWN HIERARCHY LOGIC ════ */
 function toggleDropdown(dataId, arrowId, event) {
-    if (event.target.closest('.filter-button-group')) { return; }
+    if (event.target.closest('.filter-button-group') || event.target.closest('input')) { return; }
     const nestedData = document.getElementById(dataId);
     const arrowIcon = document.getElementById(arrowId);
+    if (!nestedData) return;
     if (nestedData.classList.contains('hidden')) {
         nestedData.classList.remove('hidden');
-        arrowIcon.classList.add('rotate-90');
+        if(arrowIcon) arrowIcon.classList.add('rotate-90');
     } else {
         nestedData.classList.add('hidden');
-        arrowIcon.classList.remove('rotate-90');
+        if(arrowIcon) arrowIcon.classList.remove('rotate-90');
     }
 }
 
 let currentGlobalFilter = 'all';
 
+// Updated data to match the new Top Performer Names
 const summaryData = {
-    peter: {
+    ananya: {
         target:    { all: '$1.92M',   my_target: '$400K', my_team: '$1.52M' },
         achieved:  { all: '$1.50M',   my_target: '$288K', my_team: '$1.21M' },
         gap:       { all: '-$420K',   my_target: '-$112K', my_team: '-$308K' },
-        percentage:{ all: '78%',     my_target: '72%',   my_team: '80%' }
+        percentage:{ all: '78%',      my_target: '72%',   my_team: '80%' }
     },
-    logan: {
+    kavitha: {
         target:    { all: '$750.0K', my_target: '$200K', my_team: '$550.0K' },
-        achieved:  { all: '$525.0K', my_target: '$145K', my_team: '$380.0K' },
-        gap:       { all: '-$225K',   my_target: '-$55K',  my_team: '-$170K' },
-        percentage:{ all: '70%',     my_target: '73%',   my_team: '69%' }
+        achieved:  { all: '$525.0K', my_target: '$160K', my_team: '$365.0K' },
+        gap:       { all: '-$225.0K',my_target: '-$40K', my_team: '-$185.0K' },
+        percentage:{ all: '70%',      my_target: '80%',  my_team: '66%' }
     },
-    jinil: {
-        target:    { all: '$765.0K', my_target: '$210K', my_team: '$555.0K' },
-        achieved:  { all: '$550.0K', my_target: '$152K', my_team: '$398.0K' },
-        gap:       { all: '-$215K',   my_target: '-$58K',  my_team: '-$157K' },
-        percentage:{ all: '72%',     my_target: '72%',   my_team: '72%' }
+    arjun: {
+        target:    { all: '$350.0K', my_target: '$350.0K', my_team: '$0' },
+        achieved:  { all: '$255.5K', my_target: '$255.5K', my_team: '$0' },
+        gap:       { all: '-$94.5K', my_target: '-$94.5K', my_team: '$0' },
+        percentage:{ all: '73%',      my_target: '73%',    my_team: '0%' }
     },
-    binny: {
-        target:    { all: '$290.0K', my_target: '$290.0K', my_team: '$0' },
-        achieved:  { all: '$210.0K', my_target: '$210.0K', my_team: '$0' },
-        gap:       { all: '-$80K',   my_target: '-$80K',   my_team: '$0' },
-        percentage:{ all: '72%',     my_target: '72%',     my_team: 'N/A' }
+    rajesh: {
+        target:    { all: '$1.45M',   my_target: '$450K', my_team: '$1.00M' },
+        achieved:  { all: '$1.33M',   my_target: '$405K', my_team: '$925K' },
+        gap:       { all: '-$120K',   my_target: '-$45K', my_team: '-$75K' },
+        percentage:{ all: '91%',      my_target: '90%',   my_team: '92%' }
     },
-    foumin: {
-        target:    { all: '$260.0K', my_target: '$260.0K', my_team: '$0' },
-        achieved:  { all: '$188.0K', my_target: '$188.0K', my_team: '$0' },
-        gap:       { all: '-$72K',   my_target: '-$72K',   my_team: '$0' },
-        percentage:{ all: '72%',     my_target: '72%',     my_team: 'N/A' }
-    },
-    dhana: {
-        target:    { all: '$285.0K', my_target: '$285.0K', my_team: '$0' },
-        achieved:  { all: '$218.0K', my_target: '$218.0K', my_team: '$0' },
-        gap:       { all: '-$67K',   my_target: '-$67K',   my_team: '$0' },
-        percentage:{ all: '76%',     my_target: '76%',     my_team: 'N/A' }
-    },
-    dhruv: {
-        target:    { all: '$270.0K', my_target: '$270.0K', my_team: '$0' },
-        achieved:  { all: '$193.0K', my_target: '$193.0K', my_team: '$0' },
-        gap:       { all: '-$77K',   my_target: '-$77K',   my_team: '$0' },
-        percentage:{ all: '71%',     my_target: '71%',     my_team: 'N/A' }
+    meena: {
+        target:    { all: '$400.0K', my_target: '$400.0K', my_team: '$0' },
+        achieved:  { all: '$380.0K', my_target: '$380.0K', my_team: '$0' },
+        gap:       { all: '-$20.0K', my_target: '-$20.0K', my_team: '$0' },
+        percentage:{ all: '95%',      my_target: '95%',    my_team: '0%' }
     }
 };
+
+/* --- NEW SEARCH HIGHLIGHT FUNCTION --- */
+function searchQuarterlyName() {
+    const term = document.getElementById('qbSearchInput').value.toLowerCase();
+    const nodes = document.querySelectorAll('#quarterly-breakdown-section .hier-node');
+
+    nodes.forEach(node => {
+        const nameEl = node.querySelector('.node-name');
+        if (!nameEl) return;
+
+        const nameText = nameEl.textContent.toLowerCase();
+        
+        if (term.length > 0 && nameText.includes(term)) {
+            // Add Highlight
+            node.classList.add('qb-highlight-green');
+            
+            // Auto-expand the matched node
+            const onclickAttr = node.getAttribute('onclick');
+            if(onclickAttr) {
+                const match = onclickAttr.match(/'([^']+)'/);
+                if (match && match[1]) {
+                    const dataPanel = document.getElementById(match[1]);
+                    const arrowIcon = node.querySelector('.node-arrow');
+                    
+                    if (dataPanel && dataPanel.classList.contains('hidden')) {
+                        dataPanel.classList.remove('hidden');
+                        if (arrowIcon) arrowIcon.classList.add('rotate-90');
+                    }
+                }
+            }
+        } else {
+            // Remove Highlight if no match or search is empty
+            node.classList.remove('qb-highlight-green');
+        }
+    });
+}
 
 const quarterlyData = {
     peter: {
@@ -157,4 +183,167 @@ function setIndividualFilter(person, filterType, element) {
 window.addEventListener('DOMContentLoaded', () => {
     const globalBtn = document.querySelector('#global-filter-container button');
     if(globalBtn) setGlobalFilter('all', globalBtn);
+});
+
+function searchQuarterlyBreakdown(term) {
+    term = term.toLowerCase().trim();
+    const allNodes = document.querySelectorAll('.hier-node');
+    const allDataPanels = document.querySelectorAll('.hierarchy-container, .qb-data-panel');
+
+    // 1. Reset highlights if search is empty
+    if (!term) {
+        allNodes.forEach(node => {
+            node.style.background = '';
+            node.style.borderColor = '';
+        });
+        return;
+    }
+
+    // 2. Find the matched person
+    let matchedNode = null;
+    allNodes.forEach(node => {
+        const nameEl = node.querySelector('.node-name');
+        if (nameEl) {
+            // Extract text without the inner span path
+            let rawName = "";
+            nameEl.childNodes.forEach(child => {
+                if (child.nodeType === 3) rawName += child.textContent; 
+            });
+            if (rawName.toLowerCase().includes(term)) {
+                matchedNode = node;
+            }
+        }
+    });
+
+    if (!matchedNode) return;
+
+    // 3. Collapse absolutely ALL panels first (This fixes your wrapping issue)
+    allDataPanels.forEach(panel => panel.classList.add('hidden'));
+    allNodes.forEach(node => {
+        node.style.background = 'var(--surface)';
+        node.style.borderColor = 'var(--border)';
+        const arrow = node.querySelector('.node-arrow');
+        if (arrow) arrow.classList.remove('rotate-90');
+    });
+
+    // 4. Highlight the searched person
+    matchedNode.style.background = 'rgba(46, 168, 122, 0.08)'; 
+    matchedNode.style.borderColor = 'var(--green)';
+
+    // 5. Expand the searched person's specific data box
+    const targetData = matchedNode.nextElementSibling;
+    if (targetData && (targetData.classList.contains('hierarchy-container') || targetData.classList.contains('qb-data-panel'))) {
+        targetData.classList.remove('hidden');
+        const arrow = matchedNode.querySelector('.node-arrow');
+        if (arrow) arrow.classList.add('rotate-90');
+    }
+
+    // 6. Walk up the tree and expand ONLY their direct managers/parents
+    let currentParent = matchedNode.parentElement;
+    while (currentParent) {
+        if (currentParent.classList.contains('hierarchy-container') || currentParent.classList.contains('qb-data-panel')) {
+            currentParent.classList.remove('hidden');
+            
+            const parentNode = currentParent.previousElementSibling;
+            if (parentNode && parentNode.classList.contains('hier-node')) {
+                const arrow = parentNode.querySelector('.node-arrow');
+                if (arrow) arrow.classList.add('rotate-90');
+            }
+        }
+        currentParent = currentParent.parentElement;
+    }
+}
+
+// FIX: Auto-move Quarterly Breakdown and update View Details button
+window.addEventListener('DOMContentLoaded', () => {
+    // 1. Find the Quarterly Breakdown card
+    const qbCard = Array.from(document.querySelectorAll('.acard')).find(
+        card => card.innerHTML.includes('Quarterly Breakdown') && card.innerHTML.includes('global-filter-container')
+    );
+    
+    // 2. Find the Team Performance block in the Overview tab
+    const tpWrap = document.querySelector('.tp-wrap');
+
+    // 3. Move the card right below Team Performance
+    if (qbCard && tpWrap) {
+        qbCard.id = 'quarterly-breakdown-card';
+        qbCard.style.marginTop = '24px';
+        tpWrap.parentNode.insertBefore(qbCard, tpWrap.nextSibling);
+    }
+
+    // 4. Update the View Details button to scroll to it smoothly
+    const viewBtn = document.querySelector('.tp-view-link');
+    if (viewBtn) {
+        // Clone button and FORCE remove the old onclick attribute
+        const newBtn = viewBtn.cloneNode(true);
+        newBtn.removeAttribute('onclick'); 
+        viewBtn.parentNode.replaceChild(newBtn, viewBtn);
+        
+        newBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Ensure we stay on the Overview tab
+            const overviewTabBtn = document.querySelectorAll('.nav-item')[0];
+            if (typeof goTo === 'function') goTo('home', overviewTabBtn);
+
+            // Scroll to the card
+            const target = document.getElementById('quarterly-breakdown-card');
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // Briefly flash a border so you see what changed
+                target.style.transition = 'box-shadow 0.4s ease';
+                target.style.boxShadow = '0 0 0 3px var(--accent)';
+                setTimeout(() => target.style.boxShadow = 'none', 1200);
+            }
+        });
+    }
+});
+// Auto-fill empty quarterly tables with reference data
+window.addEventListener('DOMContentLoaded', () => {
+    const tableBodies = document.querySelectorAll('.quarter-table tbody');
+    const referenceData = `
+        <tr>
+            <td>Q1</td>
+            <td>$450K</td>
+            <td style="font-weight: 700; color: var(--t1);">$420K</td>
+            <td style="font-weight: 700; color: var(--t1);">-$30K</td>
+            <td>$500K</td>
+            <td>$480K</td>
+            <td style="font-weight: 700; color: var(--t1);">93%</td>
+        </tr>
+        <tr>
+            <td>Q2</td>
+            <td>$480K</td>
+            <td style="font-weight: 700; color: var(--t1);">$450K</td>
+            <td style="font-weight: 700; color: var(--t1);">-$30K</td>
+            <td>$550K</td>
+            <td>$500K</td>
+            <td style="font-weight: 700; color: var(--t1);">94%</td>
+        </tr>
+        <tr>
+            <td>Q3</td>
+            <td>$500K</td>
+            <td style="font-weight: 700; color: var(--t1);">$480K</td>
+            <td style="font-weight: 700; color: var(--t1);">-$20K</td>
+            <td>$600K</td>
+            <td>$520K</td>
+            <td style="font-weight: 700; color: var(--t1);">96%</td>
+        </tr>
+        <tr>
+            <td style="border-bottom: none;">Q4</td>
+            <td style="border-bottom: none;">$500K</td>
+            <td style="font-weight: 700; color: var(--t1); border-bottom: none;">$0</td>
+            <td style="font-weight: 700; color: var(--t1); border-bottom: none;">-$500K</td>
+            <td style="border-bottom: none;">$650K</td>
+            <td style="border-bottom: none;">$550K</td>
+            <td style="font-weight: 700; color: var(--t1); border-bottom: none;">0%</td>
+        </tr>
+    `;
+    
+    tableBodies.forEach(tbody => {
+        if (tbody.innerHTML.trim() === '') {
+            tbody.innerHTML = referenceData;
+        }
+    });
 });

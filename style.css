@@ -2433,3 +2433,17 @@ input:checked + .setting-slider:before {
 .tp-clear-btn:hover {
     color: #0f172a; /* Darkens on hover */
 }
+/* ════ QUARTERLY BREAKDOWN HIGHLIGHT ════ */
+.qb-highlight-green {
+    background-color: #ecfdf5 !important; /* Soft mint green */
+    border-left-color: #10b981 !important; /* Bold solid green edge */
+    transition: all 0.2s ease-in-out;
+}
+
+.qb-highlight-green:hover {
+    background-color: #d1fae5 !important;
+}
+
+.qb-highlight-green .node-name {
+    color: #065f46 !important; /* Deep forest green for text */
+}
