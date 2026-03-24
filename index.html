@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="insight-cards.css">
     <link rel="stylesheet" href="waterfall-board.css">
+    <!-- LINKED NEW KPI STYLES HERE -->
+    <link rel="stylesheet" href="home-kpi.css">
 </head>
 <body>
 
@@ -116,62 +118,123 @@
                         <div class="home-subtext">FY2024-25 Q4 · Last updated just now</div>          
                     </div>          
                     <div class="home-hero-badge">            
-                        <span class="home-hero-num">$382M</span>            
-                        <span class="home-hero-lbl" style="margin-bottom: 12px;">Q4 Revenue · 89% of target</span>
-                        <button onclick="goTo('orgchart', document.querySelectorAll('.nav-item')[3]); setTimeout(() => document.getElementById('org-targets-section').scrollIntoView({behavior:'smooth', block:'start'}), 100);" class="btn-accent" style="padding: 8px 16px; font-size: 11px;">
-                            🎯 Set Target
+                        <button onclick="goTo('orgchart', document.querySelectorAll('.nav-item')[3]); setTimeout(() => document.getElementById('org-targets-section').scrollIntoView({behavior:'smooth', block:'start'}), 100);" class="btn-accent" style="padding: 10px 20px; font-size: 13px;">
+                            🎯 Configure Targets
                         </button>
                     </div>        
                 </div>
 
-                <div class="kpi-bento">          
-                    <div class="kpi-bento-card kb-blue kb-wide">            
-                        <div class="kb-label">Total Targeted Revenue</div>            
-                        <div class="kb-value">$382M</div>            
-                        <div class="kb-sub">              
-                            <span class="kb-delta up">↑ 14.2%</span> vs last quarter            
-                        </div>            
-                        <div class="kb-mini-bar-wrap"><div class="kb-mini-bar" style="width:89%"></div></div>            
-                        <div class="kb-bar-label">89% of $428M target</div>          
-                    </div>          
-                    <div class="kpi-bento-card kb-green">            
-                        <div class="kb-label">Deals Closed</div>            
-                        <div class="kb-value">1,248</div>            
-                        <div class="kb-sub"><span class="kb-delta up">↑ 142</span> deals this quarter</div>          
-                    </div>          
-                    <div class="kpi-bento-card kb-amber">            
-                        <div class="kb-label">Win Rate</div>            
-                        <div class="kb-value">64.8%</div>            
-                        <div class="kb-sub"><span class="kb-delta up">↑ 3.8pp</span> QoQ improvement</div>          
-                    </div>          
-                    <div class="kpi-bento-card kb-purple">            
-                        <div class="kb-label">Pipeline</div>            
-                        <div class="kb-value">$1,240M</div>            
-                        <div class="kb-sub">3.2× revenue coverage</div>          
-                    </div>          
-                    <div class="kpi-bento-card kb-teal">            
-                        <div class="kb-label">Avg Rev / Rep</div>            
-                        <div class="kb-value">$14.2M</div>            
-                        <div class="kb-sub"><span class="kb-delta up">↑ 9.6%</span> vs Q3</div>          
-                    </div>          
-                    <div class="kpi-bento-card kb-red">            
-                        <div class="kb-label">At-Risk Deals</div>            
-                        <div class="kb-value">38</div>            
-                        <div class="kb-sub">$42M exposure</div>          
-                    </div>          
-                    <div class="kpi-bento-card kb-orange">            
-                        <div class="kb-label">Commission Pool</div>            
-                        <div class="kb-value">$18.4M</div>            
-                        <div class="kb-sub">Accrued YTD</div>          
-                    </div>        
+                <!-- NEW UNIFIED CURRENT QUARTER KPI SHOWCASE -->
+                <div class="kpi-showcase">
+                    
+                    <div class="kpi-q-tag">
+                        <span class="live-dot"></span> LIVE: Q1 2026 PERFORMANCE
+                    </div>
+
+                    <div class="kpi-grid-new">
+                        
+                        <!-- CARD 1: Core Revenue -->
+                        <div class="ksc-card rev">
+                            <div class="ksc-title">Target Attainment <span style="color:var(--accent2); background:var(--surface2); padding:4px 8px; border-radius:6px;">89.2%</span></div>
+                            
+                            <div class="ksc-rev-main">
+                                <div class="ksc-rev-val">$382.0M</div>
+                                <div class="ksc-rev-lbl">Achieved</div>
+                            </div>
+
+                            <div class="ksc-progress-bg">
+                                <div class="ksc-progress-fill" id="kpi-rev-bar"></div>
+                            </div>
+
+                            <div class="ksc-rev-breakdown">
+                                <div class="ksc-rb-item">
+                                    <div class="ksc-rb-lbl">Total Target</div>
+                                    <div class="ksc-rb-val" style="color:var(--t2)">$428.0M</div>
+                                </div>
+                                <div class="ksc-rb-item" style="text-align: right;">
+                                    <div class="ksc-rb-lbl" style="color:var(--red)">Remaining Gap</div>
+                                    <div class="ksc-rb-val" style="color:var(--red)">$46.0M</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARD 2: Team Health -->
+                        <div class="ksc-card team">
+                            <div class="ksc-title">Team Health</div>
+                            
+                            <div class="ksc-team-total">27</div>
+                            <div class="ksc-team-sub">Total Active Team Members</div>
+
+                            <div class="ksc-team-stack">
+                                <div class="kts-segment ontrack" id="kpi-team-track"></div>
+                                <div class="kts-segment atrisk" id="kpi-team-risk"></div>
+                                <div class="kts-segment behind" id="kpi-team-behind"></div>
+                            </div>
+
+                            <div class="ksc-team-legend">
+                                <div class="ktl-item">
+                                    <span><span class="ktl-dot" style="background:var(--green)"></span> On Track</span>
+                                    <span style="color:var(--green)">14 reps</span>
+                                </div>
+                                <div class="ktl-item">
+                                    <span><span class="ktl-dot" style="background:var(--amber)"></span> At Risk</span>
+                                    <span style="color:var(--amber)">9 reps</span>
+                                </div>
+                                <div class="ktl-item">
+                                    <span><span class="ktl-dot" style="background:var(--red)"></span> Behind</span>
+                                    <span style="color:var(--red)">4 reps</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CARD 3: Operations & Missing Metrics -->
+                        <div class="ksc-card ops">
+                            <div class="ksc-title">Key Pipeline Metrics</div>
+                            
+                            <div class="ksc-ops-list">
+                                <div class="ko-item">
+                                    <div class="ko-lbl">Active Pipeline</div>
+                                    <div>
+                                        <div class="ko-val">$1.24B</div>
+                                        <div class="ko-sub" style="color:var(--green)">↑ 3.2x Coverage</div>
+                                    </div>
+                                </div>
+                                <div class="ko-item">
+                                    <div class="ko-lbl">Global Win Rate</div>
+                                    <div>
+                                        <div class="ko-val">64.8%</div>
+                                        <div class="ko-sub" style="color:var(--green)">↑ +3.8pp QoQ</div>
+                                    </div>
+                                </div>
+                                <div class="ko-item" style="border:none;">
+                                    <div class="ko-lbl" style="color:var(--red)">Cancelled / Lost Rev</div>
+                                    <div>
+                                        <div class="ko-val" style="color:var(--red)">$12.4M</div>
+                                        <div class="ko-sub" style="color:var(--red)">↓ Elevated Churn</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
 
                 <div style="display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin-bottom:16px">          
                     <div class="acard" style="margin-bottom:0">            
                         <div class="acard-head">              
-                            <div class="acard-title">Revenue Trend — FY2024-25</div>            
+                            <div class="acard-title">Revenue Trajectory — FY25</div>            
+                            <div style="font-size:10px; font-weight:800; color:var(--green); background:rgba(46,168,122,0.1); padding:4px 8px; border-radius:6px;">↑ 18% PROJECTION</div>
                         </div>            
-                        <canvas id="revChart" height="155"></canvas>          
+                        
+                        <div class="chart-container-new" id="revChartContainer">
+                            </div>
+                    
+                        <div class="chart-milestone-wrap">
+                            <div class="milestone"><span class="ms-label">Q1</span><span class="ms-status ms-up">Closed</span></div>
+                            <div class="milestone"><span class="ms-label">Q2</span><span class="ms-status ms-up">Closed</span></div>
+                            <div class="milestone"><span class="ms-label">Q3</span><span class="ms-status ms-down">Pacing</span></div>
+                            <div class="milestone"><span class="ms-label">Q4</span><span class="ms-status" style="background:var(--surface2); color:var(--t3);">Forecast</span></div>
+                        </div>
                     </div>          
                     <div class="acard" style="margin-bottom:0">            
                         <div class="acard-head"><div class="acard-title">Manager Attainment</div></div>            
@@ -198,6 +261,7 @@
                     <div class="acard-head"><div class="acard-title">Win Rate by Zoho Product</div></div>          
                     <div id="wr-product"></div>        
                 </div>
+
 
                 <div class="tp-wrap">          
                     <div class="tp-topbar">            
@@ -285,8 +349,10 @@
                 </div>      
             </div>
 
+            <!-- REGIONS TAB -->
             <div class="section" id="sec-regions">
                 
+                <!-- NEW HIGH-LEVEL REGION COMMAND CENTER -->
                 <div class="region-hero" style="background: var(--surface); border: 1px solid var(--border); padding: 24px; border-radius: 16px; margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.02);">          
                     <div class="region-hero-left">            
                         <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 8px;">
@@ -316,6 +382,7 @@
                     </div>        
                 </div>
                 
+                <!-- ANIMATED PREDICTION CARDS -->
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">          
                     
                     <div class="insight-card track-green">
@@ -383,6 +450,7 @@
                     </div>        
                 </div>
 
+                <!-- MOVED: WIN RATE HEAT MATRIX -->
                 <div class="acard" style="margin-bottom:16px;">          
                     <div class="acard-head">            
                         <div class="acard-title">Win Rate Heat Matrix — Product × Region</div>            
@@ -396,6 +464,7 @@
                     <div class="twrap" id="heatMatrix"></div>        
                 </div>
 
+                <!-- UNIFIED WIN RATE PIPELINE BOARD -->
                 <div class="acard" style="padding:0; overflow:hidden; border:none; box-shadow: 0 12px 32px rgba(0,0,0,0.06); background: transparent; border-radius: 16px; margin-bottom:16px;">
                     <div class="acard-head" style="padding: 24px; border-bottom: 1px solid var(--border); background: var(--surface); border-radius: 16px 16px 0 0; margin-bottom:0;">
                         <div style="display:flex; justify-content:space-between; align-items:center;">
@@ -413,18 +482,23 @@
                     </div>
                     
                     <div class="wf-board" id="wfBoard">
-                        </div>
+                        <!-- Javascript Populated -->
+                    </div>
                 </div>
                 
+                <!-- SAFETY CONTAINERS: Hidden to absorb old script.js data and prevent crashes -->
                 <div id="regionCards" style="display: none;"></div>
                 <div id="best-region" style="display: none;"></div>
                 <div id="worst-region" style="display: none;"></div>
-                <div id="topLogos" style="display: none;"></div> </div>
+                <div id="topLogos" style="display: none;"></div> <!-- Top Logos Absorber -->
+
+            </div>
 
             <div class="section" id="sec-orgchart">        
                 
                 <div id="org-targets-section" style="display:flex; flex-direction:column; gap:24px; margin-bottom:24px;">
                     
+                    <!-- Target Configuration (Moved to Top) -->
                     <div class="acard" style="padding:0; overflow:hidden;">
                         <div style="padding:20px; border-bottom:1px solid var(--border);">
                             <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
@@ -435,6 +509,7 @@
                         <div id="targetConfigPanel" style="padding:24px;"></div>
                     </div>
 
+                    <!-- Organization Targets (Moved to Middle) -->
                     <div class="acard" style="padding:0; overflow:hidden;">
                         <div style="padding:20px; border-bottom:1px solid var(--border);">
                             <div style="font-size:16px; font-weight:800; color:var(--t1); display:flex; align-items:center; gap:8px;">
@@ -447,6 +522,7 @@
 
                 </div>
 
+                <!-- Quarterly Breakdown (Moved to Bottom) -->
                 <div class="acard">
                     <div class="acard-head">
                         <div class="acard-title">Quarterly Breakdown</div>
@@ -683,8 +759,7 @@
 
             </div>
 
-            <div class="section" id="sec-targets" style="height: 100%;">        
-                
+            <div class="section" id="sec-targets">        
                 <div style="height: 100%; display: flex; flex-direction: column;">
                     <div class="ld-header">
                         <div>
@@ -692,23 +767,19 @@
                             <div class="ld-title">Overview</div>
                         </div>
                         <div class="ld-header-actions">
-                            <div style="font-size:11px; color:var(--t3); margin-right:8px;">Click on Agents below to include [+] them in Performance appraisal</div>
                             <select class="form-input" style="width:140px; padding:8px 12px;"><option>Top Performers</option><option>Needs Attention</option></select>
                             <div class="ld-date-picker">
                                 <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                                 YTD September 2026
                             </div>
-                            <button class="th-icon-btn" style="background:var(--surface2); border:1px solid var(--border);">📊</button>
-                            <button class="th-icon-btn" style="background:var(--surface2); border:1px solid var(--border);">📄</button>
                         </div>
                     </div>
-
+            
                     <div class="ld-main">
-                        
                         <div class="ld-left">
                             <div class="ld-top-cards">
                                 <div class="acard ld-card">
-                                    <div class="ld-card-title">Top Performers by Deals Won</div>
+                                    <div class="ld-card-title">Top Performers by Achieved</div>
                                     <div id="ld-deals-won"></div>
                                 </div>
                                 <div class="acard ld-card">
@@ -716,32 +787,28 @@
                                     <div id="ld-win-rate"></div>
                                 </div>
                                 <div class="acard ld-card">
-                                    <div class="ld-card-title" style="display:flex;gap:8px;align-items:center;">
-                                        <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                                        Agents' Appraisal
-                                    </div>
-                                    <div class="ld-card-sub">Click on Agents below to exclude [-] from Performance appraisal</div>
+                                    <div class="ld-card-title">Agents' Appraisal</div>
                                     <div id="ld-appraisal"></div>
                                 </div>
                             </div>
                         </div>
-
                         <div class="ld-right">
                             <div class="ld-lb-header">
-                                <div style="font-size:32px; line-height:1;">👑</div>
+                                <div style="font-size:32px; line-height:1;">🏆</div>
                                 <div>
                                     <div class="ld-lb-title">Leaderboard</div>
-                                    <div class="ld-lb-sub">See Ranking of Sales Agents by Activities score • This shows each agent's dedication towards closing deals</div>
+                                    <div class="ld-lb-sub">Ranking by Activities score</div>
                                 </div>
                             </div>
                             <div class="ld-leaderboard" id="ld-leaderboard"></div>
                         </div>
-
                     </div>
                 </div>
-                
-                <canvas id="oppsBubbleChart" style="display: none;"></canvas>
-            </div>
+                <canvas id="oppsBubbleChart" style="display:none;"></canvas>
+            </div> <div class="section" id="sec-settings">
+                </div>
+            
+            <div id="activityFeed" style="display:none"></div>
 
             <div class="section" id="sec-settings" style="max-width: 740px; margin-right: auto; margin-left: 0;">
                 <div style="margin-bottom: 32px;">
@@ -886,6 +953,5 @@
 <script src="org-targets.js"></script> 
 <script src="leadership.js"></script>
 <script src="waterfall-board.js"></script>
-
 </body>
 </html>

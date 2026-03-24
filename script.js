@@ -132,6 +132,59 @@ const REPS=[
     ],
   };
 
+/* ════ HOME KPI & REVENUE CHART LOGIC ════ */
+
+function animateHomeKPIs() {
+    // 1. Animate Revenue Progress Bar
+    const revBar = document.getElementById('kpi-rev-bar');
+    if (revBar) {
+        setTimeout(() => { revBar.style.width = '89%'; }, 100);
+    }
+
+    // 2. Animate Team Health Stacked Bar
+    const trackBar = document.getElementById('kpi-team-track');
+    const riskBar = document.getElementById('kpi-team-risk');
+    const behindBar = document.getElementById('kpi-team-behind');
+
+    setTimeout(() => {
+        if(trackBar) trackBar.style.width = '52%'; // 14/27
+        if(riskBar) riskBar.style.width = '33%';  // 9/27
+        if(behindBar) behindBar.style.width = '15%'; // 4/27
+    }, 200);
+}
+
+function renderRevenueTrajectory() {
+    const container = document.getElementById('revChartContainer');
+    if (!container) return;
+
+    // Data points are fine, no change.
+    const data = [30, 55, 45, 85]; 
+  
+    const svgHtml = `
+        <svg viewBox="0 0 400 100" preserveAspectRatio="none" style="width:100%; height:100%; overflow:visible;">
+            <defs>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.2" />
+                    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0" />
+                </linearGradient>
+                </defs>
+            
+            <path class="chart-area-fill" d="M0,100 L0,${100-data[0]} L133,${100-data[1]} L266,${100-data[2]} L400,${100-data[3]} L400,100 Z" fill="url(#areaGrad)" />
+            
+            <path class="chart-path-main" d="M0,${100-data[0]} L133,${100-data[1]} L266,${100-data[2]} L400,${100-data[3]}" 
+                fill="none" 
+                stroke="var(--accent)" 
+                stroke-width="1.75" 
+                stroke-linecap="round" 
+                stroke-linejoin="round" />
+            
+            ${data.map((val, i) => `
+                <circle cx="${i * 133.3}" cy="${100-val}" r="3.5" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.75" />
+            `).join('')}
+        </svg>
+    `;
+    container.innerHTML = svgHtml;
+}
   
 /* ════ DROPDOWNS ════ */
 function toggleYearMenu(e) {
@@ -219,6 +272,52 @@ document.addEventListener('click', e => {
     ]
   };
   
+/* ════ MANAGER ATTAINMENT: HIERARCHY PULSE ════ */
+function renderManagerPulse() {
+    const container = document.getElementById('mgr-bars'); 
+    if (!container) return;
+
+    // Data for Top 5 Managers Current FQ
+    const managers = [
+        { name: 'Sarah Connor', initial: 'SC', attainment: 104, team: 'US Enterprise' },
+        { name: 'Rajesh Iyer', initial: 'RI', attainment: 98, team: 'India Strategic' },
+        { name: 'Elena Gomez', initial: 'EG', attainment: 92, team: 'LATAM Growth' },
+        { name: 'Liam Wilson', initial: 'LW', attainment: 88, team: 'APAC SMB' },
+        { name: 'Jinil Shah', initial: 'JS', attainment: 85, team: 'India Mid-Market' }
+    ];
+
+    let html = '<div class="mgr-pulse-container">';
+    
+    managers.forEach((mgr, index) => {
+        // Add a crown icon for the #1 leader
+        const crown = index === 0 ? '<span style="position:absolute; top:-10px; left:12px; font-size:14px; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));">👑</span>' : '';
+        
+        html += `
+            <div class="mgr-node-card" style="transition-delay: ${index * 0.1}s; position:relative;">
+                ${crown}
+                <div class="mgr-avatar">${mgr.initial}</div>
+                <div class="mgr-info">
+                    <div class="mgr-name">${mgr.name}</div>
+                    <div class="mgr-team-lbl">${mgr.team}</div>
+                </div>
+                <div class="mgr-attainment-box">
+                    <div class="mgr-percentage">${mgr.attainment}%</div>
+                    <div class="mgr-attainment-lbl">Attainment</div>
+                </div>
+                <div class="mgr-mini-track" style="width: ${mgr.attainment > 100 ? 100 : mgr.attainment}%"></div>
+            </div>
+        `;
+    });
+
+    html += '</div>';
+    container.innerHTML = html;
+
+    // Trigger staggered entry animation
+    setTimeout(() => {
+        document.querySelectorAll('.mgr-node-card').forEach(card => card.classList.add('animate'));
+    }, 50);
+}
+
 /* ════ NAVIGATION ════ */
 const PAGE_TITLES = {
     home: ['Overview','FY2024-25 · Q4 · Zoho Corp'],
@@ -728,34 +827,82 @@ function renderHier(){
     }
   });
   
-  /* ════ INIT ════ */
-  window.addEventListener('DOMContentLoaded', () => {  
-    drawRevChart();  
-    renderMgrBars();  
-    renderHomePerfCards('home-top','top');  
-    renderHomePerfCards('home-avg','avg');  
-    renderHomePerfCards('home-crit','critical');  
-    renderWRProduct();  
-    renderRepGrid();  
-    renderTenureBars();  
-    renderCommBars();  
-    renderFunnel();  
-    renderAnomalies();  
-    renderHighConv();  
+  /* ════ HOME KPI ANIMATIONS ════ */
+function animateHomeKPIs() {
+    const revBar = document.getElementById('kpi-rev-bar');
+    if (revBar) {
+      setTimeout(() => {
+        revBar.style.width = '89%';
+      }, 100);
+    }
+  
+    const trackBar = document.getElementById('kpi-team-track');
+    const riskBar = document.getElementById('kpi-team-risk');
+    const behindBar = document.getElementById('kpi-team-behind');
+  
+    setTimeout(() => {
+      if(trackBar) trackBar.style.width = '52%';
+      if(riskBar) riskBar.style.width = '33%';
+      if(behindBar) behindBar.style.width = '15%';
+    }, 200);
+  }
+
+  
+
+/* ════ SAFE INIT ════ */
+window.addEventListener('DOMContentLoaded', () => {
+    // 1. Core Visuals
+    if (document.getElementById('kpi-rev-bar')) animateHomeKPIs();  
+    if (document.getElementById('revChart')) drawRevChart();
+    if (document.getElementById('revChartContainer')) renderRevenueTrajectory();  
+    
+    // 2. YOUR NEW COMPONENT (Manager Attainment)
+    // This targets id="mgr-bars" in your HTML
+    if (document.getElementById('mgr-bars')) {
+        renderManagerPulse(); 
+    }
+
+    // 3. Home Dashboard Cards
+    if (document.getElementById('home-top')) renderHomePerfCards('home-top','top');  
+    if (document.getElementById('home-avg')) renderHomePerfCards('home-avg','avg');  
+    if (document.getElementById('home-crit')) renderHomePerfCards('home-crit','critical');  
+    
+    // 4. Data Tables & Charts
+    if (document.getElementById('wr-product')) renderWRProduct();  
+    if (document.getElementById('lbBody')) renderRepGrid();  
+    if (document.getElementById('tenure-bars')) renderTenureBars();  
+    if (document.getElementById('comm-bars')) renderCommBars();  
+    
+    // 5. Section Specifics
+    if (document.getElementById('funnel')) renderFunnel();  
+    if (document.getElementById('anomalies')) renderAnomalies();  
+    if (document.getElementById('hconv')) renderHighConv();  
+    
+    // 6. Fix for the Console Crash (Activity Feed)
+    if (document.getElementById('laFeed')) renderLAFeed();
+    
+    // 7. Regional / Org Logic
     renderRegionCards();  
     renderRegionStats();  
     renderWinMatrix();  
     renderTopLogos();  
     renderHier();  
-    renderLAFeed();  
-    renderTargetRows();  
-    renderTvsA();
-  });
+});
   
   window.addEventListener('resize', () => {  
-    drawRevChart();  
-    if(document.getElementById('sec-pipeline').classList.contains('active')) drawProdChart();
-    if(document.getElementById('sec-targets').classList.contains('active')) {
-        if(typeof drawOppsBubbleChart === 'function') drawOppsBubbleChart();
+    // Update the new SVG Trajectory Chart
+    renderRevenueTrajectory(); 
+
+    // Handle Pipeline Tab if active
+    if(document.getElementById('sec-pipeline').classList.contains('active')) {
+        drawProdChart();
     }
-  });
+
+    // Handle Leadership Tab if active
+    if(document.getElementById('sec-targets').classList.contains('active')) {
+        // Only call if the function exists in leadership.js
+        if(typeof renderLeadershipDashboard === 'function') {
+            renderLeadershipDashboard();
+        }
+    }
+});
