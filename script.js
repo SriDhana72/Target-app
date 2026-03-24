@@ -548,17 +548,23 @@ const PAGE_TITLES = {
   }
   
   /* ════ PIPELINE ════ */
-  function renderFunnel(){  
-    const stages=[    
-      {n:"Prospecting",  deals:424,val:"$386M",pct:100,c:"#3b82f6"},    
-      {n:"Qualification",deals:312,val:"$284M",pct:74, c:"#8b5cf6"},    
-      {n:"Proposal",     deals:188,val:"$182M",pct:47, c:"#f59e0b"},    
-      {n:"Negotiation",  deals:98, val:"$108M",pct:28, c:"#10b981"},    
-      {n:"Legal/Verbal", deals:54, val:"$68M", pct:18, c:"#10b981"},    
-      {n:"Closed Won",   deals:1248,val:"$382M",pct:100,c:"#10b981"},  
-    ];  
-    document.getElementById('funnel').innerHTML=stages.map(s=>`<div class="funnel-row"><div class="funnel-stage-label">${s.n}</div><div class="funnel-bar-track"><div class="funnel-bar-fill" style="width:${s.pct}%;background:${s.c}"></div></div><div class="funnel-meta">${s.deals} · ${s.val}</div></div>`).join('');
-  }
+/* ════ PIPELINE ════ */
+function renderFunnel(){  
+  const stages=[    
+    {n:"Qualified",    deals:312,val:"$284M",pct:100, c:"#8b5cf6"},    
+    {n:"Negotiation/legal",  deals:98, val:"$108M",pct:38,  c:"#10b981"}  
+  ];  
+  
+  document.getElementById('funnel').innerHTML = stages.map(s => 
+    `<div class="funnel-row">
+      <div class="funnel-stage-label">${s.n}</div>
+      <div class="funnel-bar-track">
+        <div class="funnel-bar-fill" style="width:${s.pct}%;background:${s.c}"></div>
+      </div>
+      <div class="funnel-meta">${s.deals} · ${s.val}</div>
+    </div>`
+  ).join('');
+}
   
   function renderAnomalies(){  
     document.getElementById('anomalies').innerHTML=ANOMALIES.map(a=>`<div class="anomaly-card"><div class="anomaly-icon">${a.icon}</div><div class="anomaly-body">${a.text}</div></div>`).join('');
