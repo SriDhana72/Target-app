@@ -1684,7 +1684,7 @@ input:checked + .setting-slider:before {
 .mgr-avatar {
     width: 36px; height: 36px;
     border-radius: 10px;
-    background: #52c488
+    background: #52c488;
     color: white;
     display: flex;
     align-items: center;
@@ -1949,3 +1949,203 @@ input:checked + .setting-slider:before {
 .mgr-node-card::after {
     display: none;
 }
+
+/* ════ AGENT PERFORMANCE DASHBOARD ════ */
+.agent-perf-wrapper {
+    display: flex;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 24px;
+    height: 750px;
+}
+
+/* Left Sidebar */
+.ap-sidebar {
+    width: 240px;
+    background: #f2f2f2; 
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid var(--border);
+    overflow-y: auto;
+}
+
+.ap-side-head {
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+}
+
+.ap-info-icon {
+    width: 40px; height: 40px;
+    background: #666; color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 20px;
+    margin: 0 auto 12px;
+}
+
+.ap-side-title {
+    font-size: 14px; font-weight: 800; color: #555;
+    letter-spacing: 0.5px; margin-bottom: 8px; line-height: 1.4;
+}
+
+.ap-side-sub { font-size: 11px; color: #666; }
+
+/* Sidebar Controls */
+.ap-filter-group { margin-bottom: 32px; }
+.ap-label {
+    font-size: 10px; color: #888; text-align: center;
+    margin-bottom: 16px; letter-spacing: 0.5px;
+}
+
+.ap-month-toggles {
+    display: flex; justify-content: center; gap: 3px;
+}
+.ap-month-toggles button {
+    width: 16px; height: 16px; border-radius: 50%;
+    border: none; background: #ddd; color: #666;
+    font-size: 8px; font-weight: bold; cursor: pointer;
+}
+.ap-month-toggles button.active { background: #c8889a; color: white; }
+
+.ap-region-toggles {
+    display: flex; justify-content: space-between;
+    border-bottom: 1px solid #ddd;
+}
+.ap-region-toggles button {
+    background: none; border: none; font-size: 11px;
+    font-weight: bold; color: #555; padding: 6px 0;
+    cursor: pointer; border-bottom: 2px solid transparent;
+}
+.ap-region-toggles button.active { border-bottom-color: #c8889a; }
+
+/* Agent List */
+.ap-agent-list { display: flex; flex-direction: column; gap: 16px; padding: 0 10px; }
+.ap-agent-row {
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer;
+}
+.ap-agent-av {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: #c8889a; color: white;
+    display: flex; align-items: center; justify-content: center;
+}
+/* Little bust icon using CSS */
+.ap-agent-av::before {
+    content: ''; width: 12px; height: 12px; border-radius: 50%;
+    background: white; position: absolute; transform: translateY(-4px);
+}
+.ap-agent-av::after {
+    content: ''; width: 20px; height: 10px; border-radius: 10px 10px 0 0;
+    background: white; position: absolute; transform: translateY(6px);
+}
+.ap-agent-name { font-size: 11px; color: #444; border-left: 1px solid #ccc; padding-left: 12px; }
+
+/* Right Grid Main Area */
+.ap-main-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 16px;
+    padding: 16px;
+    background: #fafafa;
+}
+
+/* ════ AGENT PERFORMANCE CARDS ════ */
+.ap-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.ap-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #f1f5f9;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+}
+
+.ap-card-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.ap-info-sm {
+    width: 18px;
+    height: 18px;
+    background: #cbd5e1;
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.ap-card-val {
+    font-size: 52px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.ap-chart-area {
+    flex: 1;
+    width: calc(100% - 130px);
+}
+
+.ap-card-foot {
+    position: absolute;
+    bottom: 24px;
+    right: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 120px;
+}
+
+.ap-foot-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ap-foot-lbl {
+    font-size: 9px;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    letter-spacing: 0.5px;
+}
+
+.ap-foot-box {
+    background: #f4eaed;
+    color: #91888a;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.ap-foot-box.rank-box {
+    background: #dbe4dd;
+    color: #7b8f81;
+}
+
+.ap-bar-chart { display: flex; align-items: flex-end; justify-content: space-between; height: 80px; margin: 20px 0; gap: 4px; }
+.ap-bar-col { flex: 1; height: 100%; display: flex; align-items: flex-end; background: #f1f5f9; border-radius: 2px 2px 0 0; }
+.ap-bar-fill { width: 100%; border-radius: 2px 2px 0 0; }

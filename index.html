@@ -130,92 +130,37 @@
                     <div class="kpi-q-tag">
                         <span class="live-dot"></span> LIVE: Q1 2026 PERFORMANCE
                     </div>
-
-                    <div class="kpi-grid-new">
-                        
-                        <!-- CARD 1: Core Revenue -->
-                        <div class="ksc-card rev">
-                            <div class="ksc-title">Target Attainment <span style="color:var(--accent2); background:var(--surface2); padding:4px 8px; border-radius:6px;">89.2%</span></div>
+                    <div class="agent-perf-wrapper">
+                        <div class="ap-sidebar">
+                            <div class="ap-side-head">
+                                <div class="ap-info-icon">i</div>
+                                <div class="ap-side-title">AGENT PERFORMANCE<br>DASHBOARD</div>
+                                <div class="ap-side-sub">Edward Robinson | Dec 2025</div>
+                            </div>
                             
-                            <div class="ksc-rev-main">
-                                <div class="ksc-rev-val">$382.0M</div>
-                                <div class="ksc-rev-lbl">Achieved</div>
-                            </div>
-
-                            <div class="ksc-progress-bg">
-                                <div class="ksc-progress-fill" id="kpi-rev-bar"></div>
-                            </div>
-
-                            <div class="ksc-rev-breakdown">
-                                <div class="ksc-rb-item">
-                                    <div class="ksc-rb-lbl">Total Target</div>
-                                    <div class="ksc-rb-val" style="color:var(--t2)">$428.0M</div>
+                            <div class="ap-filter-group">
+                                <div class="ap-label">SELECT MONTH</div>
+                                <div class="ap-month-toggles">
+                                    <button onclick="selectAPMonth(this)">J</button><button onclick="selectAPMonth(this)">F</button><button onclick="selectAPMonth(this)">M</button><button onclick="selectAPMonth(this)">A</button><button onclick="selectAPMonth(this)">M</button><button onclick="selectAPMonth(this)">J</button><button onclick="selectAPMonth(this)">J</button><button onclick="selectAPMonth(this)">A</button><button onclick="selectAPMonth(this)">S</button><button onclick="selectAPMonth(this)">O</button><button onclick="selectAPMonth(this)">N</button><button class="active" onclick="selectAPMonth(this)">D</button>
                                 </div>
-                                <div class="ksc-rb-item" style="text-align: right;">
-                                    <div class="ksc-rb-lbl" style="color:var(--red)">Remaining Gap</div>
-                                    <div class="ksc-rb-val" style="color:var(--red)">$46.0M</div>
+                            </div>
+                            
+                            <div class="ap-filter-group">
+                                <div class="ap-label">SELECT REGION</div>
+                                <div class="ap-region-toggles">
+                                    <button class="active" onclick="selectAPRegion(this)">East</button><button onclick="selectAPRegion(this)">North</button><button onclick="selectAPRegion(this)">South</button><button onclick="selectAPRegion(this)">West</button>
                                 </div>
+                            </div>
+                    
+                            <div class="ap-filter-group">
+                                <div class="ap-label">SELECT AGENT</div>
+                                <div class="ap-agent-list" id="apAgentList">
+                                    </div>
                             </div>
                         </div>
-
-                        <!-- CARD 2: Team Health -->
-                        <div class="ksc-card team">
-                            <div class="ksc-title">Team Health</div>
-                            
-                            <div class="ksc-team-total">27</div>
-                            <div class="ksc-team-sub">Total Active Team Members</div>
-
-                            <div class="ksc-team-stack">
-                                <div class="kts-segment ontrack" id="kpi-team-track"></div>
-                                <div class="kts-segment atrisk" id="kpi-team-risk"></div>
-                                <div class="kts-segment behind" id="kpi-team-behind"></div>
+                    
+                        <div class="ap-main-grid" id="apCardGrid">
                             </div>
-
-                            <div class="ksc-team-legend">
-                                <div class="ktl-item">
-                                    <span><span class="ktl-dot" style="background:var(--green)"></span> On Track</span>
-                                    <span style="color:var(--green)">14 reps</span>
-                                </div>
-                                <div class="ktl-item">
-                                    <span><span class="ktl-dot" style="background:var(--amber)"></span> At Risk</span>
-                                    <span style="color:var(--amber)">9 reps</span>
-                                </div>
-                                <div class="ktl-item">
-                                    <span><span class="ktl-dot" style="background:var(--red)"></span> Behind</span>
-                                    <span style="color:var(--red)">4 reps</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- CARD 3: Operations & Missing Metrics -->
-                        <div class="ksc-card ops">
-                            <div class="ksc-title">Key Pipeline Metrics</div>
-                            
-                            <div class="ksc-ops-list">
-                                <div class="ko-item">
-                                    <div class="ko-lbl">Active Pipeline</div>
-                                    <div>
-                                        <div class="ko-val">$1.24B</div>
-                                        <div class="ko-sub" style="color:var(--green)">↑ 3.2x Coverage</div>
-                                    </div>
-                                </div>
-                                <div class="ko-item">
-                                    <div class="ko-lbl">Global Win Rate</div>
-                                    <div>
-                                        <div class="ko-val">64.8%</div>
-                                        <div class="ko-sub" style="color:var(--green)">↑ +3.8pp QoQ</div>
-                                    </div>
-                                </div>
-                                <div class="ko-item" style="border:none;">
-                                    <div class="ko-lbl" style="color:var(--red)">Cancelled / Lost Rev</div>
-                                    <div>
-                                        <div class="ko-val" style="color:var(--red)">$12.4M</div>
-                                        <div class="ko-sub" style="color:var(--red)">↓ Elevated Churn</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
 

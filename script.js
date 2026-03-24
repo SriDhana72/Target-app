@@ -914,3 +914,98 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+
+/* ════ AGENT PERFORMANCE DASHBOARD LOGIC ════ */
+const apAgents = [
+  "Benjamin Smith", "Edward Robinson", "Harry Clark",
+  "Leo Anderson", "Lucas Martin", "Samuel Walker"
+];
+
+const apMetrics = [
+  { title: "PERFORMANCE SCORE", val: "128.4%", mom: "▲ 23.4 pp", rank: "2 of 4", color: "#a3c0a3", trend: "up" },
+  { title: "CONVERSION", val: "15.4%", mom: "▼ 2.8 pp", rank: "1 of 4", color: "#92b4d2", trend: "down" },
+  { title: "VOLUME CONVERSION", val: "16.21%", mom: "▼ 3.0 pp", rank: "2 of 4", color: "#b4a7d6", trend: "down" },
+  { title: "LEADS", val: "52", mom: "▲ 4", rank: "2 of 4", color: "#d9d282", trend: "up" },
+  { title: "SALES VOLUME", val: "15,821 €", mom: "▼ 168 €", rank: "2 of 4", color: "#95c2b7", trend: "down" },
+  { title: "CANCELLATION RATE", val: "0.0%", mom: "▼ 7.7 pp", rank: "1 of 4", color: "#e0a3a3", trend: "down" }
+];
+
+function renderAPDashboard() {
+  // 1. Render Agents List
+  const agentList = document.getElementById('apAgentList');
+  if (agentList) {
+      agentList.innerHTML = apAgents.map(name => `
+<div class="ap-agent-row" onclick="selectAPAgent(this, '${name}')" style="padding: 6px; margin-left: -6px;">              <div class="ap-agent-av"></div>
+              <div class="ap-agent-name">${name}</div>
+          </div>
+      `).join('');
+  }
+
+  // 2. Render Metric Cards
+  const grid = document.getElementById('apCardGrid');
+  if (grid) {
+      grid.innerHTML = apMetrics.map(m => `
+          <div class="ap-card">
+              <div class="ap-card-head">
+                  <div class="ap-card-title">${m.title}</div>
+                  <div class="ap-info-sm">i</div>
+              </div>
+              <div class="ap-card-val" style="color: ${m.color}">${m.val}</div>
+              
+              <div class="ap-chart-area">
+<div class="ap-bar-chart">
+    ${[40, 70, 45, 90, 60, 80, 50, 100, 75, 85, 60, 95].map(h => 
+        `<div class="ap-bar-col">
+            <div class="ap-bar-fill" style="height: ${h}%; background: ${m.color};"></div>
+        </div>`
+    ).join('')}
+</div>              </div>
+
+              <div class="ap-card-foot">
+                  <div class="ap-foot-col">
+                      <div class="ap-foot-lbl">MONTH OVER MONTH</div>
+                      <div class="ap-foot-box ${m.trend}">${m.mom}</div>
+                  </div>
+                  <div class="ap-foot-col">
+                      <div class="ap-foot-lbl">CATEGORY RANK</div>
+                      <div class="ap-foot-box rank-box">🥈 ${m.rank}</div>
+                  </div>
+              </div>
+          </div>
+      `).join('');
+  }
+}
+
+// Run immediately
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderAPDashboard);
+} else {
+  renderAPDashboard();
+}
+
+function selectAPAgent(element, name) {
+  // Reset all rows
+  document.querySelectorAll('.ap-agent-row').forEach(row => {
+      row.style.background = 'transparent';
+      row.style.borderRadius = '0';
+  });
+  
+  // Highlight selected row
+  element.style.background = '#e2e8f0';
+  element.style.borderRadius = '6px';
+  
+  // Update header name
+  const subHeader = document.querySelector('.ap-side-sub');
+  if (subHeader) {
+      subHeader.innerHTML = name + ' | Dec 2025';
+  }
+}
+function selectAPMonth(btn) {
+  document.querySelectorAll('.ap-month-toggles button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function selectAPRegion(btn) {
+  document.querySelectorAll('.ap-region-toggles button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
