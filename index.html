@@ -206,41 +206,66 @@
 
                 <div class="tp-wrap">          
                     <div class="tp-topbar">            
-                        <div class="tp-title">Team Performance <span class="team-count-badge" style="font-size:11px;margin-left:8px">27</span></div>            
-                        <div style="display:flex;align-items:center;gap:10px">              
-                            <button onclick="refreshTable(this)" title="Refresh" style="width:32px;height:32px;border-radius:50%;background:var(--surface2);border:1px solid var(--border);color:var(--t2);font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s" onmouseenter="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseleave="this.style.borderColor='var(--border)';this.style.color='var(--t2)'">↻</button>              
-                            <button class="tp-view-link">View Details ↗</button>            
-                        </div>          
+                        <div class="tp-title">Team Performance</div>            
+                        <a href="#" class="tp-view-link">
+                            View Details 
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+                        </a>            
                     </div>          
-                    <div class="tp-filters">            
-                        <div class="tp-filter-drop">Service <select id="tpSvc" onchange="renderRepGrid()"><option value="">All</option><option>CRM</option><option>CRM Plus</option><option>Zoho ONE</option><option>Desk</option><option>Analytics</option></select> ▾</div>            
-                        <div class="tp-filter-drop">Region <select id="tpReg" onchange="renderRepGrid()"><option value="">All</option><option>India S</option><option>India N</option><option>India W</option><option>US East</option><option>LATAM</option><option>APAC</option><option>ANZ</option></select> ▾</div>            
-                        <div class="tp-filter-drop">BU Group <select id="tpBU" onchange="renderRepGrid()"><option value="">All</option><option>CRM BU</option><option>Marketing BU</option><option>Finance BU</option><option>HR BU</option><option>Analytics BU</option></select> ▾</div>            
-                        <div class="tp-sep"></div>            
-                        <button class="tp-type-pill active" id="tpT-all"    onclick="setTypeFilter('all',this)">All</button>            
-                        <button class="tp-type-pill"        id="tpT-Sales"  onclick="setTypeFilter('Sales',this)">Sales</button>            
-                        <button class="tp-type-pill"        id="tpT-Partner"onclick="setTypeFilter('Partner',this)">Partner</button>            
-                        <button class="tp-type-pill"        id="tpT-Renewal"onclick="setTypeFilter('Renewal',this)">Renewal</button>            
-                        <div class="tp-toggle">              
-                            <button class="tp-toggle-btn active" id="tpV-self" onclick="setViewToggle('self',this)">Self</button>              
-                            <button class="tp-toggle-btn"        id="tpV-team" onclick="setViewToggle('team',this)">Team</button>            
-                        </div>          
-                    </div>          
+                    
+                    <div class="tp-filters-new">            
+                        <div class="tp-f-group">
+                            <select id="newTpSvc" class="tp-f-select" onchange="applyTpFilters()">
+                                <option value="">Service</option>
+                                <option value="CRM">CRM</option>
+                                <option value="Analytics">Analytics</option>
+                                <option value="Desk">Desk</option>
+                            </select>
+                            <select id="newTpReg" class="tp-f-select" onchange="applyTpFilters()">
+                                <option value="">Region</option>
+                                <option value="India S">India S</option>
+                                <option value="US East">US East</option>
+                                <option value="LATAM">LATAM</option>
+                            </select>
+                            <select id="newTpCtry" class="tp-f-select" style="border-right: none;" onchange="applyTpFilters()">
+                                <option value="">Country</option>
+                                <option value="India">India</option>
+                                <option value="USA">USA</option>
+                            </select>
+                        </div>
+                        
+                        <div class="tp-f-group tp-type-group">
+                            <button class="tp-f-btn active" onclick="setTpType('Sales', this)">Sales</button>
+                            <button class="tp-f-btn" onclick="setTpType('Partner', this)">Partner</button>
+                            <button class="tp-f-btn" style="border-right: none;" onclick="setTpType('Renewal', this)">Renewal</button>
+                        </div>
+                        
+                        <div class="tp-f-group tp-view-group">
+                            <button class="tp-f-btn" onclick="setTpView('Self', this)">Self</button>
+                            <button class="tp-f-btn active" style="border-right: none;" onclick="setTpView('Team', this)">Team</button>
+                        </div>
+                        <button id="tpClearFilters" class="tp-clear-btn" onclick="clearTpFilters()" style="display: none;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            Clear
+                        </button>
+                    </div>      
+                    
                     <div class="tp-scroll">            
-                        <div class="tp-inner">              
-                            <div class="tp-head">                
-                                <div class="tp-head-cell">Name</div>                
-                                <div class="tp-head-cell">Role</div>                
-                                <div class="tp-head-cell">Target</div>                
-                                <div class="tp-head-cell">Achieved</div>                
-                                <div class="tp-head-cell">Progress</div>                
-                                <div class="tp-head-cell">Gap</div>                
-                                <div class="tp-head-cell">Status</div>                
-                                <div class="tp-head-cell">Est. Incentive</div>              
+                        <div class="tp-inner" style="min-width: 1000px;">              
+                            <div class="tp-head-new">                
+                                <div class="tp-hc">NAME</div>                
+                                <div class="tp-hc">ROLE</div>                
+                                <div class="tp-hc">TARGET</div>                
+                                <div class="tp-hc">ACHIEVED</div>                
+                                <div class="tp-hc">PROGRESS</div>                
+                                <div class="tp-hc" style="text-align:right;">GAP</div>                
+                                <div class="tp-hc" style="text-align:center;">STATUS</div>                
+                                <div class="tp-hc" style="text-align:right;">EST. INCENTIVE</div>              
                             </div>              
                             <div id="lbBody"></div>            
                         </div>          
                     </div>          
+                    
                     <div class="tp-show-more" id="lbShowMoreWrap" style="display:none">            
                         <button onclick="lbLoadMore()" id="lbShowMoreBtn">Show more</button>          
                     </div>        

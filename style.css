@@ -2254,3 +2254,160 @@ input:checked + .setting-slider:before {
     visibility: visible;
     bottom: 150%;
 }
+/* ════ TEAM PERFORMANCE TABLE REDESIGN ════ */
+.tp-wrap { 
+    background: #ffffff; 
+    border-radius: 12px; 
+    margin-bottom: 24px; 
+    box-shadow: none; /* Removes heavy shadow to match screenshot */
+}
+
+/* Header & Filters */
+.tp-topbar { 
+    padding: 24px 24px 16px; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: none;
+}
+.tp-title { font-size: 16px; font-weight: 800; color: #111827; }
+.tp-view-link { font-size: 12px; font-weight: 700; color: #111827; text-decoration: none; display: flex; align-items: center; gap: 4px; cursor: pointer; }
+
+.tp-filters-new { 
+    display: flex; gap: 12px; padding: 0 24px 20px; align-items: center; border-bottom: 1px solid #f3f4f6; 
+}
+.tp-f-group { 
+    display: flex; background: #ffffff; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden; 
+}
+.tp-f-drop { 
+    padding: 6px 14px; font-size: 12px; font-weight: 600; color: #4b5563; border-right: 1px solid #e5e7eb; cursor: pointer; display: flex; align-items: center; gap: 6px; 
+}
+.tp-f-btn { 
+    padding: 6px 16px; font-size: 12px; font-weight: 600; color: #4b5563; border-right: 1px solid #e5e7eb; cursor: pointer; background: transparent; border-top:none; border-bottom:none; border-left:none;
+}
+.tp-f-btn.active { background: #111827; color: #ffffff; }
+
+/* Table Structure */
+.tp-head-new { 
+    display: grid; grid-template-columns: 2.5fr 1fr 0.8fr 0.8fr 1.2fr 0.8fr 1fr 1fr; gap: 16px; padding: 12px 24px; background: #ffffff; border-bottom: 1px solid #f3f4f6; 
+}
+.tp-hc { font-size: 10px; font-weight: 700; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; }
+
+.tp-row-new { 
+    display: grid; grid-template-columns: 2.5fr 1fr 0.8fr 0.8fr 1.2fr 0.8fr 1fr 1fr; gap: 16px; padding: 16px 24px; border-bottom: 1px solid #f3f4f6; align-items: center; background: #ffffff; transition: background 0.15s; cursor: pointer;
+}
+.tp-row-new:hover { background: #f9fafb; }
+
+/* Name & Avatar Cell */
+.tp-n-wrap { display: flex; align-items: center; gap: 12px; }
+.tp-n-av { 
+    width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; position: relative; flex-shrink: 0;
+}
+/* Tiny blue check dot on avatar */
+.tp-n-dot { 
+    position: absolute; top: -2px; right: -2px; width: 12px; height: 12px; background: #3b82f6; border: 2px solid #ffffff; border-radius: 50%; display:flex; align-items:center; justify-content:center; 
+}
+.tp-n-name { font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 2px; }
+.tp-n-badge { 
+    background: #e0f2fe; color: #0284c7; font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 12px; margin-left: 8px; letter-spacing: 0.2px;
+}
+
+/* Typography Data Cells */
+.tp-role { font-size: 12px; color: #6b7280; font-weight: 500; }
+.tp-val { font-size: 13px; font-weight: 800; color: #111827; }
+
+/* Progress Bar */
+.tp-p-wrap { display: flex; align-items: center; gap: 12px; }
+.tp-p-bar { flex: 1; max-width: 60px; height: 5px; background: #f3f4f6; border-radius: 4px; overflow: hidden; }
+.tp-p-fill { height: 100%; border-radius: 4px; }
+.tp-p-pct { font-size: 12px; font-weight: 800; width: 30px; }
+
+/* Gap & Status */
+.tp-gap { font-size: 13px; font-weight: 800; color: #ef4444; text-align: right; }
+.tp-status-wrap { display: flex; justify-content: center; }
+.tp-status-pill { 
+    display: inline-flex; align-items: center; gap: 4px; background: #fef2f2; color: #ef4444; font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 14px; 
+}
+
+/* Est Incentive */
+.tp-inc { font-size: 13px; font-weight: 800; color: #111827; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+.tp-inc-sym { color: #f59e0b; font-size: 13px; }
+
+/* ════ FILTER STYLES & TEAL HOVERS ════ */
+.tp-f-select {
+    appearance: none;
+    background: transparent;
+    border: none;
+    padding: 6px 24px 6px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4b5563;
+    cursor: pointer;
+    outline: none;
+    background-image: url('data:image/svg+xml;utf8,<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="%234b5563" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    border-right: 1px solid #e5e7eb;
+    font-family: inherit;
+    transition: all 0.15s;
+}
+
+.tp-f-btn { transition: all 0.15s; }
+
+/* Teal hover state for all filters */
+.tp-f-select:hover, .tp-f-btn:hover {
+    background-color: #559e8e;
+    color: #ffffff;
+}
+.tp-f-select:hover {
+    background-image: url('data:image/svg+xml;utf8,<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+}
+
+/* Keep active buttons dark so they stand out from hovered items */
+.tp-f-btn.active { background: #111827; color: #ffffff; }
+
+/* ════ THINNER TYPOGRAPHY ════ */
+.tp-n-name { font-size: 14px; font-weight: 600; color: #111827; margin-bottom: 2px; }
+.tp-role { font-size: 12px; color: #6b7280; font-weight: 400; }
+.tp-val { font-size: 13px; font-weight: 600; color: #111827; }
+.tp-p-pct { font-size: 12px; font-weight: 600; width: 30px; }
+.tp-gap { font-size: 13px; font-weight: 600; color: #ef4444; text-align: right; }
+.tp-inc { font-size: 13px; font-weight: 600; color: #111827; display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
+.tp-status-pill { font-weight: 500; font-size: 11px; }
+
+/* ════ EXACT AVATAR STYLES ════ */
+.tp-n-av { 
+    width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+    font-size: 13px; font-weight: 600; position: relative; flex-shrink: 0;
+    background: #e8f3f0 !important; /* Exact light mint */
+    color: #559e8e !important; /* Exact dark teal */
+}
+
+.tp-n-dot { 
+    position: absolute; top: -2px; right: -2px; 
+    width: 16px; height: 16px; 
+    background: #519df6; /* Exact blue */
+    border: 1.5px solid #ffffff; border-radius: 50%; 
+    display:flex; align-items:center; justify-content:center; 
+}
+
+/* ════ CLEAR FILTERS BUTTON ════ */
+.tp-clear-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    color: #64748b; /* Soft slate gray matching screenshot */
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    margin-left: 8px;
+    padding: 6px 8px;
+    transition: color 0.15s;
+}
+
+.tp-clear-btn:hover {
+    color: #0f172a; /* Darkens on hover */
+}

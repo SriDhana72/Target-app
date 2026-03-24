@@ -409,47 +409,157 @@ const PAGE_TITLES = {
     return '$' + (val * 1000).toFixed(1) + 'K';
   }
   
-  function renderLbRows(){  
-    const reps  = window._lbReps || [];  
+/* ════ FILTER LOGIC ════ */
+let activeTpType = 'Sales';
+let activeTpView = 'Team';
+
+/* ════ FILTER LOGIC WITH CLEAR BUTTON ════ */
+function applyTpFilters() {
+  let filtered = [...REPS];
+  
+  // Grab all current dropdown values
+  const svc = document.getElementById('newTpSvc').value;
+  const reg = document.getElementById('newTpReg').value;
+  const ctry = document.getElementById('newTpCtry').value;
+  
+  // Filter by Dropdowns
+  if (svc) filtered = filtered.filter(r => r.bu.includes(svc) || r.name.includes(svc));
+  if (reg) filtered = filtered.filter(r => r.region === reg);
+  // (Country logic can be added here if REPS data gets a country property)
+  
+  // Filter by Button Type
+  if (activeTpType && activeTpType !== 'All') {
+      filtered = filtered.filter(r => r.type === activeTpType);
+  }
+  
+  // Sort descending by Attainment
+  filtered.sort((a,b) => b.att - a.att);
+  window._lbReps = filtered;
+  
+  // Show/Hide Clear Button dynamically
+  const clearBtn = document.getElementById('tpClearFilters');
+  if (clearBtn) {
+      if (svc !== '' || reg !== '' || ctry !== '') {
+          clearBtn.style.display = 'flex'; // Show if any dropdown is used
+      } else {
+          clearBtn.style.display = 'none'; // Hide if all dropdowns are empty
+      }
+  }
+  
+  // Re-render the table
+  renderLbRows();
+}
+
+// Function to reset all dropdowns to default
+function clearTpFilters() {
+  document.getElementById('newTpSvc').value = '';
+  document.getElementById('newTpReg').value = '';
+  document.getElementById('newTpCtry').value = '';
+  
+  applyTpFilters(); // Re-run the filter logic (which will hide the button again)
+}
+
+function setTpType(type, btn) {
+    activeTpType = type;
+    document.querySelectorAll('.tp-type-group .tp-f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyTpFilters();
+}
+
+function setTpView(view, btn) {
+    activeTpView = view;
+    document.querySelectorAll('.tp-view-group .tp-f-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyTpFilters();
+}
+
+/* ════ UPDATED TABLE RENDERING ════ */
+function renderLbRows() {  
+    // Fallback to REPS if window._lbReps hasn't been populated yet
+    const reps  = window._lbReps || REPS.filter(r => r.type === 'Sales').sort((a,b) => b.att - a.att);  
     const shown = reps.slice(0, lbShown);  
     const wrap  = document.getElementById('lbShowMoreWrap');  
     const btn   = document.getElementById('lbShowMoreBtn');
-  
+
     if(reps.length === 0){    
-      document.getElementById('lbBody').innerHTML = `      <div class="tp-empty">        <div class="tp-empty-icon">🔍</div>        <div class="tp-empty-title">No results found</div>        <div class="tp-empty-sub">No reps match the selected filters. Try adjusting Region, BU Group, or Type.</div>      </div>`;    
-      if(wrap) wrap.style.display = 'none';    
-      return;  
+        document.getElementById('lbBody').innerHTML = `
+        <div class="tp-empty" style="padding: 40px; text-align: center; color: #6b7280; font-size: 13px;">
+            No results found. Adjust filters to see data.
+        </div>`;    
+        if(wrap) wrap.style.display = 'none';    
+        return;  
     }
-  
-    document.getElementById('lbBody').innerHTML = shown.map(r => {    
-      const targetVal   = parseFloat((r.rev / (Math.min(r.att, 78) / 100)).toFixed(2));    
-      const achievedVal = r.rev;    
-      const gapVal      = parseFloat((achievedVal - targetVal).toFixed(2));    
-      const gapFmt      = (gapVal < 0 ? '-' : '+') + fmtMoney(Math.abs(gapVal));
-      const pct         = parseFloat(((achievedVal / targetVal) * 100).toFixed(1));    
-      const barPct      = Math.min(pct, 100);    
-      const progCol     = pct >= 90 ? '#c4870a' : pct >= 60 ? '#c4870a' : '#d43f3f';    
-      const dotCol      = progCol;
-      const badgeCls    = r.type.toLowerCase();    
-      const roleTxt     = r.tenure >= 5 ? 'Sr. Account Executive' : r.tenure >= 3 ? 'Account Executive' : 'Jr. Account Executive';
-      const pillBg   = 'rgba(212,63,63,0.18)';    
-      const pillBdr  = '#d43f3f';
-      const incentiveVal = '$0';    
-      const incentiveCls = 'tp-cell incentive-zero';
-  
-      return `    <div class="tp-row" onclick="inspectRep(${JSON.stringify(r).replace(/"/g,'&quot;')})">      <div class="tp-name-wrap">        <div class="tp-av" style="background:${r.color}">          ${ini(r.name)}          <div class="tp-av-dot" style="background:${dotCol}"></div>        </div>        <div style="min-width:0">          <div class="tp-name">${r.name} <span class="tp-badge ${badgeCls}">${r.type}</span></div>          <div style="font-size:10px;color:var(--t3);margin-top:2px;white-space:nowrap">${r.region} · ${r.bu}</div>        </div>      </div>      <div class="tp-cell" style="font-size:11px;color:var(--t2)">${roleTxt}</div>      <div class="tp-cell mono">${fmtMoney(targetVal)}</div>      <div class="tp-cell mono" style="color:var(--t1);font-weight:700">${fmtMoney(achievedVal)}</div>      <div class="tp-prog-wrap">        <div class="tp-prog-dot" style="background:${dotCol}"></div>        <div class="tp-prog-bar"><div class="tp-prog-fill" style="width:${barPct}%;background:${progCol}"></div></div>        <div class="tp-prog-pct" style="color:${progCol}">${pct}%</div>      </div>      <div class="tp-cell gap-neg">${gapFmt}</div>      <div>        <span style="display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;background:${pillBg};border:1px solid ${pillBdr};font-size:11px;font-weight:700;color:${pillBdr};white-space:nowrap">          ↘ Behind        </span>      </div>      <div class="${incentiveCls}">        <span style="color:var(--amber);margin-right:3px;font-size:11px">$</span>${incentiveVal}      </div>    </div>`;  
+
+    const fmtNumber = (val) => {
+        if (val >= 1) return '$' + val.toFixed(1).replace('.0','') + 'M';
+        return '$' + (val * 1000).toFixed(1).replace('.0','') + 'K';
+    };
+
+    // Grab up to 3 initials for names like "Sanjay Thomas Varghese" -> STV
+    const getMultiInitials = (name) => {
+        return name.split(' ').map(x => x[0]).join('').toUpperCase().slice(0, 3);
+    };
+
+    // Exact SVG for the tiny blue circle badge from your screenshot
+    const swapSvg = `<svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="17 4 21 8 17 12"></polyline><line x1="21" y1="8" x2="9" y2="8"></line><polyline points="7 20 3 16 7 12"></polyline><line x1="3" y1="16" x2="15" y2="16"></line></svg>`;
+
+    document.getElementById('lbBody').innerHTML = shown.map((r, index) => {    
+        const targetVal   = parseFloat((r.rev / (Math.min(r.att, 78) / 100)).toFixed(2));    
+        const achievedVal = r.rev;    
+        const gapVal      = parseFloat((achievedVal - targetVal).toFixed(2));    
+        const gapFmt      = gapVal < 0 ? "-$" + Math.abs(gapVal).toFixed(1) + "M" : "+$" + Math.abs(gapVal).toFixed(1) + "M";
+        const pct         = parseFloat(((achievedVal / targetVal) * 100).toFixed(1));    
+        const barPct      = Math.min(pct, 100);    
+        
+        const progCol = pct < 50 ? '#ef4444' : '#f59e0b'; 
+        const roleTxt = r.tenure >= 5 ? 'Sales Manager' : 'Business Unit';
+
+        return `
+        <div class="tp-row-new" onclick="inspectRep(${JSON.stringify(r).replace(/"/g,'&quot;')})">
+            
+            <div class="tp-n-wrap">
+                <div class="tp-n-av">
+                    ${getMultiInitials(r.name)}
+                    <div class="tp-n-dot">${swapSvg}</div>
+                </div>
+                <div style="display:flex; align-items:center;">
+                    <div class="tp-n-name">${r.name}</div>
+                    <div class="tp-n-badge">Reassigned</div>
+                </div>
+            </div>
+            
+            <div class="tp-role">${roleTxt}</div>
+            <div class="tp-val">${fmtNumber(targetVal)}</div>
+            <div class="tp-val">${fmtNumber(achievedVal)}</div>
+            
+            <div class="tp-p-wrap">
+                <div class="tp-p-bar"><div class="tp-p-fill" style="width:${barPct}%; background:${progCol};"></div></div>
+                <div class="tp-p-pct" style="color:${progCol};">${pct.toFixed(0)}%</div>
+            </div>
+            
+            <div class="tp-gap">${gapFmt}</div>
+            
+            <div class="tp-status-wrap">
+                <div class="tp-status-pill">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline><polyline points="16 17 22 17 22 11"></polyline></svg>
+                    Behind
+                </div>
+            </div>
+            
+            <div class="tp-inc"><span class="tp-inc-sym">$</span> 0</div>
+        </div>`;  
     }).join('');
-  
+
     const remaining = reps.length - lbShown;  
     if(wrap && btn){    
-      if(remaining > 0){      
-        wrap.style.display = 'block';      
-        btn.textContent = `Show ${Math.min(remaining,10)} more  ·  ${remaining} remaining`;    
-      } else {      
-        wrap.style.display = 'none';    
-      }  
+        if(remaining > 0){      
+            wrap.style.display = 'block';      
+            btn.textContent = `Show ${Math.min(remaining,10)} more  ·  ${remaining} remaining`;    
+        } else {      
+            wrap.style.display = 'none';    
+        }  
     }
-  }
+}
   
   function refreshTable(btn){  
     btn.style.transform = 'rotate(360deg)';  
