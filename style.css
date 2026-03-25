@@ -2008,7 +2008,6 @@ input:checked + .setting-slider:before {
     border: none; background: #ddd; color: #666;
     font-size: 8px; font-weight: bold; cursor: pointer;
 }
-.ap-month-toggles button.active { background: #c8889a; color: white; }
 
 .ap-region-toggles {
     display: flex; justify-content: space-between;
@@ -2572,4 +2571,41 @@ input:checked + .setting-slider:before {
 
 .btn-set-targets-unified:hover svg {
     color: #ffffff; /* Ensures the icon also turns white */
+}
+
+/* ════ HIERARCHY QUARTER TOGGLES ════ */
+.ap-month-toggles {
+    display: flex;
+    gap: 6px; /* Reduced space between circles */
+    justify-content: flex-start;
+    margin-top: 8px;
+}
+
+.ap-month-toggles button {
+    width: 40px;  /* Increased circle size more */
+    height: 40px; /* Increased circle size more */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+    color: var(--t2);
+}
+
+/* ════ QUARTER CIRCLE BRANDING ════ */
+.ap-month-toggles button.active {
+    background: #00A693 !important; /* Your exact brand green */
+    color: #ffffff;
+    border-color: #00A693;
+    box-shadow: 0 4px 12px rgba(0, 166, 147, 0.25);
+}
+
+.ap-month-toggles button:hover:not(.active) {
+    border-color: #00A693;
+    color: #00A693;
 }

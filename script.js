@@ -1056,30 +1056,28 @@ const apAgents = [
 ];
 
 const apMetrics = [
-  { title: "TOTAL REVENUE ACHIEVED", val: "$128.4K", mom: "115% 🎯", rank: "🏆 2nd of 12", color: "#a3c0a3", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Total closed-won revenue for the selected period." },
-  { title: "NEW BUSINESS REVENUE", val: "$85.0K", mom: "108% 🎯", rank: "🏆 1st of 12", color: "#92b4d2", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Revenue generated strictly from new customers." },
-  { title: "UPSELL REVENUE", val: "$43.4K", mom: "105% 🎯", rank: "5th of 12", color: "#b4a7d6", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Additional revenue from existing customer expansion." },
+  { title: "TOTAL REVENUE ACHIEVED", val: "$128.4K", mom: "115% <svg viewBox='0 0 24 24' width='14' height='14' stroke='currentColor' fill='none' stroke-width='2.5' style='vertical-align:middle; margin-left:2px; margin-bottom:2px;'><polyline points='23 6 13.5 15.5 8.5 10.5 1 18'></polyline><polyline points='17 6 23 6 23 12'></polyline></svg>", rank: "🏆 2nd of 12", color: "#a3c0a3", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Total closed-won revenue for the selected period." },
+  { title: "NEW BUSINESS REVENUE", val: "$85.0K", mom: "108% <svg viewBox='0 0 24 24' width='14' height='14' stroke='currentColor' fill='none' stroke-width='2.5' style='vertical-align:middle; margin-left:2px; margin-bottom:2px;'><polyline points='23 6 13.5 15.5 8.5 10.5 1 18'></polyline><polyline points='17 6 23 6 23 12'></polyline></svg>", rank: "🏆 1st of 12", color: "#92b4d2", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Revenue generated strictly from new customers." },
+  { title: "UPSELL REVENUE", val: "$43.4K", mom: "105% <svg viewBox='0 0 24 24' width='14' height='14' stroke='currentColor' fill='none' stroke-width='2.5' style='vertical-align:middle; margin-left:2px; margin-bottom:2px;'><polyline points='23 6 13.5 15.5 8.5 10.5 1 18'></polyline><polyline points='17 6 23 6 23 12'></polyline></svg>", rank: "5th of 12", color: "#b4a7d6", trend: "up", momLbl: "QUOTA ATTAINMENT", rankLbl: "TEAM RANK", desc: "Additional revenue from existing customer expansion." },
   { title: "AVERAGE DEAL SIZE", val: "$14.2K", mom: "▲ $1.2K", rank: "Top 10%", color: "#d9d282", trend: "up", momLbl: "VS LAST QUARTER", rankLbl: "PERCENTILE", desc: "Average monetary value of closed-won deals." },
   { title: "PIPELINE GENERATED", val: "$450.5K", mom: "3.5x 📊", rank: "🏆 1st of 12", color: "#95c2b7", trend: "up", momLbl: "COVERAGE RATIO", rankLbl: "TEAM RANK", desc: "Total value of new qualified opportunities created." },
   { title: "OVERALL WIN RATE", val: "68.4%", mom: "▲ 4.2%", rank: "3rd of 12", color: "#e0a3a3", trend: "up", momLbl: "VS TEAM AVG", rankLbl: "TEAM RANK", desc: "Percentage of total opportunities successfully closed." }
 ];
 
 function renderAPDashboard() {
-  // 1. Render Agents List
-  const agentList = document.getElementById('apAgentList');
-  if (agentList) {
-      agentList.innerHTML = apAgents.map(name => `
-          <div class="ap-agent-row" onclick="selectAPAgent(this, '${name}')" style="padding: 6px; margin-left: -6px;">
-              <div class="ap-agent-av"></div>
-              <div class="ap-agent-name">${name}</div>
-          </div>
-      `).join('');
-  }
-
-  // 2. Render Metric Cards
   const grid = document.getElementById('apCardGrid');
-  if (grid) {
-      grid.innerHTML = apMetrics.map(m => `
+  if (!grid) return;
+
+  // 1. Determine active quarter from the UI
+  const activeBtn = document.querySelector('#ap-quarter-container button.active');
+  const quarter = activeBtn ? parseInt(activeBtn.dataset.q) : 1;
+  const startIdx = (quarter - 1) * 3;
+  const endIdx = startIdx + 3;
+
+  grid.innerHTML = apMetrics.map(m => {
+      const fullData = [40, 70, 45, 90, 60, 80, 50, 100, 75, 85, 60, 95];
+      
+      return `
           <div class="ap-card">
               <div class="ap-card-head">
                   <div class="ap-card-title">${m.title}</div>
@@ -1089,11 +1087,17 @@ function renderAPDashboard() {
               
               <div class="ap-chart-area">
                   <div class="ap-bar-chart">
-                      ${[40, 70, 45, 90, 60, 80, 50, 100, 75, 85, 60, 95].map(h => 
-                          `<div class="ap-bar-col">
-                              <div class="ap-bar-fill" style="height: ${h}%; background: ${m.color};"></div>
-                          </div>`
-                      ).join('')}
+                      ${fullData.map((h, index) => {
+                          const isActive = index >= startIdx && index < endIdx;
+                          // Use the metric's specific color (m.color) for highlighted bars
+                          const barColor = isActive ? m.color : 'var(--border)'; 
+                          const opacity = isActive ? '1' : '0.2';
+
+                          return `
+                              <div class="ap-bar-col">
+                                  <div class="ap-bar-fill" style="height: ${h}%; background: ${barColor}; opacity: ${opacity}; transition: all 0.3s ease;"></div>
+                              </div>`;
+                      }).join('')}
                   </div>
               </div>
 
@@ -1108,8 +1112,8 @@ function renderAPDashboard() {
                   </div>
               </div>
           </div>
-      `).join('');
-  }
+      `;
+  }).join('');
 }
 
 // Run immediately
@@ -1233,3 +1237,39 @@ function updateDynamicGreeting() {
 
 // Initialize the greeting on load
 window.addEventListener('DOMContentLoaded', updateDynamicGreeting);
+
+function selectAPQuarter(btn) {
+  // UI Update
+  const parent = btn.parentElement;
+  parent.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  
+  // Logic Update
+  renderAPDashboard(); // Updates KPI colors
+  
+  const quarter = parseInt(btn.dataset.q); 
+  const startIdx = (quarter - 1) * 3;
+  const endIdx = startIdx + 3;
+  if (typeof updateWinRateChart === 'function') {
+      updateWinRateChart(startIdx, endIdx); // Updates Win Rate chart
+  }
+}
+window.addEventListener('DOMContentLoaded', () => {
+  updateDynamicGreeting(); // Greets Peter
+  initQuarterSelection();  // Highlights Q1 in #00A693 and colors the bars
+});
+/* ════ DYNAMIC DEFAULT QUARTER ════ */
+function initQuarterSelection() {
+  const container = document.getElementById('ap-quarter-container');
+  if (!container) return;
+
+  // We are in March 2026, so currentQ will be 1
+  const month = new Date().getMonth(); 
+  const currentQ = Math.floor(month / 3) + 1; 
+
+  // Find the Q1 button and trigger the click logic
+  const targetBtn = container.querySelector(`button[data-q="${currentQ}"]`);
+  if (targetBtn) {
+      selectAPQuarter(targetBtn); // This will apply the green color and update bars
+  }
+}

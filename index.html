@@ -134,15 +134,25 @@
                     <div class="agent-perf-wrapper">
                         <div class="ap-sidebar">
                             <div class="ap-side-head">
-                                <div class="ap-info-icon" style="background:var(--accent); border-radius:8px;">👥</div>
+                                <div class="ap-info-icon" style="background:#00A693; border-radius:8px; display:flex; align-items:center; justify-content:center; width:32px; height:32px;">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="#ffffff" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                </div>
                                 <div class="ap-side-title">HIERARCHY<br>PERFORMANCE</div>
                                 <div class="ap-side-sub">Target & Achievement</div>
                             </div>
                             
                             <div class="ap-filter-group">
-                                <div class="ap-label">SELECT MONTH</div>
-                                <div class="ap-month-toggles">
-                                    <button onclick="selectAPMonth(this)">J</button><button onclick="selectAPMonth(this)">F</button><button onclick="selectAPMonth(this)">M</button><button onclick="selectAPMonth(this)">A</button><button onclick="selectAPMonth(this)">M</button><button onclick="selectAPMonth(this)">J</button><button onclick="selectAPMonth(this)">J</button><button onclick="selectAPMonth(this)">A</button><button onclick="selectAPMonth(this)">S</button><button onclick="selectAPMonth(this)">O</button><button onclick="selectAPMonth(this)">N</button><button class="active" onclick="selectAPMonth(this)">D</button>
+                                <div class="ap-label">SELECT QUARTER</div>
+                                <div id="ap-quarter-container" class="ap-month-toggles">
+                                    <button onclick="selectAPQuarter(this)" data-q="1">Q1</button>
+                                    <button onclick="selectAPQuarter(this)" data-q="2">Q2</button>
+                                    <button onclick="selectAPQuarter(this)" data-q="3">Q3</button>
+                                    <button onclick="selectAPQuarter(this)" data-q="4">Q4</button>
                                 </div>
                             </div>
                     
