@@ -477,3 +477,75 @@ window.addEventListener('DOMContentLoaded', () => {
         observer.observe(canvasWrap);
     }
 });
+
+/* ════ TOP PERFORMERS RENDERING ════ */
+
+function renderTopPerformers() {
+    const container = document.getElementById('ld-deals-won');
+    if (!container) return;
+
+    // We now use an array to show multiple performers
+    const topPerformers = [
+        {
+            name: "Samuel Walker",
+            image: "https://i.pravatar.cc/150?img=11", // Standard placeholder image
+            manager: "Logan",
+            target: "$1,000,000",
+            achieved: "$1,360,498",
+            attainment: "136%",
+            winRate: "80%",
+            avgDealSize: "$9,859",
+            tenure: "84 months"
+        },
+        {
+            name: "Kavitha Rajan",
+            image: "https://i.pravatar.cc/150?img=5", // Standard placeholder image
+            manager: "Ananya Iyer",
+            target: "$850,000",
+            achieved: "$1,120,400",
+            attainment: "131%",
+            winRate: "76%",
+            avgDealSize: "$12,400",
+            tenure: "60 months"
+        }
+    ];
+
+    // Map through the array and draw a card for each person
+    container.innerHTML = topPerformers.map((performer, index) => `
+        <div style="padding: 16px; border-bottom: ${index === topPerformers.length - 1 ? 'none' : '1px solid var(--border)'}; display: flex; gap: 16px;">
+            
+            <img src="${performer.image}" alt="${performer.name}" style="width: 54px; height: 54px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0;">
+            
+            <div style="flex: 1;">
+                <div style="font-size: 16px; font-weight: 800; color: #3b82f6; margin-bottom: 4px;">${performer.name}</div>
+                <div style="font-size: 11px; color: var(--t2); margin-bottom: 12px; display: flex; align-items: center; gap: 4px;">
+                    <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 3v12a3 3 0 0 0 3 3h12"></path>
+                        <polyline points="17 14 21 18 17 22"></polyline>
+                    </svg>
+                    Reporting to: <strong style="color: var(--t1);">${performer.manager}</strong>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; background: var(--surface2); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
+                    <div>
+                        <div style="font-size: 9px; color: var(--t3); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Q1 Target</div>
+                        <div style="font-size: 13px; font-weight: 700; color: var(--t1);">${performer.target}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 9px; color: var(--t3); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Q1 Achieved</div>
+                        <div style="font-size: 13px; font-weight: 800; color: #00A693;">${performer.achieved} <span style="font-size: 10px; background: #eaf5f0; padding: 2px 4px; border-radius: 4px;">${performer.attainment}</span></div>
+                    </div>
+                </div>
+
+                <ul style="margin: 0; padding-left: 16px; font-size: 12px; color: var(--t2); line-height: 1.6;">
+                    <li>Win rate: <strong style="color: var(--t1);">${performer.winRate}</strong></li>
+                    <li>Avg deal size: <strong style="color: var(--t1);">${performer.avgDealSize}</strong></li>
+                    <li>Tenure: <strong style="color: var(--t1);">${performer.tenure}</strong></li>
+                </ul>
+            </div>
+        </div>
+    `).join('');
+}
+
+// Make sure it runs when the page loads
+window.addEventListener('DOMContentLoaded', renderTopPerformers);

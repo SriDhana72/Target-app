@@ -530,10 +530,42 @@
   .rg-sub  { font-size:10px; font-weight:600; color:var(--t3); margin-top:3px; }
   
   /* ─── ANOMALY ─── */
-  .anomaly-card {  background:var(--red-dim); border:1px solid var(--red);  border-radius:14px; padding:14px 16px; margin-bottom:10px;  display:flex; gap:12px; align-items:flex-start;}
-  .anomaly-icon { font-size:18px; flex-shrink:0; }
-  .anomaly-body { font-size:12px; font-weight:500; color:var(--t2); line-height:1.6; }
-  .anomaly-body strong { color:var(--t1); font-weight:700; }
+.anomaly-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: var(--surface2); /* Uses your theme's rich secondary surface */
+    border: 1px solid var(--border);
+    border-left: 4px solid #ef4444; /* Sharp accent line for anomalies */
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.02);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.anomaly-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    background: var(--surface);
+    border-left: 4px solid #dc2626; /* Darkens slightly on hover */
+}
+
+.anomaly-icon {
+    font-size: 16px;
+    margin-top: 2px;
+}
+
+.anomaly-body {
+    font-size: 13px;
+    color: var(--t2);
+    line-height: 1.5;
+}
+
+.anomaly-body strong {
+    color: var(--t1);
+    font-weight: 800;
+}
   
   /* ─── HIERARCHY ─── */
   .hier-wrap { padding:4px 0; }
