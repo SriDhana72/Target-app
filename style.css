@@ -2447,3 +2447,66 @@ input:checked + .setting-slider:before {
 .qb-highlight-green .node-name {
     color: #065f46 !important; /* Deep forest green for text */
 }
+
+/* 1. Container Size and Scroll Behavior */
+#heatMatrix {
+    max-height: 380px;
+    overflow-y: auto;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 12px;
+}
+
+/* 2. Custom Thin Scrollbars */
+#heatMatrix::-webkit-scrollbar {
+    width: 8px;  /* Makes vertical scrollbar thin */
+    height: 8px; /* Makes horizontal scrollbar thin */
+}
+#heatMatrix::-webkit-scrollbar-track {
+    background: transparent;
+}
+#heatMatrix::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+}
+#heatMatrix::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* 3. Freeze Top Header Row */
+#heatMatrix thead th {
+    position: sticky;
+    top: 0;
+    z-index: 12;
+    background: #ffffff; /* Solid background prevents text overlap */
+}
+
+/* 4. Freeze Left Product Column */
+#heatMatrix tbody td:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 13;
+    background: #ffffff; /* Hides columns sliding behind it */
+}
+
+/* 5. Top-Left Corner (Product Header) Needs Highest Z-Index */
+#heatMatrix thead th:first-child {
+    position: sticky;
+    left: 0;
+    top: 0;
+    z-index: 15;
+    background: #ffffff;
+}
+/* 6. Force Uniform Column Widths for Regions */
+#heatMatrix th:not(:first-child), 
+#heatMatrix td:not(:first-child) {
+    min-width: 120px; /* This gives enough space for Con Europe */
+    width: 120px;
+    max-width: 120px;
+}
+
+/* Ensure the Product column has enough space too */
+#heatMatrix th:first-child,
+#heatMatrix td:first-child {
+    min-width: 110px;
+}

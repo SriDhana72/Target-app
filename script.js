@@ -1170,3 +1170,45 @@ function handleManagerChange(select) {
       });
   }
 }
+
+const hmProducts = ['CRM', 'CRM Plus', 'Zoho ONE', 'Desk', 'Analytics', 'Mail', 'Projects', 'Webinar', 'Workplace', 'Lens', 'Bigin'];
+const hmRegions = ['India S', 'India N', 'India W', 'US East', 'LATAM', 'APAC', 'ANZ', 'Con Europe', 'MEA', 'Brazil', 'Canada', 'UK'];
+
+function renderHeatMatrix() {
+    const container = document.getElementById('heatMatrix');
+    if (!container) return;
+
+    let html = '<table style="min-width: 1400px; width: 100%; border-collapse: separate; border-spacing: 12px 12px;"><thead><tr><th style="color:var(--t3); font-size:11px; font-weight:700; text-transform:uppercase; text-align:left; border:none; padding-bottom:8px;">Product</th>';
+    
+    hmRegions.forEach(r => html += `<th style="color:#8ba3b8; font-size:11px; font-weight:700; text-transform:uppercase; text-align:center; border:none; padding-bottom:8px; letter-spacing:0.5px;">${r}</th>`);
+    html += '</tr></thead><tbody>';
+
+    hmProducts.forEach(p => {
+        // Changed font-weight to 600, forced background to solid white for scrolling
+        html += `<tr><td style="font-weight: 600; font-size:13px; color: var(--t2); background: #ffffff; position: sticky; left: 0; z-index: 11; border:none;">${p}</td>`;
+        hmRegions.forEach(r => {
+            const winRate = Math.floor(Math.random() * 45) + 40; 
+            
+            let textColor = '';
+            let bgColor = '';
+            
+            if (winRate >= 74) {
+                textColor = '#2e8c6a'; bgColor = '#eaf5f0';
+            } else if (winRate >= 65) {
+                textColor = '#3a6ea5'; bgColor = '#eff4fa';
+            } else if (winRate >= 55) {
+                textColor = '#9e732c'; bgColor = '#faf5eb';
+            } else {
+                textColor = '#c74a4a'; bgColor = '#faecec';
+            }
+
+            // Changed padding to 8px 0 to reduce box height
+            html += `<td style="padding: 0; border:none;"><div style="background: ${bgColor}; color: ${textColor}; padding: 8px 0; border-radius: 6px; text-align: center; font-size: 13px; font-weight: 700; width: 100%;">${winRate}%</div></td>`;
+        });
+        html += '</tr>';
+    });
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+}
+window.addEventListener('DOMContentLoaded', renderHeatMatrix);
