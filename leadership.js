@@ -173,7 +173,7 @@ function renderLeadershipDashboard() {
     // Map your specific custom names to the top 14 spots safely, only once
     if (!window.DASHBOARD_REPS) {
         const targetNames = [
-            "Peter", "Logan", "Mack", "Sanjay Thomas", "Foumin", 
+            "Samuel", "Hameed", "Jack", "Sanjay Thomas", "Foumin", 
             "Dhana", "Binny", "Rekha", "Goutham", "Yogi", 
             "Udhay charan", "Boojavani", "Prasanna", "Raghu"
         ];
