@@ -157,44 +157,66 @@
                             </div>
                     
                             <div class="ap-filter-group">
-                                <div class="ap-label">BUSINESS UNIT</div>
-                                <select class="ap-dropdown">
-                                    <option value="">All BUs</option>
-                                    <option value="CRM">CRM BU</option>
-                                    <option value="Marketing">Marketing BU</option>
-                                    <option value="Finance">Finance BU</option>
-                                    <option value="HR">HR BU</option>
-                                    <option value="Analytics">Analytics BU</option>
-                                </select>
+                                <div class="ap-label accordion-trigger" onclick="toggleAccordion('bu-list', this)" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+                                    BUSINESS UNIT
+                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" class="acc-icon" style="transition: transform 0.3s ease;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <div id="bu-list" class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+                                    <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 12px; padding-bottom: 8px;">
+                                        <label class="multi-select-item" style="border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 4px;">
+                                            <input type="checkbox" class="select-all-cb" onchange="toggleSelectAll(this, 'bu-list'); runCascades();">
+                                            <span class="chk-label" style="font-style: italic;">Select All BUs</span>
+                                        </label>
+                                        <label class="multi-select-item"><input type="checkbox" value="CRM BU" onchange="runCascades()"><span class="chk-label">CRM BU</span></label>
+                                        <label class="multi-select-item"><input type="checkbox" value="Marketing BU" onchange="runCascades()"><span class="chk-label">Marketing BU</span></label>
+                                        <label class="multi-select-item"><input type="checkbox" value="Finance BU" onchange="runCascades()"><span class="chk-label">Finance BU</span></label>
+                                        <label class="multi-select-item"><input type="checkbox" value="HR BU" onchange="runCascades()"><span class="chk-label">HR BU</span></label>
+                                        <label class="multi-select-item"><input type="checkbox" value="Analytics BU" onchange="runCascades()"><span class="chk-label">Analytics BU</span></label>
+                                    </div>
+                                </div>
                             </div>
-                    
+                            
                             <div class="ap-filter-group">
-                                <div class="ap-label">REGION</div>
-                                <select class="ap-dropdown">
-                                    <option value="">All Regions</option>
-                                    <option value="India S">India South</option>
-                                    <option value="India N">India North</option>
-                                    <option value="India W">India West</option>
-                                    <option value="US East">US East</option>
-                                    <option value="LATAM">LATAM</option>
-                                    <option value="APAC">APAC</option>
-                                    <option value="ANZ">ANZ</option>
-                                </select>
+                                <div class="ap-label accordion-trigger" onclick="toggleAccordion('region-list', this)" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+                                    REGION
+                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" class="acc-icon" style="transition: transform 0.3s ease;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <div id="region-list" class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+                                    <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 12px; padding-bottom: 8px;">
+                                        <label class="multi-select-item" style="border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 4px;">
+                                            <input type="checkbox" class="select-all-cb" onchange="toggleSelectAll(this, 'region-list'); runCascades();">
+                                            <span class="chk-label" style="font-style: italic;">Select All Regions</span>
+                                        </label>
+                                        <label class="multi-select-item"><input type="checkbox" value="India S" onchange="runCascades()"><span class="chk-label">India South</span></label>
+                                        <label class="multi-select-item"><input type="checkbox" value="India N" onchange="runCascades()"><span class="chk-label">India North</span></label>
+                                        <label class="multi-select-item"><input type="checkbox" value="India W" onchange="runCascades()"><span class="chk-label">India West</span></label>
+                                        <label class="multi-select-item"><input type="checkbox" value="US East" onchange="runCascades()"><span class="chk-label">US East</span></label>
+                                        <label class="multi-select-item"><input type="checkbox" value="LATAM" onchange="runCascades()"><span class="chk-label">LATAM</span></label>
+                                        <label class="multi-select-item"><input type="checkbox" value="APAC" onchange="runCascades()"><span class="chk-label">APAC</span></label>
+                                    </div>
+                                </div>
                             </div>
-                    
+                            
                             <div class="ap-filter-group">
-                                <div class="ap-label">DIRECT MANAGER</div>
-                                <select class="ap-dropdown" id="managerSelect" onchange="handleManagerChange(this)">
-                                    <option value="">Select Manager...</option>
-                                    <option value="Peter">Peter Balaji</option>
-                                    <option value="Logan">Logan</option>
-                                    <option value="Jinil">Jinil</option>
-                                </select>
+                                <div class="ap-label accordion-trigger" onclick="toggleAccordion('manager-list', this)" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+                                    DIRECT MANAGER
+                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" class="acc-icon" style="transition: transform 0.3s ease;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <div id="manager-list" class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+                                    <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 12px; padding-bottom: 8px;">
+                                        </div>
+                                </div>
                             </div>
-                    
+                            
                             <div class="ap-filter-group">
-                                <div class="ap-label">REPORTEES</div>
-                                <div id="selectedReportees" class="ap-chip-container"></div>
+                                <div class="ap-label accordion-trigger" onclick="toggleAccordion('reportee-list', this)" style="cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none;">
+                                    REPORTEES
+                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2.5" class="acc-icon" style="transition: transform 0.3s ease;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <div id="reportee-list" class="accordion-content" style="max-height: 0; overflow: hidden; transition: max-height 0.3s ease;">
+                                    <div style="display: flex; flex-direction: column; gap: 8px; padding-top: 12px; padding-bottom: 8px;">
+                                        </div>
+                                </div>
                             </div>
                     
                             <div class="ap-or-divider"><span>OR</span></div>

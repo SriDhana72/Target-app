@@ -1273,3 +1273,98 @@ function initQuarterSelection() {
       selectAPQuarter(targetBtn); // This will apply the green color and update bars
   }
 }
+
+/* Accordion Filter Logic */
+function toggleAccordion(id, trigger) {
+  const content = document.getElementById(id);
+  trigger.classList.toggle('open');
+  
+  if (content.style.maxHeight && content.style.maxHeight !== '0px') {
+      content.style.maxHeight = '0px'; // Close it
+  } else {
+      content.style.maxHeight = content.scrollHeight + 'px'; // Open it smoothly
+  }
+}
+
+/* ════ ADVANCED 3-TIER CASCADING FILTERS ════ */
+
+const managerDataMap = [
+  { name: "Ananya Iyer", region: "India S", bu: "CRM BU", reps: ["Kavitha Rajan", "Arjun Pillai", "Rahul Desai", "Suresh Babu", "Pallavi Iyer"] },
+  { name: "Rajesh Menon", region: "India N", bu: "Marketing BU", reps: ["Meena Krishnan", "Dinesh Kumar", "Sean O'Brien", "Eva Müller", "Grace Kim", "Nisha Goyal"] },
+  { name: "Priya Suresh", region: "APAC", bu: "Analytics BU", reps: ["Sunita Verma", "Mohan Prasad", "Ravi Shankar", "Yuki Watanabe", "Arun Natarajan"] },
+  { name: "Vikram Nair", region: "LATAM", bu: "CRM BU", reps: ["Carlos Mendez", "Divya Nambiar", "Fatima Al-Amin", "Ben Carter", "Lucas Ferreira", "Deepak Menon"] },
+  { name: "Sarah Jenkins", region: "US East", bu: "CRM BU", reps: ["John Doe", "Jane Smith"] },
+  { name: "Elena Rodriguez", region: "US West", bu: "Marketing BU", reps: ["Mike Johnson", "Emily Davis"] }
+];
+
+function toggleSelectAll(selectAllCb, listId) {
+  const checkboxes = document.querySelectorAll(`#${listId} input[type="checkbox"]:not(.select-all-cb)`);
+  checkboxes.forEach(cb => cb.checked = selectAllCb.checked);
+}
+
+// 1. Runs ONLY when BU or Region changes
+function runCascades() {
+  const selectedBUs = Array.from(document.querySelectorAll('#bu-list input[type="checkbox"]:not(.select-all-cb):checked')).map(cb => cb.value);
+  const selectedRegions = Array.from(document.querySelectorAll('#region-list input[type="checkbox"]:not(.select-all-cb):checked')).map(cb => cb.value);
+
+  let filteredMgrs = managerDataMap;
+  if (selectedBUs.length > 0) filteredMgrs = filteredMgrs.filter(m => selectedBUs.includes(m.bu));
+  if (selectedRegions.length > 0) filteredMgrs = filteredMgrs.filter(m => selectedRegions.includes(m.region));
+
+  window.currentFilteredMgrs = filteredMgrs; // Save for the next step
+
+  const mgrContainer = document.querySelector('#manager-list > div');
+  if (mgrContainer) {
+      if (filteredMgrs.length === 0) {
+          mgrContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:4px 0;">No managers match.</div>';
+      } else {
+          mgrContainer.innerHTML = `
+              <label class="multi-select-item" style="border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 4px;">
+                  <input type="checkbox" class="select-all-cb" onchange="toggleSelectAll(this, 'manager-list'); updateReportees();">
+                  <span class="chk-label" style="font-style: italic;">Select All Managers</span>
+              </label>
+          ` + filteredMgrs.map(m => `
+              <label class="multi-select-item">
+                  <input type="checkbox" value="${m.name}" onchange="updateReportees()">
+                  <span class="chk-label">${m.name} <span style="font-weight: 500; font-size: 11px; color: var(--t3);">(${m.region})</span></span>
+              </label>
+          `).join('');
+      }
+  }
+  
+  updateReportees(); // Push changes down to reportees
+}
+
+// 2. Runs ONLY when Managers change (Preserves your checkmarks)
+function updateReportees() {
+  const filteredMgrs = window.currentFilteredMgrs || managerDataMap;
+  const selectedMgrCbs = Array.from(document.querySelectorAll('#manager-list input[type="checkbox"]:not(.select-all-cb):checked')).map(cb => cb.value);
+  let activeMgrs = selectedMgrCbs.length > 0 ? filteredMgrs.filter(m => selectedMgrCbs.includes(m.name)) : filteredMgrs;
+
+  let reportees = [];
+  activeMgrs.forEach(m => {
+      if (m.reps) reportees.push(...m.reps);
+  });
+  reportees = [...new Set(reportees)].sort();
+
+  const repContainer = document.querySelector('#reportee-list > div');
+  if (repContainer) {
+      if (reportees.length === 0) {
+          repContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:4px 0;">No reportees found.</div>';
+      } else {
+          repContainer.innerHTML = `
+              <label class="multi-select-item" style="border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 4px;">
+                  <input type="checkbox" class="select-all-cb" onchange="toggleSelectAll(this, 'reportee-list')">
+                  <span class="chk-label" style="font-style: italic;">Select All Reportees</span>
+              </label>
+          ` + reportees.map(rep => `
+              <label class="multi-select-item">
+                  <input type="checkbox" value="${rep}">
+                  <span class="chk-label">${rep}</span>
+              </label>
+          `).join('');
+      }
+  }
+}
+
+window.addEventListener('DOMContentLoaded', runCascades);
