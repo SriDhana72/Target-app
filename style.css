@@ -2669,3 +2669,19 @@ input:checked + .setting-slider:before {
     color: #00A693;
     font-weight: 800;
 }
+
+/* Force live feed names to be green */
+.la-text span, 
+.feed-title span {
+    color: #00A693 !important;
+    font-weight: 800;
+}
+
+/* Minimalist grayscale hashtag styling */
+.feed-tag, 
+.la-tag {
+    background: transparent !important; 
+    color: var(--t3) !important; /* Subtle gray text */
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    padding: 0 !important;

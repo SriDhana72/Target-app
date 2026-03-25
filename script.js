@@ -87,12 +87,12 @@ const REPS=[
   
   const ACTIVITY=[  
     {av:"KR",col:"#10b981",text:"<span>Kavitha Rajan</span> closed $8.2M deal with HDFC Bank",tag:"won",time:"2m ago"},  
-    {av:"PR",col:"#3b82f6",text:"<span>Preethi Subram.</span> moved Infosys to Legal Review stage",tag:"moved",time:"14m ago"},  
-    {av:"GK",col:"#10b981",text:"<span>Grace Kim</span> got verbal yes from Salesforce India",tag:"moved",time:"28m ago"},  
+    {av:"PR",col:"#3b82f6",text:"<span>Preethi Subram.</span> qualified Infosys for Legal Review stage",tag:"qualified",time:"14m ago"},  
+    {av:"GK",col:"#10b981",text:"<span>Grace Kim</span> got verbal yes from Salesforce India",tag:"qualified",time:"28m ago"},  
     {av:"CM",col:"#ef4444",text:"<span>Carlos Mendez</span> LATAM deal flagged as at-risk",tag:"risk",time:"1h ago"},  
-    {av:"AR",col:"#f59e0b",text:"<span>Arjun Pillai</span> submitted proposal to Wipro for $3.4M",tag:"moved",time:"2h ago"},  
+    {av:"AR",col:"#f59e0b",text:"<span>Arjun Pillai</span> submitted proposal to Wipro for $3.4M",tag:"qualified",time:"2h ago"},  
     {av:"EM",col:"#ef4444",text:"<span>Eva Müller</span> lost Siemens deal on pricing objection",tag:"lost",time:"3h ago"},  
-    {av:"SV",col:"#06b6d4",text:"<span>Sunita Verma</span> booked Apollo Hospitals demo",tag:"moved",time:"4h ago"},
+    {av:"SV",col:"#06b6d4",text:"<span>Sunita Verma</span> booked Apollo Hospitals demo",tag:"qualified",time:"4h ago"},
   ];
   
   const RC_DATA={  
@@ -601,28 +601,23 @@ function renderLbRows() {
     const container = document.getElementById('wr-product');
     if (!container) return;
 
+    // Forced all product bubbles to use the exact green hex code
     const data = [
-        { name: "CRM", rate: 74, color: "var(--accent)", x: 10, y: 15 },
-        { name: "CRM Plus", rate: 70, color: "var(--purple)", x: 40, y: 10 },
-        { name: "Zoho ONE", rate: 68, color: "var(--amber)", x: 70, y: 20 },
-        { name: "Analytics", rate: 65, color: "var(--green)", x: 20, y: 55 },
-        { name: "Desk", rate: 63, color: "var(--orange)", x: 50, y: 50 },
-        { name: "People", rate: 60, color: "var(--red)", x: 75, y: 60 },
-        { name: "People Plus", rate: 58, color: "#0891b2", x: 5, y: 70 },
-        { name: "Projects", rate: 56, color: "var(--accent2)", x: 32, y: 32 },
-        { name: "Webinar", rate: 52, color: "#dc2626", x: 60, y: 75 },
-        { name: "Lens", rate: 48, color: "#84cc16", x: 85, y: 40 }
+        { name: "CRM", rate: 74, color: "#00A693", x: 10, y: 15 },
+        { name: "CRM Plus", rate: 70, color: "#00A693", x: 40, y: 10 },
+        { name: "Zoho ONE", rate: 68, color: "#00A693", x: 70, y: 20 },
+        { name: "Analytics", rate: 65, color: "#00A693", x: 20, y: 55 },
+        { name: "Desk", rate: 63, color: "#00A693", x: 50, y: 50 },
+        { name: "People", rate: 60, color: "#00A693", x: 75, y: 60 },
+        { name: "People Plus", rate: 58, color: "#00A693", x: 5, y: 70 },
+        { name: "Projects", rate: 56, color: "#00A693", x: 32, y: 32 },
+        { name: "Webinar", rate: 52, color: "#00A693", x: 60, y: 75 },
+        { name: "Lens", rate: 48, color: "#00A693", x: 85, y: 40 }
     ];
 
-    // Build the HTML structure
+    // Build the HTML structure - Removed the confusing color legend
     container.innerHTML = `
         <div class="bubble-chart-wrapper" id="bubble-canvas"></div>
-        <div class="bubble-legend">
-            <div class="bubble-legend-item"><span class="bubble-dot" style="background:var(--accent)"></span> Sales</div>
-            <div class="bubble-legend-item"><span class="bubble-dot" style="background:var(--green)"></span> Analytics</div>
-            <div class="bubble-legend-item"><span class="bubble-dot" style="background:var(--red)"></span> HR/People</div>
-            <div class="bubble-legend-item"><span class="bubble-dot" style="background:var(--purple)"></span> Ops</div>
-        </div>
     `;
 
     const canvas = document.getElementById('bubble-canvas');
@@ -645,8 +640,8 @@ function renderLbRows() {
         bubble.style.transform = 'scale(0.5)';
 
         bubble.innerHTML = `
-            <span class="name">${item.name}</span>
-            <span class="rate">${item.rate}%</span>
+            <span class="name" style="color: #ffffff; font-weight: 700; font-size: 12px; text-align: center; display: block;">${item.name}</span>
+            <span class="rate" style="color: #ffffff; font-weight: 800; font-size: 14px; text-align: center; display: block; margin-top: 2px;">${item.rate}%</span>
         `;
 
         canvas.appendChild(bubble);
@@ -857,12 +852,20 @@ function renderHier(){
     ].map(x=>`<div class="stat-row"><div style="display:flex;align-items:center;gap:8px"><span class="chip info" style="background:${x.c}18;color:${x.c};border-color:${x.c}">${x.n}</span><div><div style="font-size:12px;font-weight:700;color:var(--t1)">${x.l}</div><div style="font-size:10px;color:var(--t3)">Avg WR: ${x.wr}</div></div></div><div style="font-size:12px;font-weight:800;color:var(--accent2)">${x.rev}</div></div>`).join('');
   }
   
-  /* ════ RIGHT PANEL ════ */
-  function renderActivityFeed(){  
-    const el=document.getElementById('activityFeed');  
-    if(!el)return;  
-    el.innerHTML=ACTIVITY.map(a=>`    <div class="feed-item">      <div class="feed-avatar" style="background:${a.col}">${a.av}</div>      <div class="feed-body">        <div class="feed-title">${a.text}</div>        <div><span class="feed-tag ${a.tag}">${a.tag.toUpperCase()}</span></div>      </div>      <div class="feed-time">${a.time}</div>    </div>`).join('');
-  }
+/* ════ RIGHT PANEL AND LIVE FEED UPDATES ════ */
+function renderActivityFeed(){  
+  const el=document.getElementById('activityFeed');  
+  if(!el)return;  
+  el.innerHTML=ACTIVITY.map(a=>`
+    <div class="feed-item">
+      <div class="feed-avatar" style="background:var(--surface2); color:var(--t1); border:1px solid var(--border);">${a.av}</div>
+      <div class="feed-body">
+        <div class="feed-title">${a.text}</div>
+        <div><span class="feed-tag">#${a.tag.toLowerCase()}</span></div>
+      </div>
+      <div class="feed-time">${a.time}</div>
+    </div>`).join('');
+}
   
   function switchRC(key){  
     if(!document.getElementById('rcContent'))return;  
@@ -948,12 +951,16 @@ function renderHier(){
   function renderLARc(){  
     const data = RC_DATA[laRcKey];  
     document.getElementById('laRcContent').innerHTML = data.map(d=>`    
-      <div style="display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--border)">      
-        <div style="width:72px;flex-shrink:0;font-size:11px;font-weight:600;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${d.l}">${d.l}</div>      
-        <div style="flex:1;background:var(--border);border-radius:3px;height:5px;overflow:hidden">        
-          <div style="width:${d.v}%;height:100%;background:${d.c};border-radius:3px"></div>      
+      <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)">      
+        
+        <div style="width:92px;flex-shrink:0;font-size:11px;font-weight:600;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis" title="${d.l}">${d.l}</div>      
+        
+        <div style="flex:1; max-width:110px; background:var(--border);border-radius:3px;height:4px;overflow:hidden">        
+          <div style="width:${d.v}%;height:100%;background:#00A693;border-radius:3px"></div>      
         </div>      
-        <div style="font-size:10px;font-weight:700;color:${d.c};width:52px;text-align:right;flex-shrink:0;white-space:nowrap">${d.rev} · ${d.v}%</div>    
+        
+        <div style="font-size:10px;font-weight:800;color:var(--t1);width:auto;text-align:right;flex-shrink:0;white-space:nowrap">${d.rev} · ${d.v}%</div>    
+      
       </div>`).join('');  
   }
   
@@ -963,7 +970,19 @@ function renderHier(){
   }
   
   function renderLAFeed(){  
-    document.getElementById('laFeed').innerHTML = ACTIVITY.map(a=>`    <div class="la-item">      <div class="la-av" style="background:${a.col}">${a.av}</div>      <div class="la-content">        <div class="la-text">${a.text}</div>        <div class="la-meta">          <span class="la-tag ${a.tag}">${a.tag.toUpperCase()}</span>          <span class="la-time">${a.time}</span>        </div>      </div>    </div>`).join('');  
+    const el = document.getElementById('laFeed');
+    if(!el) return;
+    el.innerHTML = ACTIVITY.map(a=>`
+      <div class="la-item">
+        <div class="la-av" style="background:var(--surface2); color:var(--t1); border:1px solid var(--border);">${a.av}</div>
+        <div class="la-content">
+          <div class="la-text">${a.text}</div>
+          <div class="la-meta">
+            <span class="la-tag">#${a.tag.toLowerCase()}</span>
+            <span class="la-time">${a.time}</span>
+          </div>
+        </div>
+      </div>`).join('');  
     renderLARc();
   }
   
