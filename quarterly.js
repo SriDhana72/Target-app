@@ -299,7 +299,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
-// Auto-fill empty quarterly tables with reference data
+// Auto-fill empty quarterly tables with reference data + Earned Commission
 window.addEventListener('DOMContentLoaded', () => {
     const tableBodies = document.querySelectorAll('.quarter-table tbody');
     const referenceData = `
@@ -311,6 +311,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <td>$500K</td>
             <td>$480K</td>
             <td style="font-weight: 700; color: var(--t1);">93%</td>
+            <td style="font-weight: 700; color: var(--green);">$42K</td>
         </tr>
         <tr>
             <td>Q2</td>
@@ -320,6 +321,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <td>$550K</td>
             <td>$500K</td>
             <td style="font-weight: 700; color: var(--t1);">94%</td>
+            <td style="font-weight: 700; color: var(--green);">$45K</td>
         </tr>
         <tr>
             <td>Q3</td>
@@ -329,6 +331,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <td>$600K</td>
             <td>$520K</td>
             <td style="font-weight: 700; color: var(--t1);">96%</td>
+            <td style="font-weight: 700; color: var(--green);">$48K</td>
         </tr>
         <tr>
             <td style="border-bottom: none;">Q4</td>
@@ -338,6 +341,7 @@ window.addEventListener('DOMContentLoaded', () => {
             <td style="border-bottom: none;">$650K</td>
             <td style="border-bottom: none;">$550K</td>
             <td style="font-weight: 700; color: var(--t1); border-bottom: none;">0%</td>
+            <td style="font-weight: 700; color: var(--t1); border-bottom: none;">$0</td>
         </tr>
     `;
     
