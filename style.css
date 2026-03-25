@@ -2510,3 +2510,39 @@ input:checked + .setting-slider:before {
 #heatMatrix td:first-child {
     min-width: 110px;
 }
+
+/* ════ EXPANDABLE QUARTERLY ROWS ════ */
+.q-row-parent {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.q-row-parent:hover {
+    background: var(--surface3) !important;
+}
+.q-row-arrow {
+    display: inline-block;
+    margin-right: 6px;
+    font-size: 10px;
+    color: var(--t3);
+    transition: transform 0.2s;
+}
+.q-row-arrow.open {
+    transform: rotate(90deg);
+}
+.q-row-expanded {
+    display: none;
+    background: var(--surface2);
+}
+.q-row-expanded.open {
+    display: table-row;
+}
+.q-row-expanded-inner {
+    padding: 16px;
+    min-height: 120px; /* Fits 3-4 rows of empty space for now */
+    border-bottom: 1px solid var(--border);
+    color: var(--t2);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
