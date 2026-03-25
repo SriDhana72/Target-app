@@ -239,56 +239,53 @@ document.addEventListener('click', e => {
     ]
   };
   
-/* ════ MANAGER ATTAINMENT: HIERARCHY PULSE ════ */
-/* ════ BU ATTAINMENT (Previously Manager Pulse) ════ */
+/* ════ BU ATTAINMENT ════ */
 function renderManagerPulse() {
-    const container = document.getElementById('mgr-bars'); 
-    if (!container) return;
+  const container = document.getElementById('mgr-bars'); 
+  if (!container) return;
 
-    // Data for Top BU Leaders
-    const managers = [
-        { name: 'Sarah Connor', initial: 'SC', attainment: 104, team: 'US Enterprise' },
-        { name: 'Marcus Johnson', initial: 'MJ', attainment: 101, team: 'US Mid-Market' },
-        { name: 'Rajesh Iyer', initial: 'RI', attainment: 98, team: 'India Strategic' },
-        { name: 'Priya Sharma', initial: 'PS', attainment: 95, team: 'India Enterprise' },
-        { name: 'Elena Gomez', initial: 'EG', attainment: 92, team: 'LATAM Growth' },
-        { name: 'Chen Wei', initial: 'CW', attainment: 90, team: 'APAC Strategic' },
-        { name: 'Liam Wilson', initial: 'LW', attainment: 88, team: 'APAC SMB' },
-        { name: 'Ana Silva', initial: 'AS', attainment: 86, team: 'LATAM Enterprise' },
-        { name: 'Jinil Shah', initial: 'JS', attainment: 85, team: 'India Mid-Market' },
-        { name: 'Thomas Wright', initial: 'TW', attainment: 82, team: 'UK Growth' }
-    ];
+  // Data for Business Units instead of individual reps
+  const bus = [
+      { name: 'CRM BU', initial: 'CR', attainment: 114, leader: 'Ananya Iyer' },
+      { name: 'Marketing BU', initial: 'MK', attainment: 108, leader: 'Rajesh Menon' },
+      { name: 'Analytics BU', initial: 'AN', attainment: 96, leader: 'Priya Suresh' },
+      { name: 'Finance BU', initial: 'FI', attainment: 92, leader: 'Vikram Nair' },
+      { name: 'HR BU', initial: 'HR', attainment: 88, leader: 'Preethi S.' },
+      { name: 'Operations BU', initial: 'OP', attainment: 82, leader: 'Lucas F.' }
+  ];
 
-    let html = '<div class="mgr-pulse-container">';
-    
-    managers.forEach((mgr, index) => {
-        // Add a crown icon for the #1 leader
-        const crown = index === 0 ? '<span style="position:absolute; top:-10px; left:12px; font-size:14px; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));">👑</span>' : '';
-        
-        html += `
-            <div class="mgr-node-card" style="transition-delay: ${index * 0.05}s; position:relative;">
-                ${crown}
-                <div class="mgr-avatar">${mgr.initial}</div>
-                <div class="mgr-info">
-                    <div class="mgr-name">${mgr.name}</div>
-                    <div class="mgr-team-lbl">${mgr.team}</div>
-                </div>
-                <div class="mgr-attainment-box">
-                    <div class="mgr-percentage">${mgr.attainment}%</div>
-                    <div class="mgr-attainment-lbl">Attainment</div>
-                </div>
-                <div class="mgr-mini-track" style="width: ${mgr.attainment > 100 ? 100 : mgr.attainment}%"></div>
-            </div>
-        `;
-    });
+  let html = '<div class="mgr-pulse-container">';
+  
+  bus.forEach((bu, index) => {
+      // Add a crown icon for the #1 BU
+      const crown = index === 0 ? '<span style="position:absolute; top:-10px; left:12px; font-size:14px; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));">👑</span>' : '';
+      const isTargetMet = bu.attainment >= 100;
+      const colorClass = isTargetMet ? 'var(--green)' : 'var(--amber)';
+      
+      html += `
+          <div class="mgr-node-card" style="transition-delay: ${index * 0.05}s; position:relative;">
+              ${crown}
+              <div class="mgr-avatar" style="background: var(--surface2); color: var(--t1); border: 1px solid var(--border);">${bu.initial}</div>
+              <div class="mgr-info">
+                  <div class="mgr-name">${bu.name}</div>
+                  <div class="mgr-team-lbl">Led by ${bu.leader}</div>
+              </div>
+              <div class="mgr-attainment-box">
+                  <div class="mgr-percentage" style="color: ${colorClass};">${bu.attainment}%</div>
+                  <div class="mgr-attainment-lbl">Attainment</div>
+              </div>
+              <div class="mgr-mini-track" style="width: ${bu.attainment > 100 ? 100 : bu.attainment}%; background: ${colorClass};"></div>
+          </div>
+      `;
+  });
 
-    html += '</div>';
-    container.innerHTML = html;
+  html += '</div>';
+  container.innerHTML = html;
 
-    // Trigger staggered entry animation
-    setTimeout(() => {
-        document.querySelectorAll('.mgr-node-card').forEach(card => card.classList.add('animate'));
-    }, 50);
+  // Trigger staggered entry animation
+  setTimeout(() => {
+      document.querySelectorAll('.mgr-node-card').forEach(card => card.classList.add('animate'));
+  }, 50);
 }
 
 /* ════ NAVIGATION ════ */
@@ -1212,3 +1209,27 @@ function renderHeatMatrix() {
     container.innerHTML = html;
 }
 window.addEventListener('DOMContentLoaded', renderHeatMatrix);
+
+/* ════ DYNAMIC GREETING LOGIC ════ */
+function updateDynamicGreeting() {
+  const greetingElement = document.getElementById('dynamic-greeting');
+  if (!greetingElement) return;
+
+  const hour = new Date().getHours();
+  let greeting = "";
+
+  if (hour >= 5 && hour < 12) {
+      greeting = "Good morning, Peter";
+  } else if (hour >= 12 && hour < 17) {
+      greeting = "Good afternoon, Peter";
+  } else if (hour >= 17 && hour < 21) {
+      greeting = "Good evening, Peter";
+  } else {
+      greeting = "Welcome back, Peter"; // Late night/Early morning
+  }
+
+  greetingElement.textContent = greeting;
+}
+
+// Initialize the greeting on load
+window.addEventListener('DOMContentLoaded', updateDynamicGreeting);

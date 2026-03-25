@@ -114,14 +114,15 @@
             <div class="section active" id="sec-home">
                 <div class="home-hero">          
                     <div>            
-                        <div class="home-greeting">Good morning, Peter</div>            
+                        <div class="home-greeting" id="dynamic-greeting">Good morning, Peter</div>            
                         <div class="home-subtext">FY2024-25 Q4 · Last updated just now</div>          
                     </div>          
-                    <div class="home-hero-badge">            
-                        <button onclick="goTo('orgchart', document.querySelectorAll('.nav-item')[3]); setTimeout(() => document.getElementById('org-targets-section').scrollIntoView({behavior:'smooth', block:'start'}), 100);" class="btn-accent" style="padding: 10px 20px; font-size: 13px; background: #52b788; border: none;">
-                            🎯 Configure Targets
+                    <div class="home-hero-badge">
+                        <button onclick="goTo('orgchart', document.querySelectorAll('.nav-item')[3]); setTimeout(() => document.getElementById('org-targets-section').scrollIntoView({behavior:'smooth', block:'start'}), 100);" class="btn-set-targets-unified">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
+                            Set Targets
                         </button>
-                    </div>        
+                    </div>
                 </div>
 
                 <!-- NEW UNIFIED CURRENT QUARTER KPI SHOWCASE -->

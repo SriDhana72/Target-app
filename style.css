@@ -2546,3 +2546,30 @@ input:checked + .setting-slider:before {
     align-items: center;
     justify-content: center;
 }
+/* ════ UNIFIED SET TARGETS BUTTON ════ */
+.btn-set-targets-unified {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: transparent;
+    border: none; /* Removed the border entirely */
+    border-radius: 8px;
+    color: var(--t1);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-set-targets-unified:hover {
+    background:#00A693;
+    border-color: #00A693;
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+.btn-set-targets-unified:hover svg {
+    color: #ffffff; /* Ensures the icon also turns white */
+}
