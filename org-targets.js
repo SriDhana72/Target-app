@@ -1,4 +1,117 @@
 /* ════ ORGANIZATION TARGETS DATA & LOGIC ════ */
+
+/* ════ CENTRAL ORG DATA ════ */
+window.ORG_DATA = [
+    // --- LEVEL 1: DIRECTOR ---
+    {
+        id: "peter_balaji",
+        managerId: null, // Null means he is the top node
+        name: "Peter Balaji",
+        role: "Director of Sales",
+        image: "https://i.pravatar.cc/150?img=14",
+        target: 25000000,
+        achieved: 29100000,
+        winRate: 82,
+        region: "Global",
+        services: "All Zoho Products",
+        risk: "EMEA Conversions (-12%)"
+    },
+    
+    // --- LEVEL 2: MANAGERS ---
+    {
+        id: "logan",
+        managerId: "peter_balaji", // Reports to Peter
+        name: "Logan",
+        role: "Regional Manager",
+        image: "https://i.pravatar.cc/150?img=11",
+        target: 8000000,
+        achieved: 9200000,
+        winRate: 78,
+        region: "North America",
+        services: "CRM, Desk, Analytics",
+        risk: "Desk Upgrades (-5%)"
+    },
+    {
+        id: "ananya_iyer",
+        managerId: "peter_balaji", // Reports to Peter
+        name: "Ananya Iyer",
+        role: "Regional Manager",
+        image: "https://i.pravatar.cc/150?img=5",
+        target: 8500000,
+        achieved: 9000000,
+        winRate: 80,
+        region: "APAC",
+        services: "CRM Plus, Creator",
+        risk: "Creator Enterprise (-8%)"
+    },
+    {
+        id: "rajesh_menon",
+        managerId: "peter_balaji", // Reports to Peter
+        name: "Rajesh Menon",
+        role: "Regional Manager",
+        image: "https://i.pravatar.cc/150?img=8",
+        target: 8500000,
+        achieved: 10900000,
+        winRate: 85,
+        region: "EMEA",
+        services: "Zoho ONE, Projects",
+        risk: "Projects Churn (+2%)"
+    },
+
+    // --- LEVEL 3: TOP PERFORMERS ---
+    {
+        id: "samuel_walker",
+        managerId: "logan", // Reports to Logan
+        name: "Samuel Walker",
+        role: "Account Executive",
+        image: "https://i.pravatar.cc/150?img=15",
+        target: 1000000,
+        achieved: 1360498,
+        winRate: 80,
+        region: "US East",
+        services: "CRM",
+        risk: "Mid-Market Renewals"
+    },
+    {
+        id: "kavitha_rajan",
+        managerId: "ananya_iyer", // Reports to Ananya
+        name: "Kavitha Rajan",
+        role: "Account Executive",
+        image: "https://i.pravatar.cc/150?img=9",
+        target: 850000,
+        achieved: 1120400,
+        winRate: 76,
+        region: "India West",
+        services: "CRM Plus",
+        risk: "Public Sector Delays"
+    },
+    {
+        id: "lakshmi_pillai",
+        managerId: "ananya_iyer", // Reports to Ananya
+        name: "Lakshmi Pillai",
+        role: "Account Executive",
+        image: "https://i.pravatar.cc/150?img=12",
+        target: 750000,
+        achieved: 820000,
+        winRate: 82,
+        region: "Singapore",
+        services: "Creator",
+        risk: "Retail Sector (-4%)"
+    },
+    {
+        id: "grace_kim",
+        managerId: "rajesh_menon", // Reports to Rajesh
+        name: "Grace Kim",
+        role: "Account Executive",
+        image: "https://i.pravatar.cc/150?img=16",
+        target: 950000,
+        achieved: 1100000,
+        winRate: 84,
+        region: "UK & Ireland",
+        services: "Zoho ONE",
+        risk: "Migration Timelines"
+    }
+];
 const BU_SERVICES_MAP = {
     "Project Management": ["Orchestly", "Projects", "Projects Plus", "Sprints"],
     "Productivity": ["BugTracker", "Projects", "Projects Plus", "Sprints"],
@@ -29,122 +142,205 @@ const REGION_COUNTRY_MAP = {
     "Canada": ["Canada"]
 };
 
-let ORG_TARGETS = [
-    // Level 0: Top Node
-    { id: 't1', level: 0, name: 'Peter Balaji', initials: 'PB', role: 'Director of Sales', actual: 29.1, target: 25.0, pct: 116, reports: 3, parentId: null, isExpanded: true },
-    
-    // Level 1: 3 Direct Reports to Peter
-    { id: 't2', level: 1, name: 'Jinil K Sreejayan', initials: 'JK', role: 'Assistant Director', actual: 8.4, target: 13.75, pct: 61, reports: 2, parentId: 't1', isExpanded: true },
-    { id: 't3', level: 1, name: 'Yogesh Manoharan', initials: 'YM', role: 'Assistant Director', actual: 13.3, target: 11.3, pct: 118, reports: 3, parentId: 't1', isExpanded: false },
-    { id: 't11', level: 1, name: 'Priya Suresh', initials: 'PS', role: 'Assistant Director', actual: 7.4, target: 8.0, pct: 92, reports: 4, parentId: 't1', isExpanded: false },
-
-    // Level 2: 2 Direct Reports to Jinil
-    { id: 't4', level: 2, name: 'Harikrishna Reddy', initials: 'HR', role: 'Sales Head', actual: 4.1, target: 6.25, pct: 68, reports: 0, parentId: 't2', isExpanded: false },
-    { id: 't5', level: 2, name: 'Jose Valentin', initials: 'JV', role: 'Sales Head', actual: 4.3, target: 7.5, pct: 55, reports: 0, parentId: 't2', isExpanded: false },
-
-    // Level 2: 3 Direct Reports to Yogesh
-    { id: 't7', level: 2, name: 'Mahendra A', initials: 'MA', role: 'Sales Manager', actual: 5.1, target: 4.6, pct: 110, reports: 0, parentId: 't3', isExpanded: false },
-    { id: 't8', level: 2, name: 'Hariharan V', initials: 'HV', role: 'Sales Manager', actual: 4.2, target: 3.5, pct: 120, reports: 0, parentId: 't3', isExpanded: false },
-    { id: 't12', level: 2, name: 'Arun Natarajan', initials: 'AN', role: 'Sales Manager', actual: 4.0, target: 3.2, pct: 125, reports: 0, parentId: 't3', isExpanded: false },
-
-    // Level 2: 4 Direct Reports to Priya
-    { id: 't13', level: 2, name: 'Kavitha Rajan', initials: 'KR', role: 'Sales Head', actual: 2.1, target: 2.0, pct: 105, reports: 0, parentId: 't11', isExpanded: false },
-    { id: 't14', level: 2, name: 'Nisha Goyal', initials: 'NG', role: 'Sales Manager', actual: 1.8, target: 2.0, pct: 90, reports: 0, parentId: 't11', isExpanded: false },
-    { id: 't15', level: 2, name: 'Sean O\'Brien', initials: 'SO', role: 'Sales Manager', actual: 1.5, target: 2.0, pct: 75, reports: 0, parentId: 't11', isExpanded: false },
-    { id: 't16', level: 2, name: 'Meena Krishnan', initials: 'MK', role: 'Sales Head', actual: 2.0, target: 2.0, pct: 100, reports: 0, parentId: 't11', isExpanded: false }
-];
-
-let activeTargetId = 't2'; 
+let activeTargetId = 'peter_balaji'; // Start with Peter highlighted
 let tcTab = 'individual'; 
 let selectedPanelCountries = [];
-let viewTotalInIndividual = false; // New state to track the checkbox
+let viewTotalInIndividual = false; 
+let activeTreeBU = 'All';
 
 function formatM(val) {
-    if (val < 1) return '$' + Math.round(val * 1000) + 'K';
-    return '$' + val.toFixed(1) + 'M';
+    if (val >= 1000000) return '$' + (val / 1000000).toFixed(1) + 'M';
+    if (val >= 1000) return '$' + Math.round(val / 1000) + 'K';
+    return '$' + val;
 }
 
 function getPctColor(pct) {
     if (pct >= 100) return 'var(--green)';
-    if (pct >= 60) return 'var(--amber)';
-    return 'var(--red)';
+    if (pct >= 80) return 'var(--amber)';
+    return '#dc2626';
 }
 
-function toggleExpand(event, id) {
-    event.stopPropagation(); 
-    const node = ORG_TARGETS.find(n => n.id === id);
-    if (node) {
-        node.isExpanded = !node.isExpanded;
-        renderOrgTargetsList();
-    }
-}
+/* ════ THE WATERFALL RENDERER ════ */
+function buildTreeHTML(managerId) {
+    const reports = window.ORG_DATA.filter(n => n.managerId === managerId);
+    if (reports.length === 0) return '';
+    
+    let html = managerId === null ? '' : '<div class="wf-children">';
+    
+    reports.forEach(node => {
+        const pct = Math.round((node.achieved / node.target) * 100) || 0;
+        const pctColor = getPctColor(pct);
+        const isHighligted = node.id === activeTargetId ? 'highlight' : '';
+        
+        // Smart BU Dimming Logic
+        let isDimmed = '';
+        if (activeTreeBU !== 'All') {
+            if (node.services !== 'All Zoho Products') {
+                const buServices = BU_SERVICES_MAP[activeTreeBU] || [];
+                // Check if the person sells any service in the selected BU
+                const hasMatch = buServices.some(svc => node.services.includes(svc));
+                if (!hasMatch) {
+                    isDimmed = 'dimmed';
+                }
+            }
+        }
 
-function getVisibleNodes() {
-    const visible = [];
-    
-    function traverse(parentId) {
-        ORG_TARGETS.filter(n => n.parentId === parentId).forEach(child => {
-            visible.push(child);
-            if (child.isExpanded) traverse(child.id);
-        });
-    }
-    
-    ORG_TARGETS.filter(n => n.parentId === null).forEach(root => {
-        visible.push(root);
-        if (root.isExpanded) traverse(root.id);
+        const childrenHtml = buildTreeHTML(node.id); 
+        
+        html += `
+        <div class="wf-node">
+            <div class="wf-card ${isHighligted} ${isDimmed}" onclick="selectTargetNode('${node.id}')">
+                
+                <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                    <img src="${node.image}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:1px solid var(--border);">
+                    <div>
+                        <div style="font-size:13px; font-weight:800; color:var(--t1); line-height:1.2;">${node.name}</div>
+                        <div style="font-size:10px; color:var(--t2); font-weight:600;">${node.role}</div>
+                    </div>
+                </div>
+
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:6px; margin-bottom:10px; background:var(--surface2); padding:8px; border-radius:6px; border: 1px solid var(--border);">
+                    <div>
+                        <div style="font-size:8px; color:var(--t3); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Target</div>
+                        <div style="font-size:12px; font-weight:800; color:var(--t1);">${formatM(node.target)}</div>
+                    </div>
+                    <div>
+                        <div style="font-size:8px; color:var(--t3); font-weight:700; text-transform:uppercase; letter-spacing:0.5px;">Achieved</div>
+                        <div style="font-size:12px; font-weight:800; color:${pctColor};">${formatM(node.achieved)} <span style="font-size:9px; background:rgba(0,0,0,0.05); padding:2px 4px; border-radius:4px;">${pct}%</span></div>
+                    </div>
+                </div>
+
+                <div style="font-size:10px; color:var(--t2); margin-bottom:4px; display:flex; justify-content:space-between;"><b>Win Rate:</b> <span style="font-weight:700; color:var(--t1);">${node.winRate}%</span></div>
+                <div style="font-size:10px; color:var(--t2); margin-bottom:4px; display:flex; justify-content:space-between;"><b>Region:</b> <span style="font-weight:700; color:var(--t1);">${node.region}</span></div>
+                <div style="font-size:10px; color:var(--t2); margin-bottom:8px; display:flex; justify-content:space-between;"><b>Services:</b> <span style="font-weight:700; color:var(--t1); text-align:right; max-width:110px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${node.services}">${node.services}</span></div>
+                
+                <div style="font-size:10px; font-weight:700; color:#dc2626; background:#fef2f2; border: 1px solid #fecaca; padding:4px 6px; border-radius:4px; display:flex; gap:4px; align-items:flex-start;">
+                    <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2.5" style="flex-shrink:0; margin-top:1px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <span style="line-height:1.2;">${node.risk}</span>
+                </div>
+
+            </div>
+            ${childrenHtml}
+        </div>`;
     });
     
-    return visible;
+    html += managerId === null ? '' : '</div>';
+    return html;
 }
 
-/* --- DROPDOWNS & MULTI-SELECT LOGIC --- */
+function renderOrgTargetsList() {
+    const container = document.getElementById('newHierTree');
+    if (!container) return;
+
+    // 1. Build the Sidebar List for Business Units
+    let buOptions = `
+        <div class="sidebar-filter-item ${activeTreeBU === 'All' ? 'active' : ''}" onclick="activeTreeBU = 'All'; renderOrgTargetsList();">
+            All Business Units
+        </div>`;
+    
+    Object.keys(BU_SERVICES_MAP).forEach(bu => {
+        buOptions += `
+        <div class="sidebar-filter-item ${activeTreeBU === bu ? 'active' : ''}" onclick="activeTreeBU = '${bu}'; renderOrgTargetsList();">
+            ${bu}
+        </div>`;
+    });
+
+    // 2. The Clean, Borderless Right Panel
+    const rightPanelHTML = `
+    <div style="width: 220px; flex-shrink: 0; padding: 10px 0; display: flex; flex-direction: column; align-self: flex-start; position: sticky; top: 120px; z-index: 10;">
+        <div style="text-align: right;">
+            <div style="font-size: 10px; font-weight: 800; color: var(--t3); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 16px; padding-right: 12px; opacity: 0.8;">
+                Filter by BU Group
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 4px;">
+                ${buOptions}
+            </div>
+        </div>
+    </div>
+`;
+
+    // 3. Updated CSS for the borderless items
+    const layoutStyles = `
+    <style>
+.org-waterfall { 
+    display: flex; 
+    justify-content: center; 
+    padding: 20px 0 40px 0; 
+    min-width: max-content; 
+}        .wf-node { display: flex; flex-direction: column; align-items: center; position: relative; padding: 0 10px; }
+        
+        .wf-card { width: 220px; background: var(--surface, #fff); border: 1px solid var(--border, #e5e7eb); border-radius: 10px; padding: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.04); position: relative; z-index: 2; text-align: left; transition: all 0.2s ease; cursor: pointer; }
+        .wf-card.highlight { border: 2px solid #00A693; box-shadow: 0 0 15px rgba(0, 166, 147, 0.2); transform: scale(1.02); }
+        
+        .wf-card.dimmed { opacity: 0.3; filter: grayscale(100%); background: var(--surface2); border: 1px dashed var(--border); box-shadow: none; }
+        .wf-card.dimmed:hover { opacity: 0.8; filter: none; }
+
+        .wf-children { display: flex; justify-content: center; padding-top: 20px; position: relative; width: max-content; margin: 0 auto; }
+        .wf-children::before { content: ''; position: absolute; top: 0; left: 50%; width: 0; height: 20px; border-left: 2px solid var(--border, #cbd5e1); }
+        .wf-node::before { content: ''; position: absolute; top: -20px; left: 50%; width: 0; height: 20px; border-left: 2px solid var(--border, #cbd5e1); }
+        .wf-node:first-child::after { content: ''; position: absolute; top: -20px; left: 50%; width: 50%; height: 2px; background: var(--border, #cbd5e1); }
+        .wf-node:last-child::after { content: ''; position: absolute; top: -20px; right: 50%; width: 50%; height: 2px; background: var(--border, #cbd5e1); }
+        .wf-node:only-child::after { display: none; }
+
+        /* Modern, borderless sidebar items */
+        .sidebar-filter-item {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--t2);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-align: right;
+            border-right: 3px solid transparent;
+        }
+        .sidebar-filter-item:hover {
+            color: var(--t1);
+            background: var(--surface2);
+        }
+.sidebar-filter-item.active {
+    color: #00A693;
+    font-weight: 800;
+    background: rgba(0, 166, 147, 0.05); 
+    border-right: 4px solid #00A693; 
+    border-radius: 4px 0 0 4px;
+}
+    </style>
+    `;
+
+    container.innerHTML = layoutStyles + `
+    <div style="display: flex; gap: 40px; align-items: flex-start; width: 100%; padding-top: 20px;">
+        <div style="flex: 1; overflow-x: auto; padding-bottom: 24px;">
+            <div class="org-waterfall">${buildTreeHTML(null)}</div>
+        </div>
+        ${rightPanelHTML}
+    </div>`;
+}
+
+/* ════ DROPDOWNS & MULTI-SELECT LOGIC ════ */
 function updatePanelServices() {
     const buSelect = document.getElementById('panel-bu');
     const msDropdown = document.getElementById('tc-ms-dropdown');
     const msTrigger = document.getElementById('tc-ms-trigger');
     const selectedBU = buSelect.value;
-    
     if(!msDropdown) return;
     msDropdown.innerHTML = ''; 
-    
     if (!selectedBU) {
         msTrigger.innerHTML = 'Select BU First';
         msDropdown.innerHTML = '<div class="tc-ms-empty">Select a BU Group above</div>';
         return;
     }
-    
     const services = BU_SERVICES_MAP[selectedBU] || [];
     msTrigger.innerHTML = 'All Services Selected';
-    
-    let html = `
-        <label class="tc-ms-item" style="font-weight:800; background:var(--surface2);">
-            <input type="checkbox" id="ms-select-all" checked onchange="toggleAllServices(this)">
-            Select All Services
-        </label>
-    `;
-    
+    let html = `<label class="tc-ms-item" style="font-weight:800; background:var(--surface2);"><input type="checkbox" id="ms-select-all" checked onchange="toggleAllServices(this)">Select All Services</label>`;
     services.forEach(svc => {
-        html += `
-        <label class="tc-ms-item">
-            <input type="checkbox" class="ms-svc-cb" value="${svc}" checked onchange="updateMSTriggerText()">
-            ${svc}
-        </label>`;
+        html += `<label class="tc-ms-item"><input type="checkbox" class="ms-svc-cb" value="${svc}" checked onchange="updateMSTriggerText()">${svc}</label>`;
     });
-    
     msDropdown.innerHTML = html;
 }
 
-function toggleMSServices(e) {
-    e.stopPropagation();
-    const drop = document.getElementById('tc-ms-dropdown');
-    if(drop) drop.classList.toggle('open');
-}
-
-function toggleAllServices(source) {
-    const cbs = document.querySelectorAll('.ms-svc-cb');
-    cbs.forEach(cb => cb.checked = source.checked);
-    updateMSTriggerText();
-}
+function toggleMSServices(e) { e.stopPropagation(); const drop = document.getElementById('tc-ms-dropdown'); if(drop) drop.classList.toggle('open'); }
+function toggleAllServices(source) { const cbs = document.querySelectorAll('.ms-svc-cb'); cbs.forEach(cb => cb.checked = source.checked); updateMSTriggerText(); }
 
 function updateMSTriggerText() {
     const cbs = document.querySelectorAll('.ms-svc-cb');
@@ -152,30 +348,17 @@ function updateMSTriggerText() {
     const selectAllCb = document.getElementById('ms-select-all');
     const trigger = document.getElementById('tc-ms-trigger');
     if(!trigger) return;
-    
     if(selectAllCb) selectAllCb.checked = (cbs.length === checkedCbs.length);
-    
-    if(checkedCbs.length === 0) {
-        trigger.innerHTML = '<span style="color:var(--red);">No Services Selected</span>';
-    } else if (checkedCbs.length === cbs.length) {
-        trigger.innerHTML = 'All Services Selected';
-    } else if (checkedCbs.length === 1) {
-        trigger.innerHTML = checkedCbs[0].value;
-    } else {
-        trigger.innerHTML = `<span style="color:var(--accent); font-weight:800;">${checkedCbs.length} Services Selected</span>`;
-    }
+    if(checkedCbs.length === 0) trigger.innerHTML = '<span style="color:var(--red);">No Services Selected</span>';
+    else if (checkedCbs.length === cbs.length) trigger.innerHTML = 'All Services Selected';
+    else if (checkedCbs.length === 1) trigger.innerHTML = checkedCbs[0].value;
+    else trigger.innerHTML = `<span style="color:var(--accent); font-weight:800;">${checkedCbs.length} Services Selected</span>`;
 }
 
 function updatePanelCountries() {
     const regionSelect = document.getElementById('panel-region');
     if(!regionSelect) return;
-    const region = regionSelect.value;
-    
-    if (!region) {
-        selectedPanelCountries = [];
-    } else {
-        selectedPanelCountries = [...(REGION_COUNTRY_MAP[region] || [])];
-    }
+    selectedPanelCountries = regionSelect.value ? [...(REGION_COUNTRY_MAP[regionSelect.value] || [])] : [];
     renderCountryTags();
 }
 
@@ -187,72 +370,47 @@ function removeCountry(countryName) {
 function renderCountryTags() {
     const container = document.getElementById('tc-country-tags');
     if (!container) return;
-    
     if (selectedPanelCountries.length === 0) {
         container.innerHTML = '<div class="tc-ms-empty" style="padding:12px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left;">No countries selected. Choose a region above.</div>';
         return;
     }
-
-    container.innerHTML = selectedPanelCountries.map(c => {
-        const escaped = c.replace(/'/g, "\\'");
-        return `
-        <div class="tc-country-tag">
-            ${c}
-            <span class="tc-tag-close" onclick="removeCountry('${escaped}')" title="Remove">✕</span>
-        </div>
-        `;
-    }).join('');
+    container.innerHTML = selectedPanelCountries.map(c => `<div class="tc-country-tag">${c}<span class="tc-tag-close" onclick="removeCountry('${c.replace(/'/g, "\\'")}')" title="Remove">✕</span></div>`).join('');
 }
 
-/* --- TAB, LOGIC & MATH VALDITATION --- */
+/* ════ TAB, LOGIC & MATH VALIDATION ════ */
 function selectTCPill(element) {
-    const parent = element.parentElement;
-    const pills = parent.querySelectorAll('.tc-pill');
+    const pills = element.parentElement.querySelectorAll('.tc-pill');
     pills.forEach(p => p.classList.remove('active'));
     element.classList.add('active');
 }
 
-function switchTCTab(tab) {
-    tcTab = tab;
-    renderTargetConfig();
-}
-
-function toggleTargetView(isChecked) {
-    viewTotalInIndividual = isChecked;
-    renderTargetConfig();
-}
+function switchTCTab(tab) { tcTab = tab; renderTargetConfig(); }
+function toggleTargetView(isChecked) { viewTotalInIndividual = isChecked; renderTargetConfig(); }
 
 function splitEvenly() {
-    const node = ORG_TARGETS.find(n => n.id === activeTargetId);
+    const node = window.ORG_DATA.find(n => n.id === activeTargetId);
     if (!node) return;
-    
-    const directReports = ORG_TARGETS.filter(n => n.parentId === node.id);
+    const directReports = window.ORG_DATA.filter(n => n.managerId === node.id);
     if (directReports.length === 0) return;
     
-    const parentTargetVal = node.target * 1000000;
-    const splitAmount = parentTargetVal / directReports.length;
-    
-    directReports.forEach(rep => {
-        rep.target = parseFloat((splitAmount / 1000000).toFixed(4));
-    });
+    const splitAmount = Math.round(node.target / directReports.length);
+    directReports.forEach(rep => rep.target = splitAmount);
     
     renderOrgTargetsList();
     renderTargetConfig();
 }
 
 function updateRepTarget(repId, value, isSelfOnly = false) {
-    const rep = ORG_TARGETS.find(n => n.id === repId);
+    const rep = window.ORG_DATA.find(n => n.id === repId);
     if (rep) {
-        const numericVal = parseFloat(value.replace(/[^0-9.-]+/g,""));
+        const numericVal = parseInt(value.replace(/[^0-9.-]+/g,""), 10);
         if (!isNaN(numericVal)) {
             if (isSelfOnly) {
-                // Find team total and add it to the newly input Self Target to set the new Total Target
-                const directReports = ORG_TARGETS.filter(n => n.parentId === repId);
-                const teamTotalValue = directReports.reduce((sum, r) => sum + (r.target * 1000000), 0);
-                rep.target = (numericVal + teamTotalValue) / 1000000;
+                const directReports = window.ORG_DATA.filter(n => n.managerId === repId);
+                const teamTotalValue = directReports.reduce((sum, r) => sum + r.target, 0);
+                rep.target = numericVal + teamTotalValue;
             } else {
-                // Update Total Target directly
-                rep.target = numericVal / 1000000;
+                rep.target = numericVal;
             }
         }
     }
@@ -260,74 +418,26 @@ function updateRepTarget(repId, value, isSelfOnly = false) {
     renderTargetConfig();
 }
 
-function renderOrgTargetsList() {
-    const container = document.getElementById('newHierTree');
-    if (!container) return;
-
-    const visibleNodes = getVisibleNodes();
-
-    container.innerHTML = visibleNodes.map(node => {
-        const isActive = node.id === activeTargetId ? 'active' : '';
-        const indentClass = node.level > 0 ? `ot-indent-${node.level}` : '';
-        const pctCol = getPctColor(node.pct);
-        const hasChildren = ORG_TARGETS.some(n => n.parentId === node.id);
-        
-        const arrowStr = hasChildren 
-            ? `<span style="color:var(--t3); margin-right:8px; font-size:10px; cursor:pointer; padding:4px;" onclick="toggleExpand(event, '${node.id}')">${node.isExpanded ? '▼' : '▶'}</span>` 
-            : `<span style="width:22px; display:inline-block;"></span>`;
-
-        return `
-        <div class="ot-node ${isActive} ${indentClass}" onclick="selectTargetNode('${node.id}')">
-            <div style="display:flex; align-items:center;">
-                ${arrowStr}
-                <div class="ot-av-wrap">
-                    <div class="ot-av" style="border-color:${isActive ? 'var(--accent)' : 'var(--surface)'}">${node.initials}</div>
-                    <div class="ot-av-badge">${node.reports}</div>
-                </div>
-                <div class="ot-info">
-                    <div class="ot-name">
-                        ${node.name} 
-                        <span class="ot-swap-icon">⇄</span>
-                        <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:${pctCol}"></span>
-                    </div>
-                    <div class="ot-role">${node.role}</div>
-                </div>
-            </div>
-            <div class="ot-stats">
-                <div class="ot-pct" style="color:${pctCol}">${node.pct}%</div>
-                <div class="ot-stat-main">${formatM(node.actual)} <span>/ ${formatM(node.target)}</span></div>
-            </div>
-        </div>`;
-    }).join('');
-}
-
 function renderTargetConfig() {
     const container = document.getElementById('targetConfigPanel');
     if (!container) return;
 
-    const node = ORG_TARGETS.find(n => n.id === activeTargetId);
+    const node = window.ORG_DATA.find(n => n.id === activeTargetId);
     if (!node) return;
 
-    const parentNode = ORG_TARGETS.find(n => n.id === node.parentId);
+    const parentNode = window.ORG_DATA.find(n => n.id === node.managerId);
     const reportsToStr = parentNode ? `Reports to: <span>${parentNode.name}</span>` : 'Head of Department';
     
-    // Core Math for Individual Box breakdown
-    const directReports = ORG_TARGETS.filter(n => n.parentId === node.id);
-    const teamRollupVal = directReports.reduce((sum, r) => sum + Math.round(r.target * 1000000), 0);
-    const totalTargetVal = Math.round(node.target * 1000000);
+    const directReports = window.ORG_DATA.filter(n => n.managerId === node.id);
+    const teamRollupVal = directReports.reduce((sum, r) => sum + r.target, 0);
+    const totalTargetVal = node.target;
     const selfTargetVal = totalTargetVal - teamRollupVal;
     
-    const rawTargetValue = totalTargetVal.toLocaleString('en-US');
-
     let buOptions = '<option value="">Select BU Group</option>';
-    Object.keys(BU_SERVICES_MAP).forEach(bu => {
-        buOptions += `<option value="${bu}">${bu}</option>`;
-    });
+    Object.keys(BU_SERVICES_MAP).forEach(bu => buOptions += `<option value="${bu}">${bu}</option>`);
 
     let regionOptions = '<option value="">Select Region</option>';
-    Object.keys(REGION_COUNTRY_MAP).forEach(reg => {
-        regionOptions += `<option value="${reg}">${reg}</option>`;
-    });
+    Object.keys(REGION_COUNTRY_MAP).forEach(reg => regionOptions += `<option value="${reg}">${reg}</option>`);
 
     const headerContent = `
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
@@ -336,7 +446,6 @@ function renderTargetConfig() {
                 <div style="font-size:13px; font-weight:600; color:var(--accent); margin-top:2px;">${node.role}</div>
                 <div style="font-size:12px; color:var(--t3); margin-top:4px;">${reportsToStr}</div>
             </div>
-            
             <div>
                 <div class="tc-toggle-wrap" style="margin-bottom: 0; min-width: 300px;">
                     <button class="tc-toggle-btn ${tcTab === 'individual' ? 'active' : ''}" onclick="switchTCTab('individual')">👤 Individual</button>
@@ -351,55 +460,34 @@ function renderTargetConfig() {
     if (tcTab === 'individual') {
         bottomContent = `
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
-            <!-- Column 1: Time & Type -->
             <div>
                 <div class="tc-label">Quarter</div>
                 <div class="tc-pill-grid" style="margin-bottom: 16px;">
-                    <div class="tc-pill active" onclick="selectTCPill(this)">Q1</div>
-                    <div class="tc-pill" onclick="selectTCPill(this)">Q2</div>
-                    <div class="tc-pill" onclick="selectTCPill(this)">Q3</div>
-                    <div class="tc-pill" onclick="selectTCPill(this)">Q4</div>
+                    <div class="tc-pill active" onclick="selectTCPill(this)">Q1</div><div class="tc-pill" onclick="selectTCPill(this)">Q2</div>
+                    <div class="tc-pill" onclick="selectTCPill(this)">Q3</div><div class="tc-pill" onclick="selectTCPill(this)">Q4</div>
                 </div>
                 <div class="tc-label">Target Type</div>
                 <div class="tc-pill-grid cols-3">
-                    <div class="tc-pill active" onclick="selectTCPill(this)">Sales</div>
-                    <div class="tc-pill" onclick="selectTCPill(this)">Partner</div>
-                    <div class="tc-pill" onclick="selectTCPill(this)">Renewal</div>
+                    <div class="tc-pill active" onclick="selectTCPill(this)">Sales</div><div class="tc-pill" onclick="selectTCPill(this)">Partner</div><div class="tc-pill" onclick="selectTCPill(this)">Renewal</div>
                 </div>
             </div>
-
-            <!-- Column 2: Product & Service -->
             <div>
                 <div class="tc-label">BU Group</div>
-                <select class="tc-select" id="panel-bu" onchange="updatePanelServices()" style="margin-bottom: 16px;">
-                    ${buOptions}
-                </select>
-
+                <select class="tc-select" id="panel-bu" onchange="updatePanelServices()" style="margin-bottom: 16px;">${buOptions}</select>
                 <div class="tc-label">Service(s)</div>
                 <div class="tc-multiselect-wrap" id="tc-ms-wrap">
-                    <div class="tc-select tc-ms-trigger" onclick="toggleMSServices(event)" id="tc-ms-trigger">
-                        Select BU First
-                    </div>
-                    <div class="tc-ms-dropdown" id="tc-ms-dropdown">
-                        <div class="tc-ms-empty">Select a BU Group above</div>
-                    </div>
+                    <div class="tc-select tc-ms-trigger" onclick="toggleMSServices(event)" id="tc-ms-trigger">Select BU First</div>
+                    <div class="tc-ms-dropdown" id="tc-ms-dropdown"><div class="tc-ms-empty">Select a BU Group above</div></div>
                 </div>
             </div>
-
-            <!-- Column 3: Geography -->
             <div>
                 <div class="tc-label">Region</div>
-                <select class="tc-select" id="panel-region" style="margin-bottom: 16px;" onchange="updatePanelCountries()">
-                    ${regionOptions}
-                </select>
-
+                <select class="tc-select" id="panel-region" style="margin-bottom: 16px;" onchange="updatePanelCountries()">${regionOptions}</select>
                 <div class="tc-label">Included Countries</div>
                 <div class="tc-country-tags-wrap" id="tc-country-tags" style="max-height: 100px;">
                     <div class="tc-ms-empty" style="padding:12px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left;">Select a Region above to auto-populate countries</div>
                 </div>
             </div>
-
-            <!-- Column 4: Hierarchy Info & Self Target -->
             <div style="display: flex; flex-direction: column; gap: 24px;">
                 <div>
                     <div class="tc-label">Reporting Manager</div>
@@ -408,7 +496,6 @@ function renderTargetConfig() {
                         <option>Sridhar Vembu (CEO)</option>
                     </select>
                 </div>
-                
                 <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: all 0.2s;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
                         <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--t1);">
@@ -423,7 +510,6 @@ function renderTargetConfig() {
                     <div style="font-size: 11px; color: var(--t3); margin-bottom: 12px;">
                         ${viewTotalInIndividual ? 'Includes self target + team rollup.' : 'Direct contribution — not from team rollup.'}
                     </div>
-                    
                     <div style="display: flex; align-items: center; background: var(--surface); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);">
                         <span style="font-size: 15px; font-weight: 800; color: var(--t2); margin-right: 8px;">$</span>
                         <input type="text" value="${(viewTotalInIndividual ? totalTargetVal : selfTargetVal).toLocaleString('en-US')}" onchange="updateRepTarget('${node.id}', this.value, ${!viewTotalInIndividual})" style="background: transparent; border: none; font-size: 15px; font-weight: 800; color: var(--t1); outline: none; width: 100%; text-align: right; font-family: inherit;">
@@ -431,7 +517,6 @@ function renderTargetConfig() {
                             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                         </button>
                     </div>
-
                     ${viewTotalInIndividual ? `
                     <div style="display:flex; justify-content:space-between; margin-top:16px; padding-top:12px; border-top:1px dashed var(--border-hi);">
                         <div style="font-size:11px;">
@@ -442,21 +527,19 @@ function renderTargetConfig() {
                             <div style="color:var(--t3); font-weight:600; margin-bottom:4px;">Team Roll-up</div>
                             <div style="color:var(--t1); font-weight:800;">$${teamRollupVal.toLocaleString('en-US')}</div>
                         </div>
-                    </div>
-                    ` : ''}
-
+                    </div>` : ''}
                 </div>
             </div>
-        </div>
-        `;
+        </div>`;
     } else if (tcTab === 'rollup') {
-        const directReports = ORG_TARGETS.filter(n => n.parentId === node.id);
-        const parentTargetValue = node.target * 1000000;
+        // Fix: Use window.ORG_DATA instead of the old array
+        const directReports = window.ORG_DATA.filter(n => n.managerId === node.id);
+        const parentTargetValue = node.target;
         
         if (directReports.length === 0) {
             bottomContent = `<div style="padding: 40px; text-align: center; color: var(--t3); font-weight: 600; border-top: 1px solid var(--border); margin-top: 24px; padding-top: 40px;">This person has no direct reports to roll up targets for.</div>`;
         } else {
-            const teamTotalValue = directReports.reduce((sum, r) => sum + (r.target * 1000000), 0);
+            const teamTotalValue = directReports.reduce((sum, r) => sum + r.target, 0);
             const isMatch = Math.abs(teamTotalValue - parentTargetValue) < 1;
 
             const teamRows = directReports.map(rep => {
@@ -472,7 +555,7 @@ function renderTargetConfig() {
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="display: flex; align-items: center; padding: 6px 12px; background: var(--surface2); border-radius: 6px; border: 1px solid var(--border);">
                             <span style="font-size: 12px; color: var(--t2); margin-right: 6px;">$</span>
-                            <input type="text" value="${(rep.target * 1000000).toLocaleString('en-US')}" onchange="updateRepTarget('${rep.id}', this.value)" style="width: 100px; background: transparent; border: none; font-size: 13px; font-weight: 800; color: var(--t1); outline: none; text-align: right; font-family: inherit;">
+                            <input type="text" value="${rep.target.toLocaleString('en-US')}" onchange="updateRepTarget('${rep.id}', this.value)" style="width: 120px; background: transparent; border: none; font-size: 13px; font-weight: 800; color: var(--t1); outline: none; text-align: right; font-family: inherit;">
                         </div>
                         <button class="th-icon-btn" style="border: 1px solid var(--border); border-radius: 6px; width: 32px; height: 32px;" onclick="saveNewTarget(this)" title="Save changes">
                             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
@@ -483,8 +566,6 @@ function renderTargetConfig() {
 
             bottomContent = `
             <div style="display: grid; grid-template-columns: 1fr 280px; gap: 32px; border-top: 1px solid var(--border); padding-top: 24px;">
-                
-                <!-- Left Side: Team List -->
                 <div>
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
                         <div style="font-size: 14px; font-weight: 800; color: var(--t1); display: flex; align-items: center; gap: 8px;">
@@ -497,25 +578,20 @@ function renderTargetConfig() {
                             <button class="btn-accent" style="padding: 6px 14px; font-size: 12px; background: rgba(46, 168, 122, 0.15); color: var(--green); border: 1px solid var(--green); box-shadow: none;" onclick="saveNewTarget(this)">💾 Save All</button>
                         </div>
                     </div>
-                    
                     <div style="display: flex; flex-direction: column; gap: 10px;">
                         ${teamRows}
                     </div>
                 </div>
                 
-                <!-- Right Side: Summary Panel -->
                 <div style="display: flex; flex-direction: column; gap: 20px;">
-                    
                     <div>
                         <div class="tc-label" style="margin-top:0; margin-bottom: 6px;">Reporting Manager</div>
                         <select class="tc-select" style="margin-bottom: 20px;">
                             <option>${parentNode ? parentNode.name + ' (' + parentNode.role + ')' : 'N/A'}</option>
                             <option>Sridhar Vembu (CEO)</option>
                         </select>
-
                         <div style="font-size: 14px; font-weight: 800; color: var(--t1); margin-bottom: 4px;">Total Target — 2026</div>
                         <div style="font-size: 11px; color: var(--t3); margin-bottom: 10px;">Includes self target + team rollup.</div>
-                        
                         <div style="display: flex; align-items: center; background: var(--surface2); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border);">
                             <span style="font-size: 14px; font-weight: 800; color: var(--t2); margin-right: 8px;">$</span>
                             <input type="text" value="${parentTargetValue.toLocaleString('en-US')}" onchange="updateRepTarget('${node.id}', this.value)" style="background: transparent; border: none; font-size: 14px; font-weight: 800; color: var(--t1); outline: none; width: 100%; text-align: right; font-family: inherit;">
@@ -533,28 +609,21 @@ function renderTargetConfig() {
                         </div>
                         <div style="height: 1px; background: var(--border); margin: 10px 0;"></div>
                         ${isMatch ? 
-                            `<div style="font-size: 11px; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 6px;">
-                                ✅ Targets match perfectly
-                            </div>` : 
-                            `<div style="font-size: 11px; font-weight: 700; color: var(--amber); display: flex; align-items: center; gap: 6px;">
-                                ⚠️ Child targets don't match parent
-                            </div>`
+                            `<div style="font-size: 11px; font-weight: 700; color: var(--green); display: flex; align-items: center; gap: 6px;">✅ Targets match perfectly</div>` : 
+                            `<div style="font-size: 11px; font-weight: 700; color: var(--amber); display: flex; align-items: center; gap: 6px;">⚠️ Child targets don't match parent</div>`
                         }
                     </div>
                 </div>
-
-            </div>
-            `;
+            </div>`;
         }
     }
-
     container.innerHTML = headerContent + bottomContent;
 }
 
 function selectTargetNode(id) {
     activeTargetId = id;
     tcTab = 'individual'; 
-    viewTotalInIndividual = false; // reset the checkbox
+    viewTotalInIndividual = false; 
     renderOrgTargetsList();
     renderTargetConfig();
 }
@@ -562,9 +631,7 @@ function selectTargetNode(id) {
 function saveNewTarget(btn) {
     const originalHTML = btn.innerHTML;
     btn.innerHTML = '✓';
-    setTimeout(() => { 
-        btn.innerHTML = originalHTML;
-    }, 1500);
+    setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
 }
 
 window.addEventListener('DOMContentLoaded', () => {

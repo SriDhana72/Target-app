@@ -478,38 +478,38 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-/* ════ ORG CHART NAVIGATION LOGIC ════ */
 function scrollToOrgChart() {
-    goTo('orgchart'); // Open the tab
+    goTo('orgchart'); 
     
     let attempts = 0;
-    
-    // Check every 100ms until the tab is fully open
     let scrollTimer = setInterval(() => {
         attempts++;
         
         let target = null;
         const allTags = document.querySelectorAll('h1, h2, h3, h4, div, span, b, strong');
         
-        // Find the exact text
         for (let el of allTags) {
-            if (el.textContent.includes('Organization Hierarchy')) {
+            if (el.textContent.trim() === 'Organization Hierarchy') {
                 target = el;
                 break;
             }
         }
 
-        // If we found it AND it has a height (meaning it is fully visible)
         if (target && target.offsetHeight > 0) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            clearInterval(scrollTimer); // Success, stop timer
-        }
+            // We use window.scrollTo with an offset of 120px to keep the header clear
+            const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - 120; 
 
-        // Failsafe: Stop checking after 1.5 seconds so it does not run forever
-        if (attempts > 15) {
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+            
             clearInterval(scrollTimer);
         }
-    }, 100); 
+
+        if (attempts > 15) clearInterval(scrollTimer);
+    }, 150); 
 }
 
 /* ════ TOP PERFORMERS RENDERING ════ */
