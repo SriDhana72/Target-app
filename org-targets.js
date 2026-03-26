@@ -1,5 +1,47 @@
-/* ════ ORGANIZATION TARGETS DATA & LOGIC ════ */
+// ════ GLOBAL TARGET STATE (Q1 2026) ════
+// This is the single source of truth for the Org Chart and Quarterly Breakdown.
+window.orgTargets = {
+    // Regional Directors (Managers)
+    "Ananya Iyer":    { q1_target: 24.5, achieved: 27.4, role: "Manager" },
+    "Rajesh Menon":   { q1_target: 42.0, achieved: 49.5, role: "Manager" },
+    "Priya Suresh":   { q1_target: 22.0, achieved: 22.4, role: "Manager" },
+    "Vikram Nair":    { q1_target: 13.5, achieved: 10.2, role: "Manager" },
 
+    // India South Team (Ananya)
+    "Kavitha Rajan":  { q1_target: 6.2,  achieved: 4.5,  role: "Rep" },
+    "Arjun Pillai":   { q1_target: 4.8,  achieved: 3.3,  role: "Rep" },
+    "Lakshmi Pillai": { q1_target: 7.8,  achieved: 6.4,  role: "Rep" },
+    "Rahul Desai":    { q1_target: 1.8,  achieved: 1.4,  role: "Rep" },
+    "Suresh Babu":    { q1_target: 3.0,  achieved: 2.6,  role: "Rep" },
+    "Pallavi Iyer":   { q1_target: 4.6,  achieved: 4.0,  role: "Rep" },
+    "Arun Natarajan": { q1_target: 3.5,  achieved: 3.1,  role: "Rep" },
+
+    // India North & Americas Team (Rajesh)
+    "Meena Krishnan": { q1_target: 5.5,  achieved: 4.0,  role: "Rep" },
+    "Dinesh Kumar":   { q1_target: 3.1,  achieved: 2.5,  role: "Rep" },
+    "Sean O'Brien":   { q1_target: 5.8,  achieved: 5.0,  role: "Rep" },
+    "Eva Müller":     { q1_target: 1.4,  achieved: 0.8,  role: "Rep" },
+    "Grace Kim":      { q1_target: 8.7,  achieved: 8.0,  role: "Rep" },
+    "Nisha Goyal":    { q1_target: 6.0,  achieved: 5.5,  role: "Rep" },
+    "Chris Donovan":  { q1_target: 6.7,  achieved: 6.0,  role: "Rep" },
+    "Amrita Singh":   { q1_target: 3.7,  achieved: 3.2,  role: "Rep" },
+
+    // APAC & Central Team (Priya)
+    "Preethi Subram.":{ q1_target: 7.1,  achieved: 6.4,  role: "Rep" },
+    "Sunita Verma":   { q1_target: 4.4,  achieved: 3.9,  role: "Rep" },
+    "Mohan Prasad":   { q1_target: 3.9,  achieved: 3.5,  role: "Rep" },
+    "Ravi Shankar":   { q1_target: 1.6,  achieved: 1.1,  role: "Rep" },
+    "Yuki Watanabe":  { q1_target: 5.3,  achieved: 4.8,  role: "Rep" },
+
+    // International Team (Vikram)
+    "Carlos Mendez":  { q1_target: 2.4,  achieved: 1.8,  role: "Rep" },
+    "Divya Nambiar":  { q1_target: 1.8,  achieved: 1.2,  role: "Rep" },
+    "Fatima Al-Amin": { q1_target: 5.1,  achieved: 4.4,  role: "Rep" },
+    "Ben Carter":     { q1_target: 1.2,  achieved: 0.7,  role: "Rep" },
+    "Lucas Ferreira": { q1_target: 4.2,  achieved: 3.8,  role: "Rep" },
+    "Deepak Menon":   { q1_target: 2.2,  achieved: 1.6,  role: "Rep" },
+    "Sankar Raman":   { q1_target: 2.8,  achieved: 2.3,  role: "Rep" }
+};
 /* ════ CENTRAL ORG DATA ════ */
 window.ORG_DATA = [
     // --- LEVEL 1: DIRECTOR ---
@@ -453,6 +495,40 @@ function updateRepTarget(repId, value, isSelfOnly = false) {
     renderTargetConfig();
 }
 
+/* ════ THE LOCKING BRAIN ════ */
+function updateTargetConfigUI(personName) {
+    // 1. Get data from our Global Brain (window.orgTargets)
+    const personData = window.orgTargets[personName];
+    if (!personData) {
+        console.warn(`Data not found for: ${personName}`);
+        return;
+    }
+
+    // 2. Locate the Team Rollup button/toggle
+    // Based on your code, this is the button with onclick="switchTCTab('rollup')"
+    const rollupBtn = document.querySelector('button[onclick*="rollup"]');
+    
+    if (!rollupBtn) return;
+
+    // 3. ENFORCE BUSINESS LOGIC: Lock for Reps, Unlock for Managers
+    if (personData.role === "Rep") {
+        // Force the tab to Individual and disable the Team button
+        switchTCTab('individual'); 
+        rollupBtn.style.opacity = '0.4';
+        rollupBtn.style.pointerEvents = 'none'; // Disables clicking
+        rollupBtn.style.cursor = 'not-allowed';
+        rollupBtn.title = "Team Roll-up is only available for Managers.";
+        console.log(`Selection: ${personName} is a Rep. Team Roll-up locked.`);
+    } else {
+        // Unlock for Managers/Directors
+        rollupBtn.style.opacity = '1';
+        rollupBtn.style.pointerEvents = 'auto';
+        rollupBtn.style.cursor = 'pointer';
+        rollupBtn.title = "";
+        console.log(`Selection: ${personName} is a Manager. Team Roll-up available.`);
+    }
+}
+
 function renderTargetConfig() {
     const container = document.getElementById('targetConfigPanel');
     if (!container) return;
@@ -663,6 +739,7 @@ function selectTargetNode(id) {
     activeTargetId = id;
     const node = window.ORG_DATA.find(n => n.id === id);
     if (!node) return;
+    updateTargetConfigUI(node.name);
 
     tcTab = 'individual'; 
     viewTotalInIndividual = false; 
@@ -735,10 +812,56 @@ function syncSelectionToUI(node) {
     renderServiceTags();
 }
 
+/* ════ THE ATOMIC SYNC ENGINE ════ */
 function saveNewTarget(btn) {
-    const originalHTML = btn.innerHTML;
-    btn.innerHTML = '✓';
-    setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+    // 1. Identify the active person and target input
+    const node = window.ORG_DATA.find(n => n.id === activeTargetId);
+    if (!node) return;
+    const personName = node.name;
+
+    // Use closest to find the specific input group for this button
+    const inputWrap = btn.closest('div');
+    const input = inputWrap.querySelector('input[type="text"]');
+    if (!input) return;
+
+    // 2. Extract and Clean the Numeric Value
+    const newValue = parseFloat(input.value.replace(/[^0-9.]/g, ''));
+    if (isNaN(newValue)) {
+        alert("Please enter a valid number.");
+        return;
+    }
+
+    // 3. Identify the Active Quarter from the pills
+    const activeQPill = document.querySelector('.tc-pill.active');
+    const qText = activeQPill ? activeQPill.textContent : "Q1";
+    const qIdx = parseInt(qText.replace('Q', ''));
+
+    // 4. Update the Global State (The "Brain")
+    if (!window.orgTargets[personName]) window.orgTargets[personName] = {};
+    window.orgTargets[personName][`q${qIdx}_target`] = newValue;
+    
+    // Update the local HIER node target to keep the waterfall tree consistent
+    node.target = newValue; 
+
+    // 5. Visual Feedback ONLY (Do NOT call renderTargetConfig here)
+    const originalSVG = btn.innerHTML;
+    btn.innerHTML = '<b>✓</b>';
+    btn.style.background = '#00A693'; // Brand green from our theme
+    btn.style.color = 'white';
+
+    // 6. Push Update to the Quarterly Breakdown table
+    if (typeof syncTargetToQuarterly === 'function') {
+        syncTargetToQuarterly(personName, newValue, qIdx);
+    }
+
+    // Restore button appearance after 1.5 seconds
+    setTimeout(() => {
+        btn.innerHTML = originalSVG;
+        btn.style.background = '';
+        btn.style.color = '';
+    }, 1500);
+
+    console.log(`Successfully synced ${personName} ${qText} target: $${newValue.toLocaleString()}`);
 }
 
 window.addEventListener('DOMContentLoaded', () => {

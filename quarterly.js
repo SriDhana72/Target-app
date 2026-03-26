@@ -453,3 +453,35 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// Updated logic to target Q2 specifically
+function syncTargetToQuarterly(name, newTarget, qNum) {
+    // Convert "Ananya Iyer" to "ananya" to match your HTML IDs
+    const personId = name.toLowerCase().split(' ')[0];
+    const tableBody = document.getElementById(`${personId}-q-data`);
+    
+    if (!tableBody) {
+        console.error(`Table for ${personId} not found!`);
+        return;
+    }
+
+    // Find the row (Q1 is index 0, so nth-child is qNum)
+    const row = tableBody.querySelector(`tr:nth-child(${qNum})`);
+    
+    if (row) {
+        const targetCell = row.cells[1]; // Target column
+        
+        // Update the text and add a "Flash" effect so the board sees the change
+        targetCell.innerHTML = `<b>$${(newTarget / 1000).toFixed(0)}K</b>`;
+        targetCell.style.backgroundColor = 'rgba(0, 166, 147, 0.1)';
+        targetCell.style.color = '#00A693';
+        
+        setTimeout(() => {
+            targetCell.style.backgroundColor = 'transparent';
+        }, 2000);
+        
+        // Update the YTD card next to the table
+        if (typeof updateYTDStats === 'function') {
+            updateYTDStats(name);
+        }
+    }
+}

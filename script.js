@@ -1410,21 +1410,29 @@ function toggleMultiItem(element, value) {
 
 function toggleAllInList(listId) {
   const list = document.getElementById(listId);
-  const items = list.querySelectorAll('.ap-multi-item:not([style*="italic"])');
+  if (!list) return;
+
+  // Filter out the 'Select All' div itself so it doesn't turn green
+  const items = Array.from(list.querySelectorAll('.ap-multi-item')).filter(item => {
+      return !item.textContent.toLowerCase().includes('select all');
+  });
   
-  // Check if any are already selected
-  const anySelected = Array.from(items).some(i => i.classList.contains('selected'));
+  // If every item is already green, we clear them. Otherwise, we fill them.
+  const allSelected = items.every(i => i.classList.contains('selected'));
   
   items.forEach(item => {
-      if (anySelected) {
+      if (allSelected) {
           item.classList.remove('selected');
       } else {
           item.classList.add('selected');
       }
   });
 
-  if (typeof runCascades === "function") {
-      runCascades();
+  // Run the data update logic immediately
+  if (listId === 'bu-list' || listId === 'region-list') {
+      runCascades(); 
+  } else if (listId === 'manager-list') {
+      updateReportees();
   }
 }
 function renderManagerList(managers) {
