@@ -479,7 +479,6 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 /* ════ TOP PERFORMERS RENDERING ════ */
-
 function renderTopPerformers() {
     const container = document.getElementById('ld-deals-won');
     if (!container) return;
@@ -488,7 +487,7 @@ function renderTopPerformers() {
     const topPerformers = [
         {
             name: "Samuel Walker",
-            image: "https://i.pravatar.cc/150?img=11", // Standard placeholder image
+            image: "https://i.pravatar.cc/150?img=11",
             manager: "Logan",
             target: "$1,000,000",
             achieved: "$1,360,498",
@@ -499,7 +498,7 @@ function renderTopPerformers() {
         },
         {
             name: "Kavitha Rajan",
-            image: "https://i.pravatar.cc/150?img=5", // Standard placeholder image
+            image: "https://i.pravatar.cc/150?img=5",
             manager: "Ananya Iyer",
             target: "$850,000",
             achieved: "$1,120,400",
@@ -510,12 +509,9 @@ function renderTopPerformers() {
         }
     ];
 
-    // Map through the array and draw a card for each person
     container.innerHTML = topPerformers.map((performer, index) => `
         <div style="padding: 16px; border-bottom: ${index === topPerformers.length - 1 ? 'none' : '1px solid var(--border)'}; display: flex; gap: 16px;">
-            
             <img src="${performer.image}" alt="${performer.name}" style="width: 54px; height: 54px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0;">
-            
             <div style="flex: 1;">
                 <div style="font-size: 16px; font-weight: 800; color: #3b82f6; margin-bottom: 4px;">${performer.name}</div>
                 <div style="font-size: 11px; color: var(--t2); margin-bottom: 12px; display: flex; align-items: center; gap: 4px;">
@@ -525,7 +521,6 @@ function renderTopPerformers() {
                     </svg>
                     Reporting to: <strong style="color: var(--t1);">${performer.manager}</strong>
                 </div>
-
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; background: var(--surface2); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
                     <div>
                         <div style="font-size: 9px; color: var(--t3); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Q1 Target</div>
@@ -536,7 +531,6 @@ function renderTopPerformers() {
                         <div style="font-size: 13px; font-weight: 800; color: #00A693;">${performer.achieved} <span style="font-size: 10px; background: #eaf5f0; padding: 2px 4px; border-radius: 4px;">${performer.attainment}</span></div>
                     </div>
                 </div>
-
                 <ul style="margin: 0; padding-left: 16px; font-size: 12px; color: var(--t2); line-height: 1.6;">
                     <li>Win rate: <strong style="color: var(--t1);">${performer.winRate}</strong></li>
                     <li>Avg deal size: <strong style="color: var(--t1);">${performer.avgDealSize}</strong></li>
@@ -546,6 +540,68 @@ function renderTopPerformers() {
         </div>
     `).join('');
 }
-
-// Make sure it runs when the page loads
 window.addEventListener('DOMContentLoaded', renderTopPerformers);
+
+
+/* ════ TOP WIN RATE PERFORMERS RENDERING ════ */
+function renderTopWinRatePerformers() {
+    const container = document.getElementById('ld-win-rate');
+    if (!container) return;
+
+    const topWRPerformers = [
+        {
+            name: "Grace Kim",
+            image: "https://i.pravatar.cc/150?img=9", 
+            manager: "Rajesh Menon",
+            targetWR: "75%",
+            actualWR: "84%",
+            wrDelta: "+9%",
+            revenue: "$34.8M",
+            avgDealSize: "$212K",
+            tenure: "108 months"
+        },
+        {
+            name: "Lakshmi Pillai",
+            image: "https://i.pravatar.cc/150?img=12", 
+            manager: "Ananya Iyer",
+            targetWR: "75%",
+            actualWR: "82%",
+            wrDelta: "+7%",
+            revenue: "$31.2M",
+            avgDealSize: "$210K",
+            tenure: "96 months"
+        }
+    ];
+
+    container.innerHTML = topWRPerformers.map((performer, index) => `
+        <div style="padding: 16px; border-bottom: ${index === topWRPerformers.length - 1 ? 'none' : '1px solid var(--border)'}; display: flex; gap: 16px;">
+            <img src="${performer.image}" alt="${performer.name}" style="width: 54px; height: 54px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0;">
+            <div style="flex: 1;">
+                <div style="font-size: 16px; font-weight: 800; color: #3b82f6; margin-bottom: 4px;">${performer.name}</div>
+                <div style="font-size: 11px; color: var(--t2); margin-bottom: 12px; display: flex; align-items: center; gap: 4px;">
+                    <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 3v12a3 3 0 0 0 3 3h12"></path>
+                        <polyline points="17 14 21 18 17 22"></polyline>
+                    </svg>
+                    Reporting to: <strong style="color: var(--t1);">${performer.manager}</strong>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px; background: var(--surface2); padding: 10px; border-radius: 8px; border: 1px solid var(--border);">
+                    <div>
+                        <div style="font-size: 9px; color: var(--t3); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Target Win Rate</div>
+                        <div style="font-size: 13px; font-weight: 700; color: var(--t1);">${performer.targetWR}</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 9px; color: var(--t3); text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px;">Actual Win Rate</div>
+                        <div style="font-size: 13px; font-weight: 800; color: #00A693;">${performer.actualWR} <span style="font-size: 10px; background: #eaf5f0; padding: 2px 4px; border-radius: 4px;">${performer.wrDelta}</span></div>
+                    </div>
+                </div>
+                <ul style="margin: 0; padding-left: 16px; font-size: 12px; color: var(--t2); line-height: 1.6;">
+                    <li>Revenue achieved: <strong style="color: var(--t1);">${performer.revenue}</strong></li>
+                    <li>Avg deal size: <strong style="color: var(--t1);">${performer.avgDealSize}</strong></li>
+                    <li>Tenure: <strong style="color: var(--t1);">${performer.tenure}</strong></li>
+                </ul>
+            </div>
+        </div>
+    `).join('');
+}
+window.addEventListener('DOMContentLoaded', renderTopWinRatePerformers);
