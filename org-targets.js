@@ -6,7 +6,7 @@ window.ORG_DATA = [
     {
         id: "peter_balaji",
         managerId: null, // Null means he is the top node
-        name: "Peter Balaji",
+        name: "Peter Jackson",
         role: "Director of Sales",
         image: "https://i.pravatar.cc/150?img=14",
         target: 25000000,
@@ -339,6 +339,41 @@ function updatePanelServices() {
     msDropdown.innerHTML = html;
 }
 
+let selectedPanelServices = [];
+
+function updatePanelServices() {
+    const buSelect = document.getElementById('panel-bu');
+    if(!buSelect) return;
+    const selectedBU = buSelect.value;
+    
+    // Auto-populate all services from that BU
+    selectedPanelServices = selectedBU ? [...(BU_SERVICES_MAP[selectedBU] || [])] : [];
+    renderServiceTags();
+}
+
+function removeService(serviceName) {
+    selectedPanelServices = selectedPanelServices.filter(s => s !== serviceName);
+    renderServiceTags();
+}
+
+function renderServiceTags() {
+    const container = document.getElementById('tc-service-tags');
+    if (!container) return;
+    
+    if (selectedPanelServices.length === 0) {
+        container.innerHTML = '<div class="tc-ms-empty" style="padding:12px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left;">No services selected.</div>';
+        return;
+    }
+
+    // Using the same CSS class as country tags for a consistent look
+    container.innerHTML = selectedPanelServices.map(s => `
+        <div class="tc-country-tag" style="background:rgba(0, 166, 147, 0.1); color:#00A693; border:1px solid rgba(0, 166, 147, 0.2);">
+            ${s}
+            <span class="tc-tag-close" onclick="removeService('${s.replace(/'/g, "\\'")}')" title="Remove">✕</span>
+        </div>
+    `).join('');
+}
+
 function toggleMSServices(e) { e.stopPropagation(); const drop = document.getElementById('tc-ms-dropdown'); if(drop) drop.classList.toggle('open'); }
 function toggleAllServices(source) { const cbs = document.querySelectorAll('.ms-svc-cb'); cbs.forEach(cb => cb.checked = source.checked); updateMSTriggerText(); }
 
@@ -425,9 +460,11 @@ function renderTargetConfig() {
     const node = window.ORG_DATA.find(n => n.id === activeTargetId);
     if (!node) return;
 
+    // CLEAN SINGLE DECLARATION
     const parentNode = window.ORG_DATA.find(n => n.id === node.managerId);
-    const reportsToStr = parentNode ? `Reports to: <span>${parentNode.name}</span>` : 'Head of Department';
-    
+    const reportsToStr = parentNode 
+        ? `Reports to: <span style="font-weight:800; color:var(--t1);">${parentNode.name}</span>` 
+        : ''; 
     const directReports = window.ORG_DATA.filter(n => n.managerId === node.id);
     const teamRollupVal = directReports.reduce((sum, r) => sum + r.target, 0);
     const totalTargetVal = node.target;
@@ -440,20 +477,21 @@ function renderTargetConfig() {
     Object.keys(REGION_COUNTRY_MAP).forEach(reg => regionOptions += `<option value="${reg}">${reg}</option>`);
 
     const headerContent = `
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
-            <div>
-                <div style="font-size:20px; font-weight:800; color:var(--t1);">${node.name}</div>
-                <div style="font-size:13px; font-weight:600; color:var(--accent); margin-top:2px;">${node.role}</div>
-                <div style="font-size:12px; color:var(--t3); margin-top:4px;">${reportsToStr}</div>
-            </div>
-            <div>
-                <div class="tc-toggle-wrap" style="margin-bottom: 0; min-width: 300px;">
-                    <button class="tc-toggle-btn ${tcTab === 'individual' ? 'active' : ''}" onclick="switchTCTab('individual')">👤 Individual</button>
-                    <button class="tc-toggle-btn ${tcTab === 'rollup' ? 'active' : ''}" onclick="switchTCTab('rollup')">👥 Team Rollup</button>
-                </div>
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <div>
+            <div style="font-size:16px; font-weight:800; color:var(--t1);">${node.name}</div>
+            <div style="font-size:12px; font-weight:600; color:var(--accent); margin-top:2px;">${node.role}</div>
+            <div style="font-size:12px; color:var(--t3); margin-top:4px;">${reportsToStr}</div>
+        </div>
+        
+        <div>
+            <div class="tc-toggle-wrap" style="margin-bottom: 0; min-width: 300px;">
+                <button class="tc-toggle-btn ${tcTab === 'individual' ? 'active' : ''}" onclick="switchTCTab('individual')">👤 Individual</button>
+                <button class="tc-toggle-btn ${tcTab === 'rollup' ? 'active' : ''}" onclick="switchTCTab('rollup')">👥 Team Rollup</button>
             </div>
         </div>
-    `;
+    </div>
+`;
     
     let bottomContent = '';
 
@@ -471,13 +509,12 @@ function renderTargetConfig() {
                     <div class="tc-pill active" onclick="selectTCPill(this)">Sales</div><div class="tc-pill" onclick="selectTCPill(this)">Partner</div><div class="tc-pill" onclick="selectTCPill(this)">Renewal</div>
                 </div>
             </div>
-            <div>
+<div>
                 <div class="tc-label">BU Group</div>
                 <select class="tc-select" id="panel-bu" onchange="updatePanelServices()" style="margin-bottom: 16px;">${buOptions}</select>
-                <div class="tc-label">Service(s)</div>
-                <div class="tc-multiselect-wrap" id="tc-ms-wrap">
-                    <div class="tc-select tc-ms-trigger" onclick="toggleMSServices(event)" id="tc-ms-trigger">Select BU First</div>
-                    <div class="tc-ms-dropdown" id="tc-ms-dropdown"><div class="tc-ms-empty">Select a BU Group above</div></div>
+                <div class="tc-label">Included Service(s)</div>
+                <div class="tc-country-tags-wrap" id="tc-service-tags" style="max-height: 100px;">
+                    <div class="tc-ms-empty" style="padding:12px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left;">Select a BU Group above</div>
                 </div>
             </div>
             <div>
@@ -622,10 +659,42 @@ function renderTargetConfig() {
 
 function selectTargetNode(id) {
     activeTargetId = id;
+    const node = window.ORG_DATA.find(n => n.id === id);
+    if (!node) return;
+
     tcTab = 'individual'; 
     viewTotalInIndividual = false; 
+
+    // Sync Countries
+    const regionKey = Object.keys(REGION_COUNTRY_MAP).find(k => k === node.region) || node.region;
+    selectedPanelCountries = [...(REGION_COUNTRY_MAP[regionKey] || [])];
+
+    // Sync Services - Logic to show only the services THIS person actually handles
+    selectedPanelServices = node.services === "All Zoho Products" ? [] : node.services.split(', ');
+
     renderOrgTargetsList();
     renderTargetConfig();
+    
+    setTimeout(() => {
+        const buSelect = document.getElementById('panel-bu');
+        const regSelect = document.getElementById('panel-region');
+        
+        if (buSelect) {
+            // Find which BU this person belongs to
+            let matchedBU = "";
+            for (const [bu, services] of Object.entries(BU_SERVICES_MAP)) {
+                if (services.some(s => node.services.includes(s))) {
+                    matchedBU = bu;
+                    break;
+                }
+            }
+            buSelect.value = matchedBU;
+        }
+        if (regSelect) regSelect.value = regionKey;
+
+        renderCountryTags();
+        renderServiceTags(); // Final render of the tags
+    }, 0);
 }
 
 function saveNewTarget(btn) {
