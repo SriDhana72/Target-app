@@ -478,12 +478,45 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+/* ════ ORG CHART NAVIGATION LOGIC ════ */
+function scrollToOrgChart() {
+    goTo('orgchart'); // Open the tab
+    
+    let attempts = 0;
+    
+    // Check every 100ms until the tab is fully open
+    let scrollTimer = setInterval(() => {
+        attempts++;
+        
+        let target = null;
+        const allTags = document.querySelectorAll('h1, h2, h3, h4, div, span, b, strong');
+        
+        // Find the exact text
+        for (let el of allTags) {
+            if (el.textContent.includes('Organization Hierarchy')) {
+                target = el;
+                break;
+            }
+        }
+
+        // If we found it AND it has a height (meaning it is fully visible)
+        if (target && target.offsetHeight > 0) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            clearInterval(scrollTimer); // Success, stop timer
+        }
+
+        // Failsafe: Stop checking after 1.5 seconds so it does not run forever
+        if (attempts > 15) {
+            clearInterval(scrollTimer);
+        }
+    }, 100); 
+}
+
 /* ════ TOP PERFORMERS RENDERING ════ */
 function renderTopPerformers() {
     const container = document.getElementById('ld-deals-won');
     if (!container) return;
 
-    // We now use an array to show multiple performers
     const topPerformers = [
         {
             name: "Samuel Walker",
@@ -510,9 +543,19 @@ function renderTopPerformers() {
     ];
 
     container.innerHTML = topPerformers.map((performer, index) => `
-        <div style="padding: 16px; border-bottom: ${index === topPerformers.length - 1 ? 'none' : '1px solid var(--border)'}; display: flex; gap: 16px;">
+        <div style="position: relative; padding: 16px; border-bottom: ${index === topPerformers.length - 1 ? 'none' : '1px solid var(--border)'}; display: flex; gap: 16px;">
+            
+            <div style="position: absolute; top: 16px; right: 16px; color: var(--t3); cursor: pointer;" title="View Hierarchy" onclick="scrollToOrgChart()">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="10" width="5" height="5" rx="1"></rect>
+                    <rect x="16" y="4" width="5" height="5" rx="1"></rect>
+                    <rect x="16" y="15" width="5" height="5" rx="1"></rect>
+                    <path d="M8 12.5h4v-6h4"></path>
+                    <path d="M12 12.5v5h4"></path>
+                </svg>
+            </div>
             <img src="${performer.image}" alt="${performer.name}" style="width: 54px; height: 54px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0;">
-            <div style="flex: 1;">
+            <div style="flex: 1; padding-right: 24px;">
                 <div style="font-size: 16px; font-weight: 800; color: #3b82f6; margin-bottom: 4px;">${performer.name}</div>
                 <div style="font-size: 11px; color: var(--t2); margin-bottom: 12px; display: flex; align-items: center; gap: 4px;">
                     <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -541,7 +584,6 @@ function renderTopPerformers() {
     `).join('');
 }
 window.addEventListener('DOMContentLoaded', renderTopPerformers);
-
 
 /* ════ TOP WIN RATE PERFORMERS RENDERING ════ */
 function renderTopWinRatePerformers() {
@@ -574,9 +616,19 @@ function renderTopWinRatePerformers() {
     ];
 
     container.innerHTML = topWRPerformers.map((performer, index) => `
-        <div style="padding: 16px; border-bottom: ${index === topWRPerformers.length - 1 ? 'none' : '1px solid var(--border)'}; display: flex; gap: 16px;">
+        <div style="position: relative; padding: 16px; border-bottom: ${index === topWRPerformers.length - 1 ? 'none' : '1px solid var(--border)'}; display: flex; gap: 16px;">
+            
+            <div style="position: absolute; top: 16px; right: 16px; color: var(--t3); cursor: pointer;" title="View Hierarchy" onclick="scrollToOrgChart()">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="10" width="5" height="5" rx="1"></rect>
+                    <rect x="16" y="4" width="5" height="5" rx="1"></rect>
+                    <rect x="16" y="15" width="5" height="5" rx="1"></rect>
+                    <path d="M8 12.5h4v-6h4"></path>
+                    <path d="M12 12.5v5h4"></path>
+                </svg>
+            </div>
             <img src="${performer.image}" alt="${performer.name}" style="width: 54px; height: 54px; border-radius: 12px; object-fit: cover; border: 1px solid var(--border); flex-shrink: 0;">
-            <div style="flex: 1;">
+            <div style="flex: 1; padding-right: 24px;">
                 <div style="font-size: 16px; font-weight: 800; color: #3b82f6; margin-bottom: 4px;">${performer.name}</div>
                 <div style="font-size: 11px; color: var(--t2); margin-bottom: 12px; display: flex; align-items: center; gap: 4px;">
                     <svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
