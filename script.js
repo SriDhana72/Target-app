@@ -1321,44 +1321,42 @@ function toggleSelectAll(selectAllCb, listId) {
   checkboxes.forEach(cb => cb.checked = selectAllCb.checked);
 }
 
-// 1. Runs ONLY when BU or Region changes
+// 1. Updated Manager List Generator
 function runCascades() {
-  const selectedBUs = Array.from(document.querySelectorAll('#bu-list input[type="checkbox"]:not(.select-all-cb):checked')).map(cb => cb.value);
-  const selectedRegions = Array.from(document.querySelectorAll('#region-list input[type="checkbox"]:not(.select-all-cb):checked')).map(cb => cb.value);
+  const selectedBUs = getSelectedValues('bu-list');
+  const selectedRegions = getSelectedValues('region-list');
 
   let filteredMgrs = managerDataMap;
   if (selectedBUs.length > 0) filteredMgrs = filteredMgrs.filter(m => selectedBUs.includes(m.bu));
   if (selectedRegions.length > 0) filteredMgrs = filteredMgrs.filter(m => selectedRegions.includes(m.region));
 
-  window.currentFilteredMgrs = filteredMgrs; // Save for the next step
+  window.currentFilteredMgrs = filteredMgrs; 
 
   const mgrContainer = document.querySelector('#manager-list > div');
   if (mgrContainer) {
       if (filteredMgrs.length === 0) {
-          mgrContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:4px 0;">No managers match.</div>';
+          mgrContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:12px 0;">No managers match filters.</div>';
       } else {
           mgrContainer.innerHTML = `
-              <label class="multi-select-item" style="border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 4px;">
-                  <input type="checkbox" class="select-all-cb" onchange="toggleSelectAll(this, 'manager-list'); updateReportees();">
-                  <span class="chk-label" style="font-style: italic;">Select All Managers</span>
-              </label>
+              <div class="ap-multi-item" style="font-style: italic; opacity: 0.7; margin-bottom: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--border);" onclick="toggleAllInList('manager-list')">
+                  Select All Managers
+              </div>
           ` + filteredMgrs.map(m => `
-              <label class="multi-select-item">
-                  <input type="checkbox" value="${m.name}" onchange="updateReportees()">
-                  <span class="chk-label">${m.name} <span style="font-weight: 500; font-size: 11px; color: var(--t3);">(${m.region})</span></span>
-              </label>
+              <div class="ap-multi-item" onclick="toggleMultiItem(this, '${m.name}')">
+                  ${m.name} <span style="font-weight: 500; font-size: 11px; color: var(--t3); opacity: 0.6;">(${m.region})</span>
+              </div>
           `).join('');
       }
   }
   
-  updateReportees(); // Push changes down to reportees
+  updateReportees(); 
 }
-
-// 2. Runs ONLY when Managers change (Preserves your checkmarks)
+// 2. Updated Reportee List Generator
 function updateReportees() {
   const filteredMgrs = window.currentFilteredMgrs || managerDataMap;
-  const selectedMgrCbs = Array.from(document.querySelectorAll('#manager-list input[type="checkbox"]:not(.select-all-cb):checked')).map(cb => cb.value);
-  let activeMgrs = selectedMgrCbs.length > 0 ? filteredMgrs.filter(m => selectedMgrCbs.includes(m.name)) : filteredMgrs;
+  const selectedMgrs = getSelectedValues('manager-list');
+  
+  let activeMgrs = selectedMgrs.length > 0 ? filteredMgrs.filter(m => selectedMgrs.includes(m.name)) : filteredMgrs;
 
   let reportees = [];
   activeMgrs.forEach(m => {
@@ -1369,21 +1367,92 @@ function updateReportees() {
   const repContainer = document.querySelector('#reportee-list > div');
   if (repContainer) {
       if (reportees.length === 0) {
-          repContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:4px 0;">No reportees found.</div>';
+          repContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:12px 0;">No reportees found.</div>';
       } else {
           repContainer.innerHTML = `
-              <label class="multi-select-item" style="border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 4px;">
-                  <input type="checkbox" class="select-all-cb" onchange="toggleSelectAll(this, 'reportee-list')">
-                  <span class="chk-label" style="font-style: italic;">Select All Reportees</span>
-              </label>
+              <div class="ap-multi-item" style="font-style: italic; opacity: 0.7; margin-bottom: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--border);" onclick="toggleAllInList('reportee-list')">
+                  Select All Reportees
+              </div>
           ` + reportees.map(rep => `
-              <label class="multi-select-item">
-                  <input type="checkbox" value="${rep}">
-                  <span class="chk-label">${rep}</span>
-              </label>
+              <div class="ap-multi-item" onclick="toggleMultiItem(this, '${rep}')">
+                  ${rep}
+              </div>
           `).join('');
       }
   }
 }
 
 window.addEventListener('DOMContentLoaded', runCascades);
+
+let selectedSidebarFilters = {
+  bu: [],
+  region: []
+};
+
+function toggleMultiItem(element, value) {
+  // 1. Toggle the visual green state
+  element.classList.toggle('selected');
+  
+  // 2. Identify which group was clicked to trigger the correct cascade
+  const parentAccordion = element.closest('.accordion-content');
+  if (!parentAccordion) return;
+
+  const parentId = parentAccordion.id;
+
+  // 3. Trigger Logic Flow: BU/Region -> Managers -> Reportees
+  if (parentId === 'bu-list' || parentId === 'region-list') {
+      runCascades(); 
+  } else if (parentId === 'manager-list') {
+      updateReportees();
+  }
+  // Note: If clicking a reportee, we just keep the green highlight active
+}
+
+function toggleAllInList(listId) {
+  const list = document.getElementById(listId);
+  const items = list.querySelectorAll('.ap-multi-item:not([style*="italic"])');
+  
+  // Check if any are already selected
+  const anySelected = Array.from(items).some(i => i.classList.contains('selected'));
+  
+  items.forEach(item => {
+      if (anySelected) {
+          item.classList.remove('selected');
+      } else {
+          item.classList.add('selected');
+      }
+  });
+
+  if (typeof runCascades === "function") {
+      runCascades();
+  }
+}
+function renderManagerList(managers) {
+  const container = document.getElementById('manager-items-container');
+  if (!container) return;
+
+  container.innerHTML = managers.map(mgr => `
+      <div class="ap-multi-item" onclick="toggleMultiItem(this, '${mgr.name}')">
+          ${mgr.name}
+      </div>
+  `).join('');
+}
+
+function renderReporteeList(reportees) {
+  const container = document.getElementById('reportee-items-container');
+  if (!container) return;
+
+  container.innerHTML = reportees.map(rep => `
+      <div class="ap-multi-item" onclick="toggleMultiItem(this, '${rep.name}')">
+          ${rep.name}
+      </div>
+  `).join('');
+}
+// Helper to read which custom items are selected
+function getSelectedValues(listId) {
+  const items = document.querySelectorAll(`#${listId} .ap-multi-item.selected`);
+  return Array.from(items).map(item => {
+      // Strip out the (Region) text if it exists to get just the name
+      return item.childNodes[0].textContent.trim();
+  });
+}

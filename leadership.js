@@ -478,38 +478,39 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-function scrollToOrgChart() {
+function scrollToOrgChart(targetName) {
+    // 1. Find the ID from the central data based on the name
+    const person = window.ORG_DATA.find(p => p.name.includes(targetName));
+    const targetId = person ? person.id : 'peter_balaji';
+
+    // 2. Switch the tab
     goTo('orgchart'); 
     
+    // 3. Use our smart selection logic to highlight them and their manager
+    if (typeof selectTargetNode === 'function') {
+        selectTargetNode(targetId);
+    }
+
+    // 4. Scroll to the "Organization Hierarchy" header
     let attempts = 0;
     let scrollTimer = setInterval(() => {
         attempts++;
-        
-        let target = null;
-        const allTags = document.querySelectorAll('h1, h2, h3, h4, div, span, b, strong');
-        
-        for (let el of allTags) {
+        const headers = document.querySelectorAll('h1, h2, h3, h4, div, span');
+        let headerEl = null;
+        for (let el of headers) {
             if (el.textContent.trim() === 'Organization Hierarchy') {
-                target = el;
+                headerEl = el;
                 break;
             }
         }
 
-        if (target && target.offsetHeight > 0) {
-            // We use window.scrollTo with an offset of 120px to keep the header clear
-            const elementPosition = target.getBoundingClientRect().top + window.pageYOffset;
-            const offsetPosition = elementPosition - 120; 
-
-            window.scrollTo({
-                top: offsetPosition,
-                behavior: 'smooth'
-            });
-            
+        if (headerEl && headerEl.offsetHeight > 0) {
+            const offsetPosition = headerEl.getBoundingClientRect().top + window.pageYOffset - 120;
+            window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
             clearInterval(scrollTimer);
         }
-
         if (attempts > 15) clearInterval(scrollTimer);
-    }, 150); 
+    }, 150);
 }
 
 /* ════ TOP PERFORMERS RENDERING ════ */

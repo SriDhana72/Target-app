@@ -1989,17 +1989,24 @@ input:checked + .setting-slider:before {
     border: 1px solid var(--border);
     margin-bottom: 24px;
     height: 750px;
+    /* THE FIX: Apply radius and hide overflow for child components */
+    border-radius: 16px !important; 
+    overflow: hidden !important;
+    box-shadow: var(--card-shadow); /* Added for consistency with other cards */
 }
 
-/* Left Sidebar */
+/* Ensure sidebar fits the new rounded container */
 .ap-sidebar {
     width: 240px;
-    background: #f2f2f2; 
+    background: var(--surface2) !important; /* Changed from static #f2f2f2 to theme-safe color */
     padding: 24px 16px;
     display: flex;
     flex-direction: column;
     border-right: 1px solid var(--border);
     overflow-y: auto;
+    /* Optional: Ensure top-left and bottom-left curves are inherited */
+    border-top-left-radius: 16px;
+    border-bottom-left-radius: 16px;
 }
 
 .ap-side-head {
@@ -2025,11 +2032,12 @@ input:checked + .setting-slider:before {
 
 .ap-side-sub { font-size: 11px; color: #666; }
 
-/* Sidebar Controls */
-.ap-filter-group { margin-bottom: 32px; }
-.ap-label {
-    font-size: 10px; color: #888; text-align: center;
-    margin-bottom: 16px; letter-spacing: 0.5px;
+/* ════ CLEAN BORDERLESS FILTER GROUPS ════ */
+.ap-filter-group {
+    margin-bottom: 24px;
+    border: none !important; /* Remove any existing borders */
+    background: transparent !important; /* Ensure no background box */
+    padding: 0 !important;
 }
 
 .ap-month-toggles {
@@ -2577,34 +2585,40 @@ input:checked + .setting-slider:before {
     align-items: center;
     justify-content: center;
 }
-/* ════ UNIFIED SET TARGETS BUTTON ════ */
+/* ════ CLEAN BORDERLESS WITH SOLID GREEN HOVER ════ */
 .btn-set-targets-unified {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: transparent;
-    border: none; /* Removed the border entirely */
-    border-radius: 8px;
-    color: var(--t1);
-    font-family: inherit;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 8px 16px !important;
+    background: transparent !important; /* No background by default */
+    border: none !important;           /* NO BORDER as requested */
+    border-radius: 8px !important;     /* Radius preserved */
+    color: var(--t1) !important;       /* Uses theme text color */
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
 }
 
+/* Icon Color */
+.btn-set-targets-unified svg {
+    color: var(--t1) !important;
+}
+
+/* THE HOVER: Restore the solid brand green */
 .btn-set-targets-unified:hover {
-    background:#00A693;
-    border-color: #00A693;
-    color: #ffffff;
-    transform: translateY(-1px);
+    background: #00A693 !important;    /* Solid Brand Green restored */
+    color: #ffffff !important;         /* Text turns white for contrast */
+    box-shadow: 0 4px 12px rgba(0, 166, 147, 0.3) !important;
+    transform: translateY(-1px) !important;
 }
 
+/* Icon turns white on hover to match text */
 .btn-set-targets-unified:hover svg {
-    color: #ffffff; /* Ensures the icon also turns white */
+    color: #ffffff !important;
 }
-
 /* ════ HIERARCHY QUARTER TOGGLES ════ */
 .ap-month-toggles {
     display: flex;
@@ -2717,7 +2731,7 @@ input:checked + .setting-slider:before {
     font-size: 11px !important;
     font-weight: 600 !important;
     padding: 0 !important;
-
+}
     /* ════ WATERFALL ORG CHART ════ */
 .org-waterfall {
     display: flex;
@@ -2814,4 +2828,63 @@ input:checked + .setting-slider:before {
     top: 0;
     z-index: 1000 !important; /* Must be higher than any other element */
     box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+/* ════ THE CSS HAMMER: FORCED PILL SELECTION ════ */
+.tc-pill-grid .tc-pill.active {
+    background-color: #1a233a !important; 
+    color: #ffffff !important;
+    border-color: #1a233a !important;
+    box-shadow: 0 4px 12px rgba(26, 35, 58, 0.4) !important;
+    font-weight: 800 !important;
+}
+
+.tc-pill:hover {
+    background-color: var(--surface2) !important;
+}
+/* The reporting manager's special border */
+.wf-card.manager-highlight {
+    border: 2px solid #00A693 !important;
+    background: rgba(0, 166, 147, 0.05) !important;
+}
+.wf-card.manager-highlight { border: 2px solid #00A693 !important; background: rgba(0, 166, 147, 0.05) !important; }
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 12px; /* Tightens the gap between the Live badge and the Button */
+}
+
+/* Ensure the live dot animation still works in the header */
+.kpi-q-tag .live-dot {
+    width: 6px;
+    height: 6px;
+    background: #00A693;
+    border-radius: 50%;
+    box-shadow: 0 0 0 0 rgba(0, 166, 147, 0.7);
+    animation: livePulse 2s infinite;
+}
+/* Clean Multi-Select Items */
+.ap-multi-item {
+    font-size: 13px !important;
+    color: var(--t2) !important;
+    padding: 8px 0 !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    font-weight: 500 !important;
+    border: none !important;           /* NO BORDER as requested */
+    background: transparent !important; /* NO BOX as requested */
+    user-select: none;
+    display: block;
+    width: 100%;
+}
+
+.ap-multi-item:hover {
+    color: #00A693 !important; /* Subtle hint on hover */
+}
+
+/* THE FIX: Forced Green Selection */
+.ap-multi-item.selected {
+    color: #00A693 !important;      /* Brand Green */
+    font-weight: 800 !important;    /* Bold highlight */
+    background: transparent !important; 
 }

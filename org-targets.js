@@ -500,10 +500,12 @@ function renderTargetConfig() {
         <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
             <div>
                 <div class="tc-label">Quarter</div>
-                <div class="tc-pill-grid" style="margin-bottom: 16px;">
-                    <div class="tc-pill active" onclick="selectTCPill(this)">Q1</div><div class="tc-pill" onclick="selectTCPill(this)">Q2</div>
-                    <div class="tc-pill" onclick="selectTCPill(this)">Q3</div><div class="tc-pill" onclick="selectTCPill(this)">Q4</div>
-                </div>
+<div class="tc-pill-grid">
+    <div class="tc-pill active" onclick="selectTCPill(this)">Q1</div>
+    <div class="tc-pill" onclick="selectTCPill(this)">Q2</div>
+    <div class="tc-pill" onclick="selectTCPill(this)">Q3</div>
+    <div class="tc-pill" onclick="selectTCPill(this)">Q4</div>
+</div>
                 <div class="tc-label">Target Type</div>
                 <div class="tc-pill-grid cols-3">
                     <div class="tc-pill active" onclick="selectTCPill(this)">Sales</div><div class="tc-pill" onclick="selectTCPill(this)">Partner</div><div class="tc-pill" onclick="selectTCPill(this)">Renewal</div>
@@ -665,36 +667,72 @@ function selectTargetNode(id) {
     tcTab = 'individual'; 
     viewTotalInIndividual = false; 
 
-    // Sync Countries
+    // 1. Prepare the Global Tag States before rendering
     const regionKey = Object.keys(REGION_COUNTRY_MAP).find(k => k === node.region) || node.region;
     selectedPanelCountries = [...(REGION_COUNTRY_MAP[regionKey] || [])];
-
-    // Sync Services - Logic to show only the services THIS person actually handles
     selectedPanelServices = node.services === "All Zoho Products" ? [] : node.services.split(', ');
 
-    renderOrgTargetsList();
+    // 2. Redraw the HTML Components
+    renderOrgTargetsList(); 
     renderTargetConfig();
-    
+
+    // 3. Force the DOM elements to match the data
     setTimeout(() => {
         const buSelect = document.getElementById('panel-bu');
         const regSelect = document.getElementById('panel-region');
         
-        if (buSelect) {
-            // Find which BU this person belongs to
-            let matchedBU = "";
-            for (const [bu, services] of Object.entries(BU_SERVICES_MAP)) {
-                if (services.some(s => node.services.includes(s))) {
-                    matchedBU = bu;
-                    break;
-                }
+        // Find which BU this person belongs to
+        let matchedBU = "";
+        for (const [bu, services] of Object.entries(BU_SERVICES_MAP)) {
+            if (services.some(s => node.services.includes(s))) {
+                matchedBU = bu;
+                break;
             }
-            buSelect.value = matchedBU;
         }
+
+        if (buSelect) buSelect.value = matchedBU;
         if (regSelect) regSelect.value = regionKey;
 
+        // Render the tags into the newly created containers
         renderCountryTags();
-        renderServiceTags(); // Final render of the tags
-    }, 0);
+        renderServiceTags();
+
+        // 4. Highlight the Manager in the tree
+        const managerId = node.managerId;
+        if (managerId) {
+            const allCards = document.querySelectorAll('.wf-card');
+            allCards.forEach(card => {
+                if (card.getAttribute('onclick').includes(`'${managerId}'`)) {
+                    card.classList.add('manager-highlight');
+                }
+            });
+        }
+    }, 50); // Small delay to ensure the DOM is ready
+}
+
+// Move the sync logic to a helper to keep it clean
+function syncSelectionToUI(node) {
+    const regionKey = Object.keys(REGION_COUNTRY_MAP).find(k => k === node.region) || node.region;
+    selectedPanelCountries = [...(REGION_COUNTRY_MAP[regionKey] || [])];
+    selectedPanelServices = node.services === "All Zoho Products" ? [] : node.services.split(', ');
+
+    const buSelect = document.getElementById('panel-bu');
+    const regSelect = document.getElementById('panel-region');
+    
+    if (buSelect) {
+        let matchedBU = "";
+        for (const [bu, services] of Object.entries(BU_SERVICES_MAP)) {
+            if (services.some(s => node.services.includes(s))) {
+                matchedBU = bu;
+                break;
+            }
+        }
+        buSelect.value = matchedBU;
+    }
+    if (regSelect) regSelect.value = regionKey;
+
+    renderCountryTags();
+    renderServiceTags();
 }
 
 function saveNewTarget(btn) {
