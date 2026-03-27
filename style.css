@@ -2888,3 +2888,88 @@ input:checked + .setting-slider:before {
     font-weight: 800 !important;    /* Bold highlight */
     background: transparent !important; 
 }
+/* ════ PERFORMANCE CATEGORY GRID ════ */
+.perf-category-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 24px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.perf-column {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    height: 600px; /* Fixed height for consistent alignment */
+    overflow: hidden;
+}
+
+.perf-col-header {
+    padding: 16px 20px;
+    background: var(--surface2);
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--t1);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Subtle Top Indicators */
+.perf-column.on-target { border-top: 4px solid #10b981; }
+.perf-column.fluctuating { border-top: 4px solid #f59e0b; }
+.perf-column.under-target { border-top: 4px solid #ef4444; }
+
+.perf-count {
+    background: var(--surface);
+    color: var(--t3);
+    padding: 2px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    font-size: 10px;
+}
+
+.perf-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px;
+}
+
+/* Individual Rep Item Design */
+.perf-rep-item {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s ease;
+}
+
+.perf-rep-item:last-child {
+    border-bottom: none;
+}
+
+.perf-rep-item:hover {
+    background: var(--surface2);
+}
+
+.perf-rep-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--t1);
+}
+
+.perf-rep-meta {
+    font-size: 10px;
+    color: var(--t3);
+    margin-top: 4px;
+}
+
+.perf-rep-pct {
+    font-size: 12px;
+    font-weight: 800;
+    font-family: 'Courier New', monospace;
+}

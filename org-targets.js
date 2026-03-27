@@ -812,56 +812,35 @@ function syncSelectionToUI(node) {
     renderServiceTags();
 }
 
-/* ════ THE ATOMIC SYNC ENGINE ════ */
+/* ════ THE SYNC ENGINE ════ */
 function saveNewTarget(btn) {
-    // 1. Identify the active person and target input
     const node = window.ORG_DATA.find(n => n.id === activeTargetId);
     if (!node) return;
     const personName = node.name;
 
-    // Use closest to find the specific input group for this button
-    const inputWrap = btn.closest('div');
-    const input = inputWrap.querySelector('input[type="text"]');
-    if (!input) return;
+    // 1. Get the value from the input field
+    const input = btn.closest('div').querySelector('input');
+    const newValue = parseFloat(input.value.replace(/[^0-9.-]+/g,""));
+    if (isNaN(newValue)) return;
 
-    // 2. Extract and Clean the Numeric Value
-    const newValue = parseFloat(input.value.replace(/[^0-9.]/g, ''));
-    if (isNaN(newValue)) {
-        alert("Please enter a valid number.");
-        return;
-    }
-
-    // 3. Identify the Active Quarter from the pills
+    // 2. Identify active Quarter (Q1, Q2, Q3, or Q4)
     const activeQPill = document.querySelector('.tc-pill.active');
-    const qText = activeQPill ? activeQPill.textContent : "Q1";
-    const qIdx = parseInt(qText.replace('Q', ''));
+    const qIdx = activeQPill ? parseInt(activeQPill.textContent.replace('Q', '')) : 1;
 
-    // 4. Update the Global State (The "Brain")
+    // 3. Update the Global State
     if (!window.orgTargets[personName]) window.orgTargets[personName] = {};
     window.orgTargets[personName][`q${qIdx}_target`] = newValue;
-    
-    // Update the local HIER node target to keep the waterfall tree consistent
-    node.target = newValue; 
 
-    // 5. Visual Feedback ONLY (Do NOT call renderTargetConfig here)
-    const originalSVG = btn.innerHTML;
-    btn.innerHTML = '<b>✓</b>';
-    btn.style.background = '#00A693'; // Brand green from our theme
-    btn.style.color = 'white';
-
-    // 6. Push Update to the Quarterly Breakdown table
+    // 4. TRIGGER CROSS-TAB SYNC
+    // This calls the function in quarterly.js to update the table row
     if (typeof syncTargetToQuarterly === 'function') {
         syncTargetToQuarterly(personName, newValue, qIdx);
     }
 
-    // Restore button appearance after 1.5 seconds
-    setTimeout(() => {
-        btn.innerHTML = originalSVG;
-        btn.style.background = '';
-        btn.style.color = '';
-    }, 1500);
-
-    console.log(`Successfully synced ${personName} ${qText} target: $${newValue.toLocaleString()}`);
+    // Visual feedback for the button
+    btn.innerHTML = '<b>✓</b>';
+    btn.style.background = '#00A693';
+    setTimeout(() => { btn.innerHTML = '💾'; btn.style.background = ''; }, 1500);
 }
 
 window.addEventListener('DOMContentLoaded', () => {

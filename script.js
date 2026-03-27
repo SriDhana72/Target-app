@@ -1382,15 +1382,27 @@ function updateReportees() {
   }
 }
 
-window.addEventListener('DOMContentLoaded', runCascades);
+window.addEventListener('DOMContentLoaded', () => {
+  // 1. Run your existing cascades (BU/Region/Managers)
+  runCascades();
+  
+  // 2. NEW: Initial fill of the Leadership Performance categories
+  // This ensures the columns aren't empty on the first load.
+  if (typeof updatePerformanceCategories === 'function') {
+      updatePerformanceCategories();
+  }
+  
+  // 3. Optional: Initialize Org Chart if available
+  if (typeof renderOrgTargetsList === 'function') renderOrgTargetsList();
+});
 
 let selectedSidebarFilters = {
-  bu: [],
-  region: []
+bu: [],
+region: []
 };
 
 function toggleMultiItem(element, value) {
-  // 1. Toggle the visual green state
+  // 1. Toggle the visual green state (CSS .selected)
   element.classList.toggle('selected');
   
   // 2. Identify which group was clicked to trigger the correct cascade
@@ -1405,7 +1417,12 @@ function toggleMultiItem(element, value) {
   } else if (parentId === 'manager-list') {
       updateReportees();
   }
-  // Note: If clicking a reportee, we just keep the green highlight active
+  
+  // 4. THE SYNC: Update the Leadership Performance columns whenever any filter changes
+  // This handles the "On-Target", "Fluctuating", and "Under Target" buckets.
+  if (typeof updatePerformanceCategories === 'function') {
+      updatePerformanceCategories();
+  }
 }
 
 function toggleAllInList(listId) {
@@ -1462,5 +1479,91 @@ function getSelectedValues(listId) {
   return Array.from(items).map(item => {
       // Strip out the (Region) text if it exists to get just the name
       return item.childNodes[0].textContent.trim();
+  });
+}
+/* ════ PERFORMANCE CATEGORIZATION ENGINE ════ */
+function updatePerformanceCategories() {
+  // 1. Get current active filters from your sidebar
+  const selectedRegions = getSelectedValues('region-list');
+  const selectedBUs = getSelectedValues('bu-list');
+
+  // 2. Filter the REPS array based on Region and Service (BU)
+  let filteredReps = REPS.filter(rep => {
+      const regionMatch = selectedRegions.length === 0 || selectedRegions.includes(rep.region);
+      const buMatch = selectedBUs.length === 0 || selectedBUs.includes(rep.bu);
+      return regionMatch && buMatch;
+  });
+
+  // 3. Clear and Setup the Buckets
+  const buckets = {
+      onTarget: { el: document.getElementById('list-on-target'), countEl: document.getElementById('count-on-target'), data: [] },
+      fluctuating: { el: document.getElementById('list-fluctuating'), countEl: document.getElementById('count-fluctuating'), data: [] },
+      underTarget: { el: document.getElementById('list-under-target'), countEl: document.getElementById('count-under-target'), data: [] }
+  };
+
+  // 4. Sort Reps into Buckets based on Primary Values (Attainment)
+  filteredReps.forEach(rep => {
+      if (rep.att >= 100) buckets.onTarget.data.push(rep);
+      else if (rep.att >= 80) buckets.fluctuating.data.push(rep);
+      else buckets.underTarget.data.push(rep);
+  });
+
+  // 5. Render to UI
+  renderBucket(buckets.onTarget, '#10b981');    // Green
+  renderBucket(buckets.fluctuating, '#f59e0b'); // Amber
+  renderBucket(buckets.underTarget, '#ef4444'); // Red
+}
+
+/* Internal Helper to Render Each Column */
+function renderBucket(bucket, color) {
+  if (!bucket.el) return;
+  
+  // Update the Count Badge
+  bucket.countEl.textContent = bucket.data.length;
+
+  if (bucket.data.length === 0) {
+      bucket.el.innerHTML = `<div style="padding:20px; text-align:center; color:var(--t3); font-size:11px;">No reps in this category.</div>`;
+      return;
+  }
+
+  // Render the List Items
+  bucket.el.innerHTML = bucket.data.map(rep => `
+      <div class="perf-rep-item">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span class="perf-rep-name">${rep.name}</span>
+              <span class="perf-rep-pct" style="color:${color}">${rep.att}%</span>
+          </div>
+          <div class="perf-rep-meta">
+              ${rep.region} • ${rep.bu}
+          </div>
+      </div>
+  `).join('');
+}
+
+/* ════ LEADERSHIP BUCKET SEARCH ════ */
+function filterPerfBuckets(searchTerm) {
+  const term = searchTerm.toLowerCase().trim();
+  const columns = ['on-target', 'fluctuating', 'under-target'];
+  
+  columns.forEach(colId => {
+      const list = document.getElementById(`list-${colId}`);
+      if (!list) return;
+      
+      const items = list.querySelectorAll('.perf-rep-item');
+      let visibleCount = 0;
+
+      items.forEach(item => {
+          const name = item.querySelector('.perf-rep-name').textContent.toLowerCase();
+          if (name.includes(term)) {
+              item.style.display = 'block';
+              visibleCount++;
+          } else {
+              item.style.display = 'none';
+          }
+      });
+
+      // Update the count badge to reflect the search result
+      const countBadge = document.getElementById(`count-${colId}`);
+      if (countBadge) countBadge.textContent = visibleCount;
   });
 }

@@ -453,35 +453,30 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-// Updated logic to target Q2 specifically
+/* ════ QUARTERLY SYNC RECEIVER ════ */
 function syncTargetToQuarterly(name, newTarget, qNum) {
-    // Convert "Ananya Iyer" to "ananya" to match your HTML IDs
-    const personId = name.toLowerCase().split(' ')[0];
+    // Convert name like "Ananya Iyer" to "ananya" to find the table ID
+    const personId = name.toLowerCase().split(' ')[0]; 
     const tableBody = document.getElementById(`${personId}-q-data`);
     
-    if (!tableBody) {
-        console.error(`Table for ${personId} not found!`);
-        return;
-    }
-
-    // Find the row (Q1 is index 0, so nth-child is qNum)
-    const row = tableBody.querySelector(`tr:nth-child(${qNum})`);
-    
-    if (row) {
-        const targetCell = row.cells[1]; // Target column
+    if (tableBody) {
+        // Find the specific quarter row (tr:nth-child(1) is Q1, (2) is Q2, etc.)
+        const row = tableBody.querySelector(`tr:nth-child(${qNum})`);
         
-        // Update the text and add a "Flash" effect so the board sees the change
-        targetCell.innerHTML = `<b>$${(newTarget / 1000).toFixed(0)}K</b>`;
-        targetCell.style.backgroundColor = 'rgba(0, 166, 147, 0.1)';
-        targetCell.style.color = '#00A693';
-        
-        setTimeout(() => {
-            targetCell.style.backgroundColor = 'transparent';
-        }, 2000);
-        
-        // Update the YTD card next to the table
-        if (typeof updateYTDStats === 'function') {
-            updateYTDStats(name);
+        if (row) {
+            const targetCell = row.cells[1]; // The 'Target' column
+            
+            // Update the display with the new formatted value
+            targetCell.innerHTML = `<b>$${(newTarget / 1000).toFixed(0)}K</b>`;
+            
+            // Add a temporary highlight so the board sees the change
+            targetCell.style.color = '#00A693';
+            targetCell.style.transition = 'color 0.5s ease';
+            
+            // Re-calculate the YTD summary card next to the table
+            if (typeof updateYTDStats === 'function') {
+                updateYTDStats(name);
+            }
         }
     }
 }
