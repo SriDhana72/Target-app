@@ -2973,3 +2973,35 @@ input:checked + .setting-slider:before {
     font-weight: 800;
     font-family: 'Courier New', monospace;
 }
+/* ════ TOOLTIP OVERFLOW & POSITION FIX ════ */
+/* 1. Allow tooltips to break out of the card boundaries */
+.ap-card {
+    overflow: visible !important;
+}
+
+/* 2. Force the tooltip to open UPWARDS with a defined border */
+.ap-info-sm::after {
+    /* calc() keeps it safely above the icon without flying too high and getting clipped */
+    bottom: calc(100% + 8px) !important; 
+    top: auto !important;
+    right: -10px !important; 
+    left: auto !important;
+    transform: none !important;
+    z-index: 9999 !important;
+    
+    /* SENIOR DEV FIX: Explicit border and shadow so it never blends in or looks cut off */
+    border: 1px solid var(--border) !important; 
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* 3. Point the little triangle arrow back down at the 'i' */
+.ap-info-sm::before {
+    bottom: 100% !important;
+    top: auto !important;
+    transform: none !important; 
+    z-index: 9999 !important;
+}
+/* ════ AGENT PERFORMANCE CARDS RADIUS ════ */
+.ap-card {
+    border-radius: 12px !important; /* 12px gives a nice, premium softness. Change to 8px if you want it slightly sharper */
+}
