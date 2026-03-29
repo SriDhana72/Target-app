@@ -299,10 +299,10 @@ const PAGE_TITLES = {
   pipeline: ['Pipeline','Revenue & Opportunities'],
   regions: ['Regions & Products','Win Rate Intelligence'],
   orgchart: ['Org Chart','Reporting Hierarchy'],
+  commission: ['Target Commission', 'Quota Attainment & Payout Projections'],
   targets: ['Leadership Dashboard','Sales Reps Performance Overview'],
   settings: ['Settings', 'Configure your preferences and account settings']
 };
-
 function goTo(id, btn) {  
   document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));  
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));  
@@ -321,7 +321,9 @@ function goTo(id, btn) {
   if (id === 'pipeline') { setTimeout(() => drawProdChart(), 50); }  
   if (id === 'home') { setTimeout(() => drawRevChart(), 50); }
   if (id === 'targets') { setTimeout(() => drawOppsBubbleChart(), 10); } // Make sure this line exists!
-}
+  if (id === 'commission') { 
+    if (typeof initCommissionTab === 'function') initCommissionTab(); 
+}}
 
 /* ════ THEME ════ */
 function setTheme(mode) {  
