@@ -1631,3 +1631,90 @@ document.addEventListener('DOMContentLoaded', () => {
       initVelocitySimulator();
   }
 });
+
+//Tenure vs Win Rate Scatter Plot
+document.addEventListener('DOMContentLoaded', () => {
+  const ctx = document.getElementById('tenureWinRateChart');
+  if (!ctx) return;
+
+  // Beautiful matching colors from the Tailwind palette
+  const colors = {
+      salesRep: 'rgba(59, 130, 246, 0.8)',   // Blue
+      teamLead: 'rgba(16, 185, 129, 0.8)',   // Emerald
+      srManager: 'rgba(168, 85, 247, 0.8)',  // Purple
+      buHead: 'rgba(249, 115, 22, 0.8)'      // Orange
+  };
+
+  new Chart(ctx, {
+      type: 'scatter',
+      data: {
+          datasets: [
+              {
+                  label: 'Sales Reps',
+                  backgroundColor: colors.salesRep,
+                  borderColor: colors.salesRep,
+                  pointRadius: 6,
+                  pointHoverRadius: 8,
+                  // X = Tenure (Months), Y = Win Rate (%)
+                  data: [{x: 3, y: 15}, {x: 6, y: 22}, {x: 12, y: 35}, {x: 18, y: 42}, {x: 24, y: 38}, {x: 8, y: 28}]
+              },
+              {
+                  label: 'Team Leads',
+                  backgroundColor: colors.teamLead,
+                  borderColor: colors.teamLead,
+                  pointRadius: 7,
+                  pointHoverRadius: 9,
+                  data: [{x: 24, y: 45}, {x: 36, y: 55}, {x: 42, y: 62}, {x: 48, y: 58}, {x: 30, y: 48}]
+              },
+              {
+                  label: 'Sr. Managers',
+                  backgroundColor: colors.srManager,
+                  borderColor: colors.srManager,
+                  pointRadius: 8,
+                  pointHoverRadius: 10,
+                  data: [{x: 48, y: 65}, {x: 60, y: 72}, {x: 72, y: 78}, {x: 84, y: 75}]
+              },
+              {
+                  label: 'BU Heads',
+                  backgroundColor: colors.buHead,
+                  borderColor: colors.buHead,
+                  pointRadius: 10,
+                  pointHoverRadius: 12,
+                  data: [{x: 72, y: 82}, {x: 96, y: 88}, {x: 120, y: 92}]
+              }
+          ]
+      },
+      options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+              legend: { display: false }, // Hidden because we built a prettier custom HTML legend above!
+              tooltip: {
+                  backgroundColor: 'rgba(15, 23, 42, 0.9)',
+                  titleFont: { size: 13, family: 'Inter' },
+                  bodyFont: { size: 12, family: 'Inter' },
+                  padding: 12,
+                  callbacks: {
+                      label: function(context) {
+                          return `${context.dataset.label}: ${context.raw.x} months, ${context.raw.y}% Win Rate`;
+                      }
+                  }
+              }
+          },
+          scales: {
+              x: {
+                  title: { display: true, text: 'Tenure (Months)', font: { size: 10, weight: 'bold' }, color: '#94a3b8' },
+                  grid: { borderDash: [4, 4], color: '#f1f5f9' },
+                  border: { display: false }
+              },
+              y: {
+                  title: { display: true, text: 'Win Rate (%)', font: { size: 10, weight: 'bold' }, color: '#94a3b8' },
+                  grid: { borderDash: [4, 4], color: '#f1f5f9' },
+                  border: { display: false },
+                  min: 0,
+                  max: 100
+              }
+          }
+      }
+  });
+});
