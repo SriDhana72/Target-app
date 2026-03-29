@@ -239,12 +239,11 @@ const HIER={
   ]
 };
 
-/* ════ BU ATTAINMENT ════ */
+/* ════ BU ATTAINMENT: REFACTORED VERSION ════ */
 function renderManagerPulse() {
   const container = document.getElementById('mgr-bars'); 
   if (!container) return;
 
-  // SENIOR DEV CHANGE: Added 'target' and 'achieved' revenue data (in Millions) to power the new UI
   const bus = [
       { name: 'CRM BU', initial: 'CR', attainment: 114, leader: 'Ananya Iyer', target: 127.2, achieved: 145.0 },
       { name: 'Marketing BU', initial: 'MK', attainment: 108, leader: 'Rajesh Menon', target: 77.7, achieved: 84.0 },
@@ -254,44 +253,34 @@ function renderManagerPulse() {
       { name: 'Operations BU', initial: 'OP', attainment: 82, leader: 'Lucas F.', target: 19.5, achieved: 16.0 }
   ];
 
-  let html = '<div class="mgr-pulse-container">';
-
-  bus.forEach((bu, index) => {
-      // Add a crown icon for the #1 BU
-      const crown = index === 0 ? '<span style="position:absolute; top:-10px; left:12px; font-size:14px; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.2));">👑</span>' : '';
-      const isTargetMet = bu.attainment >= 100;
-      const colorClass = isTargetMet ? 'var(--green)' : 'var(--amber)';
+  // No more crown icon, everything is rendered as a list item
+  container.innerHTML = bus.map((bu, index) => {
+      let statusColor = bu.attainment >= 100 ? 'var(--green)' : 'var(--amber)';
       
-      html += `
-          <div class="mgr-node-card" style="transition-delay: ${index * 0.05}s; position:relative; padding-bottom: 8px; display: flex; align-items: center;">
-              ${crown}
-              <div class="mgr-avatar" style="background: var(--surface2); color: var(--t1); border: 1px solid var(--border); flex-shrink: 0;">${bu.initial}</div>
-              <div class="mgr-info" style="flex: 1; min-width: 0;">
-                  <div class="mgr-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${bu.name}</div>
-                  <div class="mgr-team-lbl">Led by ${bu.leader}</div>
+      return `
+          <div class="mgr-node-card" tabindex="0">
+              <div class="mgr-avatar" style="background: var(--surface2); color: var(--t1); border: 1px solid var(--border); width: 36px; height: 36px;">
+                  ${bu.initial}
               </div>
               
-              <div style="margin-left: auto; display: flex; align-items: center; gap: 12px; flex-shrink: 0;">
-                  <div style="display: flex; flex-direction: column; text-align: right;">
-                      <span style="font-size: 10px; color: var(--t3); font-weight: 500;">T: $${bu.target.toFixed(1)}M</span>
-                      <span style="font-size: 12px; color: var(--t1); font-weight: 800;">$${bu.achieved.toFixed(1)}M</span>
+              <div class="mgr-info" style="flex: 1; padding-left: 14px;">
+                  <div class="mgr-name" style="font-weight: 700; font-size: 13px;">${bu.name}</div>
+                  <div style="font-size: 11px; color: var(--t3);">Led by ${bu.leader}</div>
+              </div>
+              
+              <div style="display: flex; align-items: center; gap: 16px;">
+                  <div style="text-align: right;">
+                      <div style="font-size: 10px; color: var(--t3);">T: $${bu.target.toFixed(1)}M</div>
+                      <div style="font-size: 12px; font-weight: 800;">$${bu.achieved.toFixed(1)}M</div>
                   </div>
                   
-                  <div style="background: ${colorClass}1A; color: ${colorClass}; border: 1px solid ${colorClass}30; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 12px; min-width: 44px; text-align: center;">
+                  <div style="background: ${statusColor}1A; color: ${statusColor}; border: 1px solid ${statusColor}30; padding: 4px 8px; border-radius: 6px; font-weight: 800; font-size: 11px; min-width: 48px; text-align: center;">
                       ${bu.attainment}%
                   </div>
               </div>
           </div>
       `;
-  });
-
-  html += '</div>';
-  container.innerHTML = html;
-
-  // Trigger staggered entry animation
-  setTimeout(() => {
-      document.querySelectorAll('.mgr-node-card').forEach(card => card.classList.add('animate'));
-  }, 50);
+  }).join('');
 }
 /* ════ NAVIGATION ════ */
 const PAGE_TITLES = {
