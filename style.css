@@ -3089,3 +3089,107 @@ input:checked + .setting-slider:before {
     color: var(--t1);
     border: 1px solid var(--border);
 }
+/* ════ HORIZONTAL KPI ROW STYLES ════ */
+.kpi-grid-horizontal {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr) !important;
+    gap: 12px;
+    width: 100%;
+    /* Ensure nothing is hidden */
+    overflow: visible !important; 
+}
+.ap-chart-area div {
+    min-width: 0; /* Prevents flex items from growing larger than their share */
+}
+
+.kpi-grid-horizontal .ap-card {
+    padding: 16px;
+    min-height: 140px; /* Reduced height to fit in one line */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.kpi-grid-horizontal .ap-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+}
+
+/* Adjusting the internal elements for the horizontal layout */
+.kpi-grid-horizontal .ap-card-val {
+    font-size: 24px; /* Smaller font for horizontal fit */
+    margin: 8px 0;
+    text-align: left;
+}
+
+.kpi-grid-horizontal .ap-card-head {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+}
+
+.kpi-grid-horizontal .ap-card-foot {
+    position: static; /* Remove absolute positioning from original ap-card */
+    width: 100%;
+    flex-direction: row; /* Stack rank and attainment side-by-side */
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.kpi-grid-horizontal .ap-foot-box {
+    font-size: 11px; /* Smaller text for footers */
+    padding: 4px 6px;
+}
+/* FORCE VISIBILITY FOR KPI BARS */
+.kpi-bar-fill {
+    display: block !important;
+    min-width: 100%;
+    /* This ensures the animation is smooth */
+    transition: height 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+}
+
+.ap-chart-area {
+    overflow: hidden;
+    border-radius: 4px;
+}
+/* ════ FIXED 5-COLUMN KPI ROW ════ */
+.kpi-grid-horizontal {
+    display: grid !important;
+    /* Force exactly 5 columns that shrink to fit the available space */
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important; 
+    gap: 10px;
+    width: 100%;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.ap-card {
+    min-width: 0; /* Critical: allows cards to shrink smaller than their content */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+/* ════ ENFORCED 5-COLUMN LOGIC ════ */
+#kpi-row-v2 {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 8px !important;
+    width: 100% !important;
+    padding: 0 !important;
+}
+
+.ap-card {
+    min-width: 0 !important; /* Forces the flex children to shrink */
+    box-sizing: border-box;
+}
+
+/* Ensure the chart area doesn't force a minimum width */
+.ap-chart-area {
+    width: 100% !important;
+    display: flex !important;
+}

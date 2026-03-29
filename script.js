@@ -1121,56 +1121,81 @@ const apMetrics = [
   }
 ];
 
+/* ════  5-CARD KPI ROW ════ */
 function renderAPDashboard() {
-  const grid = document.getElementById('apCardGrid');
-  if (!grid) return;
+  const horizontalRow = document.getElementById('kpi-row-v2');
+  if (!horizontalRow) return;
 
-  // 1. Determine active quarter from the UI
   const activeBtn = document.querySelector('#ap-quarter-container button.active');
   const quarter = activeBtn ? parseInt(activeBtn.dataset.q) : 1;
   const startIdx = (quarter - 1) * 3;
-  const endIdx = startIdx + 3;
 
-  grid.innerHTML = apMetrics.map(m => {
-      // Mock data heights
-      const fullData = [40, 70, 45, 90, 60, 80, 50, 100, 75, 85, 60, 95];
-      const activeData = fullData.slice(startIdx, endIdx);
+  const quarterMonths = {
+    1: ["Jan", "Feb", "Mar"], 2: ["Apr", "May", "Jun"],
+    3: ["Jul", "Aug", "Sep"], 4: ["Oct", "Nov", "Dec"]
+  };
+  const currentMonths = quarterMonths[quarter];
+
+  // Exact matches for your data array
+  const targetTitles = [
+    "NEW + EXISTING BUSINESS", 
+    "NEW BUSINESS REVENUE", 
+    "EXISTING BUSINESS", 
+    "UPGRADE REVENUE", 
+    "RENEWAL REVENUE"
+  ];
+
+  // Map data and ensure all properties like desc and momLbl are preserved
+  const filteredMetrics = targetTitles.map(title => {
+      return apMetrics.find(m => m.title.toUpperCase() === title.toUpperCase());
+  }).filter(m => m !== undefined);
+
+  horizontalRow.innerHTML = filteredMetrics.map((m, index) => {
+      const fullTrendData = [75, 85, 70, 95, 80, 110, 65, 115, 85, 95, 75, 110];
+      const activeTrend = fullTrendData.slice(startIdx, startIdx + 3);
       
       return `
-          <div class="ap-card">
-              <div class="ap-card-head">
-                  <div class="ap-card-title">${m.title}</div>
-                  <div class="ap-info-sm" data-desc="${m.desc}">i</div>
+          <div class="ap-card" style="border-radius: 12px; height: 320px; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); padding: 16px; min-width: 0; overflow: visible !important;">
+              <div class="ap-card-head" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 12px;">
+                  <div class="ap-card-title" style="font-size: 8.5px; font-weight: 800; color: var(--t3); white-space: nowrap;">${m.title}</div>
+                  <div class="ap-info-sm" data-desc="${m.desc}" style="width: 16px; height: 16px; font-size: 9px; border-radius: 50%; background: var(--surface3); display: flex; align-items: center; justify-content: center; color:var(--t3); cursor: help;">i</div>
               </div>
               
-              <div class="ap-card-val" style="color: ${m.color}">${m.val}</div>
+              <div class="ap-card-val" style="color: ${m.color}; font-size: 26px; font-weight: 900; margin-bottom: 15px;">${m.val}</div>
               
-              <div class="ap-chart-area">
-                  <div class="ap-bar-chart" style="display: flex; align-items: flex-end; height: 100%; gap: 8px;">
-                      ${activeData.map(h => `
-                          <div class="ap-bar-col" style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%;">
-                              <div style="font-size: 10px; font-weight: 800; color: var(--t2); margin-bottom: 6px;">$${h}K</div>
-                              
-                              <div class="ap-bar-fill" style="height: ${h}%; width: 100%; background: ${m.color}; border-radius: 4px 4px 0 0; transition: all 0.3s ease;"></div>
-                          </div>`).join('')}
-                  </div>
+              <div class="ap-chart-area" style="flex: 1; display: flex; align-items: flex-end; gap: 8px; margin-bottom: 20px; height: 100px;">
+                  ${activeTrend.map((h, i) => `
+                      <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; min-width: 0;">
+                          <div style="font-size: 8px; font-weight: 800; color: var(--t2); text-align: center; margin-bottom: 4px;">$${h}K</div>
+                          <div class="kpi-bar-fill" 
+                               data-val="${h}" 
+                               style="height: 0%; width: 100%; background: ${m.color}; border-radius: 4px 4px 1px 1px; opacity: 0.9;">
+                          </div>
+                          <div style="font-size: 9px; font-weight: 700; color: var(--t3); text-align: center; margin-top: 6px; text-transform: uppercase;">${currentMonths[i]}</div>
+                      </div>
+                  `).join('')}
               </div>
 
-              <div class="ap-card-foot">
-                  <div class="ap-foot-col">
-                      <div class="ap-foot-lbl">${m.momLbl}</div>
-                      <div class="ap-foot-box ${m.trend}" style="border-radius: 6px; padding: 4px 8px;">${m.mom}</div>
+              <div class="ap-card-foot" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 12px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 8px; font-weight: 800; color: var(--t3);">${m.momLbl}</span>
+                      <div style="background: ${m.color}1A; color: ${m.color}; font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px;">${m.mom}</div>
                   </div>
-                  <div class="ap-foot-col">
-                      <div class="ap-foot-lbl">${m.rankLbl}</div>
-                      <div class="ap-foot-box rank-box" style="border-radius: 6px; padding: 4px 8px;">${m.rank}</div>
+                  <div style="display: flex; justify-content: space-between; align-items: center;">
+                      <span style="font-size: 8px; font-weight: 800; color: var(--t3);">${m.rankLbl}</span>
+                      <div style="background: var(--surface2); color: var(--t2); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; border: 1px solid var(--border);">${m.rank}</div>
                   </div>
               </div>
           </div>
       `;
   }).join('');
-}
 
+  setTimeout(() => {
+    document.querySelectorAll('.kpi-bar-fill').forEach(bar => {
+      bar.style.height = bar.getAttribute('data-val') + '%';
+    });
+  }, 50);
+}
 // Run immediately
 if (document.readyState === 'loading') {
 document.addEventListener('DOMContentLoaded', renderAPDashboard);
