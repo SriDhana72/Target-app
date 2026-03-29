@@ -236,6 +236,17 @@
                                 <input type="text" class="ap-text-input" placeholder="Enter name..." style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--surface);">
                             </div>
                         </div> 
+                        <div class="ap-main-grid-container" style="flex: 1; min-width: 0;">
+
+    
+
+                            <div id="hierarchy-performance-content" class="rev-simulator-container" style="margin-top: 0px;">
+    
+                                </div>
+    
+                        
+    
+                        </div>
                     </div>
                 </div>
                 <div class="kpi-row-container" style="margin-bottom: 20px;">
@@ -513,19 +524,7 @@
                     
                     <div id="wr-product" style="min-height: 430px; position: relative;">
                     </div>
-                </div>   
-                <div class="acard" style="margin-top: 20px; padding: 40px 24px; text-align: center; background: var(--surface); border: 1px solid var(--border);">
-                    <div style="font-size: 48px; margin-bottom: 16px;">🎯</div>
-                    <h2 style="color: var(--t1); font-size: 22px; font-weight: 800; margin-bottom: 12px;">Revenue Pacing Center</h2>
-                    <p style="color: var(--t2); max-width: 540px; line-height: 1.6; margin: 0 auto 28px; font-size: 13px;">
-                        This simulator translates your quarterly commitment into a <b>daily closing run-rate</b>. 
-                        Use the forecast panel to visualize how remaining business days affect your required pacing and overall commission potential.
-                    </p>
-                    
-                    <button onclick="window.toggleForecastDrawer()" class="th-set-targets-btn" style="margin: 0 auto; background: var(--accent); color: white; border: none; padding: 12px 28px; display: flex; align-items: center; gap: 10px;">
-                        <span>📊</span> Launch Forecast Panel
-                    </button>
-                </div>  
+                </div>    
             </div>
 
 
@@ -1000,16 +999,6 @@
 <script src="org-targets.js"></script> 
 <script src="leadership.js"></script>
 <script src="waterfall-board.js"></script>
-<script src="commission.js"></script>
-<div id="forecast-drawer" class="forecast-drawer">
-    <div class="drawer-header" style="padding: 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; background: var(--surface2);">
-        <h3 style="margin:0; font-size: 16px; color: var(--t1);">Forecast Calculator</h3>
-        <button onclick="toggleForecastDrawer()" style="background:none; border:none; color:var(--t2); cursor:pointer; font-size:20px;">✕</button>
-    </div>
-    <div class="drawer-body" style="padding: 20px; overflow-y: auto;">
-    </div>
-</div>
-
-<div id="drawer-overlay" onclick="toggleForecastDrawer()" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.6); backdrop-filter: blur(2px); display: none; z-index: 9990;"></div>
+<script src="velocity-sim.js"></script>
 </body>
 </html>

@@ -2973,100 +2973,7 @@ input:checked + .setting-slider:before {
 .ap-card {
     border-radius: 12px !important; /* 12px gives a nice, premium softness. Change to 8px if you want it slightly sharper */
 }
-.forecast-drawer {
-    position: fixed; 
-    top: 0; 
-    right: -420px; /* Hidden state */
-    width: 400px; 
-    height: 100vh;
-    background: var(--surface); 
-    border-left: 1px solid var(--border);
-    z-index: 9999 !important; 
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
-/* THE TRIGGER CLASS */
-.forecast-drawer.open { 
-    right: 0 !important; 
-}
-
-.drawer-header { 
-    padding: 24px; border-bottom: 1px solid var(--border); 
-    display: flex; justify-content: space-between; align-items: center; background: var(--surface2);
-}
-
-.drawer-body { padding: 24px; overflow-y: auto; flex-grow: 1; }
-
-/* THE EMI CARD DESIGN */
-.emi-card-v2 {
-    background: var(--surface2); border: 1px solid var(--border); border-radius: 16px;
-    padding: 20px; margin-bottom: 20px; transition: transform 0.2s;
-}
-.emi-card-v2:hover { border-color: var(--accent); }
-
-.emi-stat-label { font-size: 10px; color: var(--t3); text-transform: uppercase; font-weight: 800; letter-spacing: 1px; margin-bottom: 6px; }
-.emi-stat-value { font-size: 26px; font-weight: 800; color: var(--t1); }
-.emi-stat-sub { font-size: 11px; color: var(--t2); margin-top: 8px; line-height: 1.5; }
-
-/* Progress Bar */
-.p-bar-bg { width: 100%; height: 6px; background: var(--border); border-radius: 10px; margin-top: 12px; overflow: hidden; }
-.p-bar-fill { height: 100%; background: var(--accent); border-radius: 10px; transition: width 1s ease-in-out; }
-
-/* ════ DRAWER OVERRIDE ════ */
-.forecast-drawer {
-    position: fixed; 
-    top: 0; 
-    right: -420px; /* Hidden by default */
-    width: 400px; 
-    height: 100vh;
-    background: var(--surface); 
-    border-left: 1px solid var(--border);
-    /* High Z-Index to stay above sidebar and cards */
-    z-index: 9999 !important; 
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: -15px 0 50px rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: column;
-}
-
-/* When the 'open' class is added via JS */
-.forecast-drawer.open { 
-    right: 0 !important; 
-}
-
-/* Floating Toggle Button */
-.forecast-fab {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 56px;
-    height: 56px;
-    background: var(--accent);
-    color: white;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    z-index: 9998;
-    border: none;
-    transition: transform 0.2s;
-}
-.forecast-fab:hover { transform: scale(1.1); }
-
-#drawer-overlay {
-    position: fixed; 
-    top: 0; 
-    left: 0; 
-    width: 100vw; 
-    height: 100vh;
-    background: rgba(0,0,0,0.6); 
-    backdrop-filter: blur(2px);
-    display: none; 
-    z-index: 9990;
-}
 /* --- ENHANCED BU GRID STYLES --- */
 
 
@@ -3192,4 +3099,84 @@ input:checked + .setting-slider:before {
 .ap-chart-area {
     width: 100% !important;
     display: flex !important;
+}
+/* ════ VELOCITY SIMULATOR COMPONENT ════ */
+.velocity-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: var(--card-shadow);
+}
+
+.velocity-gradient-card {
+    background: linear-gradient(135deg, #4a7cf7 0%, #7059c4 100%);
+    border-radius: 16px;
+    padding: 24px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.velocity-input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--t1);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+}
+
+.velocity-input:focus {
+    border-color: var(--accent);
+}
+
+.cal-grid-mini {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+    gap: 8px;
+}
+
+.cal-day-box {
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    text-align: center;
+    font-size: 10px;
+}
+/* ════ SIMULATOR POSITIONING FIX ════ */
+.rev-simulator-container {
+    width: 100%;
+    margin-bottom: 24px;
+    display: block;
+    /* This forces the container to fill the space next to the ap-sidebar */
+    flex: 1; 
+}
+
+/* Ensure the internal wrapper is responsive */
+.velocity-wrapper {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+/* ════ SIMULATOR LAYOUT CORRECTION ════ */
+.rev-simulator-container {
+    width: 100%;
+    display: block;
+    clear: both;
+}
+
+.velocity-wrapper {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Ensure the main container expands to the right of the sidebar */
+.ap-main-grid-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }

@@ -310,9 +310,7 @@ function goTo(id, btn) {
   if (id === 'pipeline') { setTimeout(() => drawProdChart(), 50); }  
   if (id === 'home') { setTimeout(() => drawRevChart(), 50); }
   if (id === 'targets') { setTimeout(() => drawOppsBubbleChart(), 10); } // Make sure this line exists!
-  if (id === 'commission') { 
-    if (typeof initCommissionTab === 'function') initCommissionTab(); 
-}}
+  }
 
 /* ════ THEME ════ */
 function setTheme(mode) {  
@@ -1628,3 +1626,8 @@ columns.forEach(colId => {
     if (countBadge) countBadge.textContent = visibleCount;
 });
 }
+document.addEventListener('DOMContentLoaded', () => {
+  if (typeof initVelocitySimulator === 'function') {
+      initVelocitySimulator();
+  }
+});
