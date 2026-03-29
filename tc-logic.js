@@ -123,7 +123,18 @@ function tcRenderTable() {
                         <span class="text-[12px] font-semibold text-slate-700 whitespace-nowrap">${user.name}</span>
                     </div>
                 </td>
-                <td class="px-3 py-2.5 text-right text-[11px] font-medium text-slate-600 tabular-nums">${tcFormatCurrency(user.target)}</td>
+                
+                <td class="px-3 py-2.5 text-right" onclick="event.stopPropagation()">
+                    <div class="flex items-center justify-end gap-1.5 group/edit" title="Click to edit target">
+                        <i data-lucide="pencil" class="w-3 h-3 text-slate-300 opacity-0 group-hover/edit:opacity-100 transition-opacity"></i>
+                        <input type="text" value="${tcFormatCurrency(user.target)}"
+                            class="w-[76px] text-right text-[11px] font-semibold text-slate-700 bg-transparent border-b border-dashed border-slate-300 hover:border-emerald-500 focus:border-emerald-500 focus:border-solid focus:bg-emerald-50 focus:rounded px-1 py-0.5 outline-none transition-all tabular-nums cursor-pointer focus:cursor-text"
+                            onblur="updateUserTarget(${user.id}, null, this.value)"
+                            onkeydown="if(event.key === 'Enter') this.blur()"
+                        />
+                    </div>
+                </td>
+                
                 <td class="px-3 py-2.5 text-right text-[11px] font-medium text-slate-600 tabular-nums">${tcFormatCurrency(user.tgtComm)}</td>
                 <td class="px-3 py-2.5 text-right text-[11px] font-medium text-slate-500 tabular-nums">${user.pcr}%</td>
                 <td class="px-3 py-2.5 text-right text-[11px] font-bold text-slate-700 tabular-nums">${tcFormatCurrency(user.attained)}</td>
@@ -154,7 +165,18 @@ function tcRenderTable() {
                         <td class="sticky left-0 z-10 bg-[#f8fafc] px-4 py-2 text-slate-500 shadow-[1px_0_0_#e2e8f0]">
                             <div class="flex items-center gap-3 pl-8"><span class="text-[10px] font-bold uppercase tracking-widest">${q.period}</span></div>
                         </td>
-                        <td class="px-3 py-2 text-right text-[10px] text-slate-400 tabular-nums">${tcFormatCurrency(q.target)}</td>
+                        
+                        <td class="px-3 py-2 text-right" onclick="event.stopPropagation()">
+                            <div class="flex items-center justify-end gap-1 group/edit" title="Click to edit quarter target">
+                                <i data-lucide="pencil" class="w-2.5 h-2.5 text-slate-300 opacity-0 group-hover/edit:opacity-100 transition-opacity"></i>
+                                <input type="text" value="${tcFormatCurrency(q.target)}"
+                                    class="w-[68px] text-right text-[10px] font-medium text-slate-500 bg-transparent border-b border-dashed border-slate-200 hover:border-emerald-400 focus:border-emerald-400 focus:border-solid focus:bg-emerald-50 focus:rounded px-1 py-0.5 outline-none transition-all tabular-nums cursor-pointer focus:cursor-text"
+                                    onblur="updateUserTarget(${user.id}, '${q.period}', this.value)"
+                                    onkeydown="if(event.key === 'Enter') this.blur()"
+                                />
+                            </div>
+                        </td>
+                        
                         <td class="px-3 py-2 text-right text-[10px] text-slate-400 tabular-nums">${tcFormatCurrency(q.tgtComm)}</td>
                         <td class="px-3 py-2 text-right text-[10px] text-slate-400 tabular-nums">${q.pcr}%</td>
                         <td class="px-3 py-2 text-right text-[10px] font-semibold text-slate-500 tabular-nums">${tcFormatCurrency(q.attained)}</td>
@@ -197,60 +219,101 @@ function showDetails(userId, period) {
     const data = period ? user.quarters.find(q => q.period === period) : user;
     
     document.getElementById('detailName').innerText = user.name;
-    
-    // FIX: Safely forcing the quarter to display here
     document.getElementById('detailPeriod').innerText = period ? `${period} — FY 2026` : "FY 2026 Aggregate";
-    
     document.getElementById('detailAvatar').innerText = user.name.split(' ').map(n => n[0]).join('').substring(0, 2);
     
     const detailContent = document.getElementById('detailContent');
     detailContent.innerHTML = `
-        <section><div class="grid grid-cols-2 gap-3">
-            <div class="p-3 bg-slate-50 rounded-xl border border-slate-100"><p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Attainment</p><p class="text-lg font-bold text-slate-800">${data.achieved.toFixed(1)}%</p></div>
-            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100"><p class="text-[9px] font-bold text-emerald-600 uppercase mb-1">Total Payout</p><p class="text-lg font-bold text-emerald-700 tabular-nums">${tcFormatCurrency(data.total)}</p></div>
-        </div></section>
+        <section>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-100">
+                    <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Attainment</p>
+                    <p class="text-2xl font-black text-slate-800">${data.achieved.toFixed(1)}%</p>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-xl border border-emerald-100">
+                    <p class="text-[10px] font-bold text-emerald-600 uppercase mb-1">Total Payout</p>
+                    <p class="text-2xl font-black text-emerald-700 tabular-nums">${tcFormatCurrency(data.total)}</p>
+                </div>
+            </div>
+        </section>
         
-        <section class="space-y-2 mt-6">
-            <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Core Metrics</h3>
-            ${tcDetailRow('Target', tcFormatCurrency(data.target))}
-            ${tcDetailRow('Attained', tcFormatCurrency(data.attained), true)}
-            ${tcDetailRow('Target Commission', tcFormatCurrency(data.tgtComm))}
-            ${tcDetailRow('PCR', data.pcr + '%', true)}
+        <section class="mt-8 relative">
+            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4">Core Metrics</h3>
+            <div class="space-y-2 border-l-[3px] border-slate-200 pl-4 ml-1">
+                ${tcDetailRow('Target', tcFormatCurrency(data.target))}
+                ${tcDetailRow('Attained', tcFormatCurrency(data.attained), true)}
+                ${tcDetailRow('Target Commission', tcFormatCurrency(data.tgtComm))}
+                ${tcDetailRow('PCR', data.pcr + '%', true)}
+            </div>
         </section>
 
-        <section class="space-y-2 mt-6">
-            <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-3">Commission Modifiers</h3>
-            ${tcDetailRow('Base Commission', tcFormatCurrency(data.dirComm))}
-            ${tcDetailRow('Accelerator (100%+)', tcFormatCurrency(data.accel), true)}
-            ${tcDetailRow('Bonus (125%+)', tcFormatCurrency(data.bonus125))}
-            ${tcDetailRow('Cross-Sell Comm', tcFormatCurrency(data.csComm), true)}
-            ${tcDetailRow('Services Comm', tcFormatCurrency(data.svcComm))}
+        <section class="mt-8 relative">
+            <h3 class="text-xs font-bold text-emerald-600 uppercase tracking-wider mb-4">You Earned</h3>
+            <div class="space-y-2 border-l-[3px] border-emerald-400 pl-4 ml-1">
+                ${tcDetailRow('Base Commission', tcFormatCurrency(data.dirComm))}
+                ${tcDetailRow('Accelerator (100%+)', tcFormatCurrency(data.accel), true)}
+                ${tcDetailRow('Bonus (125%+)', tcFormatCurrency(data.bonus125))}
+                ${tcDetailRow('Cross-Sell Comm', tcFormatCurrency(data.csComm), true)}
+                ${tcDetailRow('Services Comm', tcFormatCurrency(data.svcComm))}
+            </div>
         </section>
 
-        <section class="bg-slate-900 rounded-xl p-5 text-white shadow-lg mt-6 mb-8">
-            <div class="space-y-3">
-                <div class="flex justify-between items-center opacity-70"><span class="text-[10px] uppercase font-bold tracking-widest">Net Base</span><span class="text-xs font-semibold">${tcFormatCurrency(data.netComm)}</span></div>
-                <div class="flex justify-between items-center opacity-70"><span class="text-[10px] uppercase font-bold tracking-widest">Accelerators & Bonuses</span><span class="text-xs font-semibold">${tcFormatCurrency(data.accel + data.bonus125)}</span></div>
-                <div class="flex justify-between items-center opacity-70"><span class="text-[10px] uppercase font-bold tracking-widest">Cross-sell & Services</span><span class="text-xs font-semibold">${tcFormatCurrency(data.csComm + data.svcComm)}</span></div>
-                <div class="pt-3 border-t border-slate-700 flex justify-between items-center"><span class="text-xs font-bold text-slate-300">Grand Total</span><span class="text-lg font-bold text-emerald-400">${tcFormatCurrency(data.total)}</span></div>
+        <section class="bg-slate-900 rounded-2xl p-6 text-white shadow-lg mt-8 mb-8">
+            <div class="space-y-4">
+                <div class="flex justify-between items-center opacity-80">
+                    <span class="text-xs uppercase font-bold tracking-widest">Net Base</span>
+                    <span class="text-sm font-semibold">${tcFormatCurrency(data.netComm)}</span>
+                </div>
+                <div class="flex justify-between items-center opacity-80">
+                    <span class="text-xs uppercase font-bold tracking-widest">Accelerators & Bonuses</span>
+                    <span class="text-sm font-semibold">${tcFormatCurrency(data.accel + data.bonus125)}</span>
+                </div>
+                <div class="flex justify-between items-center opacity-80">
+                    <span class="text-xs uppercase font-bold tracking-widest">Cross-sell & Services</span>
+                    <span class="text-sm font-semibold">${tcFormatCurrency(data.csComm + data.svcComm)}</span>
+                </div>
+                <div class="pt-4 border-t border-slate-700 flex justify-between items-center">
+                    <span class="text-sm font-bold text-slate-300">Grand Total</span>
+                    <span class="text-2xl font-black text-emerald-400 tracking-tight">${tcFormatCurrency(data.total)}</span>
+                </div>
             </div>
         </section>
     `;
 
-    document.getElementById('detailOverlay').classList.remove('hidden');
-    setTimeout(() => document.getElementById('detailPanel').classList.remove('closed'), 10);
+    const overlay = document.getElementById('detailOverlay');
+    const panel = document.getElementById('detailPanel');
+
+    // 1. Unhide the container and ensure it's not faded out
+    overlay.classList.remove('hidden');
+    overlay.classList.remove('fade-out');
+
+    // 2. THE FIX: Force a DOM reflow. This guarantees the browser paints 
+    // the new HTML off-screen BEFORE starting the CSS transition.
+    void panel.offsetWidth; 
+
+    // 3. Trigger the smooth slide-in
+    panel.classList.remove('closed');
 }
 
 function tcDetailRow(label, value, highlight) {
-    return `<div class="flex justify-between items-center py-1.5 px-2 rounded-lg ${highlight ? 'bg-slate-50' : ''}">
-        <span class="text-[10px] font-semibold text-slate-400 uppercase tracking-tight">${label}</span>
-        <span class="text-[12px] font-bold ${highlight ? 'text-slate-700' : 'text-slate-500'}">${value}</span>
+    return `<div class="flex justify-between items-center py-2 px-3 rounded-xl ${highlight ? 'bg-slate-50' : ''}">
+        <span class="text-xs font-bold text-slate-500 uppercase tracking-tight">${label}</span>
+        <span class="text-sm font-black ${highlight ? 'text-slate-800' : 'text-slate-600'}">${value}</span>
     </div>`;
 }
 
 function closeDetails() {
-    document.getElementById('detailPanel').classList.add('closed');
-    setTimeout(() => document.getElementById('detailOverlay').classList.add('hidden'), 300);
+    const overlay = document.getElementById('detailOverlay');
+    const panel = document.getElementById('detailPanel');
+    
+    // 1. Slide the panel out and fade the background
+    panel.classList.add('closed');
+    overlay.classList.add('fade-out');
+    
+    // 2. Wait for the exact length of the 0.4s animation before hiding the container
+    setTimeout(() => {
+        overlay.classList.add('hidden');
+    }, 400); 
 }
 
 // Event Listeners (Added safeties to make sure DOM elements exist)
@@ -303,3 +366,58 @@ document.addEventListener('DOMContentLoaded', () => {
     tcRenderStats();
     tcRenderTable();
 });
+
+window.updateUserTarget = function(userId, period, valString) {
+    // 1. Clean the input (remove $ and commas)
+    const val = Number(valString.replace(/[^0-9.-]+/g,""));
+    
+    // If invalid, re-render to reset back to original
+    if(isNaN(val) || val <= 0) {
+        tcRenderTable(); 
+        return;
+    }
+    
+    const user = tcData.find(u => u.id === userId);
+    if(!user) return;
+
+    if (period) {
+        // Update specific Quarter
+        const q = user.quarters.find(q => q.period === period);
+        if (q) {
+            q.target = val;
+            q.tgtComm = val * (q.pcr / 100);
+            q.achieved = (q.attained / val) * 100;
+            q.accel = q.achieved > 100 ? (q.attained - val) * 0.02 : 0;
+            q.bonus125 = q.achieved > 125 ? 1250 : 0;
+            q.total = q.dirComm + q.csComm + q.svcComm + q.accel + q.bonus125;
+        }
+        // Rollup math to parent
+        user.target = user.quarters.reduce((a, b) => a + b.target, 0);
+        user.tgtComm = user.quarters.reduce((a, b) => a + b.tgtComm, 0);
+        user.achieved = (user.attained / user.target) * 100;
+        user.accel = user.quarters.reduce((a, b) => a + b.accel, 0);
+        user.bonus125 = user.quarters.reduce((a, b) => a + b.bonus125, 0);
+        user.total = user.quarters.reduce((a, b) => a + b.total, 0);
+    } else {
+        // Update Parent and distribute evenly to quarters
+        user.target = val;
+        user.tgtComm = val * (user.pcr / 100);
+        user.achieved = (user.attained / val) * 100;
+        user.accel = user.achieved > 100 ? (user.attained - val) * 0.02 : 0;
+        user.bonus125 = user.achieved > 125 ? 1250 : 0;
+        user.total = user.dirComm + user.csComm + user.svcComm + user.accel + user.bonus125;
+
+        const qVal = val / 4;
+        user.quarters.forEach(q => {
+            q.target = qVal;
+            q.tgtComm = qVal * (q.pcr / 100);
+            q.achieved = (q.attained / qVal) * 100;
+            q.accel = q.achieved > 100 ? (q.attained - qVal) * 0.02 : 0;
+            q.bonus125 = q.achieved > 125 ? 1250 : 0;
+            q.total = q.dirComm + q.csComm + q.svcComm + q.accel + q.bonus125;
+        });
+    }
+    
+    // Re-render table with new numbers!
+    tcRenderTable();
+};
