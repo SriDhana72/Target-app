@@ -3100,83 +3100,9 @@ input:checked + .setting-slider:before {
     width: 100% !important;
     display: flex !important;
 }
-/* ════ VELOCITY SIMULATOR COMPONENT ════ */
-.velocity-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    box-shadow: var(--card-shadow);
-}
 
-.velocity-gradient-card {
-    background: linear-gradient(135deg, #4a7cf7 0%, #7059c4 100%);
-    border-radius: 16px;
-    padding: 24px;
-    color: white;
-    position: relative;
-    overflow: hidden;
-}
 
-.velocity-input {
-    width: 100%;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    color: var(--t1);
-    padding: 8px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    outline: none;
-}
 
-.velocity-input:focus {
-    border-color: var(--accent);
-}
+  
+ 
 
-.cal-grid-mini {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-    gap: 8px;
-}
-
-.cal-day-box {
-    padding: 8px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    text-align: center;
-    font-size: 10px;
-}
-/* ════ SIMULATOR POSITIONING FIX ════ */
-.rev-simulator-container {
-    width: 100%;
-    margin-bottom: 24px;
-    display: block;
-    /* This forces the container to fill the space next to the ap-sidebar */
-    flex: 1; 
-}
-
-/* Ensure the internal wrapper is responsive */
-.velocity-wrapper {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-/* ════ SIMULATOR LAYOUT CORRECTION ════ */
-.rev-simulator-container {
-    width: 100%;
-    display: block;
-    clear: both;
-}
-
-.velocity-wrapper {
-    width: 100%;
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-/* Ensure the main container expands to the right of the sidebar */
-.ap-main-grid-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
