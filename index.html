@@ -252,8 +252,7 @@
                         
                                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                     
-                                    <div class="lg:col-span-2 bg-gradient-to-br from-indigo-600 to-violet-700 rounded-xl p-5 text-white shadow-sm flex flex-col justify-center relative overflow-hidden">
-                                        <div class="relative z-10 flex justify-between items-center">
+                                    <div class="lg:col-span-2 bg-gradient-to-br from-emerald-500 to-teal-700 rounded-xl p-5 text-white shadow-sm flex flex-col justify-center relative overflow-hidden">                                        <div class="relative z-10 flex justify-between items-center">
                                             <div>
                                                 <div class="flex items-center gap-1.5 mb-1 opacity-80">
                                                     <i data-lucide="clock" class="w-3.5 h-3.5"></i>
@@ -709,8 +708,33 @@
 
 
             <div class="section" id="sec-pipeline">        
-                <div class="pro-stat-strip">          
-                    <div class="pro-stat-item"><div class="pro-stat-val" style="color:var(--accent)">$1,240M</div><div class="pro-stat-lbl">Total Pipeline</div><div class="pro-stat-delta up">3.2× coverage</div></div>          
+                
+                <div class="pro-stat-strip" style="padding: 16px 20px;">          
+                    
+                    <div class="pro-stat-item" style="flex: 2.2; display: flex; align-items: center; text-align: left; gap: 24px; padding-right: 20px;">
+                        <div>
+                            <div class="pro-stat-val" style="color:var(--accent); font-size: 28px;">$1,240M</div>
+                            <div class="pro-stat-lbl">Total Pipeline</div>
+                            <div class="pro-stat-delta up">3.2× coverage</div>
+                        </div>
+                        
+                        <div style="flex: 1; display: flex; align-items: flex-end; justify-content: center; gap: 24px; border-left: 1px dashed var(--border); padding-left: 20px; height: 80px; padding-bottom: 2px;">
+                            
+                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
+                                <span style="font-size: 11px; font-weight: 800; color: var(--t1); margin-bottom: 4px;">$648M</span>
+                                <div style="width: 28px; height: 40px; background: var(--accent2); border-radius: 4px 4px 0 0; transition: height 0.5s ease;"></div>
+                                <span style="font-size: 9px; font-weight: 800; color: var(--t3); text-transform: uppercase; margin-top: 6px;">Qualified</span>
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; align-items: center; justify-content: flex-end; height: 100%;">
+                                <span style="font-size: 11px; font-weight: 800; color: var(--t1); margin-bottom: 4px;">$420M</span>
+                                <div style="width: 28px; height: 26px; background: var(--purple); border-radius: 4px 4px 0 0; transition: height 0.5s ease;"></div>
+                                <span style="font-size: 9px; font-weight: 800; color: var(--t3); text-transform: uppercase; margin-top: 6px;">Neg/Legal</span>
+                            </div>
+
+                        </div>
+                    </div>          
+                    
                     <div class="pro-stat-sep"></div>          
                     <div class="pro-stat-item"><div class="pro-stat-val">$648M</div><div class="pro-stat-lbl">Qualified</div><div class="pro-stat-delta up">52% of total</div></div>          
                     <div class="pro-stat-sep"></div>          
@@ -720,19 +744,24 @@
                     <div class="pro-stat-sep"></div>          
                     <div class="pro-stat-item"><div class="pro-stat-val" style="color:var(--green)">62</div><div class="pro-stat-lbl">High-Conv. Opps</div><div class="pro-stat-delta up">≥70% probability</div></div>        
                 </div>        
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">                    <div class="acard"><div class="acard-head"><div class="acard-title">Pipeline Funnel</div></div><div id="funnel"></div></div>          
-                    <div class="acard">
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">          
+                    
+                    <div class="acard" style="margin-bottom: 0;">
                         <div class="acard-head" style="margin-bottom:14px;">
                             <div class="acard-title">Revenue by Product</div>
                             <div style="font-size:10px;font-weight:800;color:var(--t3);background:var(--surface2);padding:4px 8px;border-radius:6px;letter-spacing:0.5px;text-transform:uppercase;">Q4 Pipeline</div>
                         </div>
-                        <div id="appProdRev" style="display:flex; flex-direction:column; gap:4px;"></div>
+                        <div id="appProdRev" style="display:flex; flex-direction:column; gap:12px;"></div>
                     </div>                
+                    
+                    <div class="acard" style="margin-bottom: 0;">          
+                        <div class="acard-head"><div class="acard-title">Pipeline Anomalies <span class="chip anom" style="margin-left:8px">5 Active</span></div></div>          
+                        <div id="anomalies"></div>        
+                    </div> 
+
                 </div>        
-                <div class="acard">          
-                    <div class="acard-head"><div class="acard-title">Pipeline Anomalies <span class="chip anom" style="margin-left:8px">5 Active</span></div></div>          
-                    <div id="anomalies"></div>        
-                </div>        
+                
                 <div class="acard">          
                     <div class="acard-head"><div class="acard-title">Top 50 High Value Pipeline Conversions </div></div>          
                     <div class="twrap"><table class="dtable"><thead><tr><th>Company</th><th>Rep</th><th>Stage</th><th>Product</th><th>Region</th><th>Value</th><th>Conv %</th><th>Close</th></tr></thead><tbody id="hconv"></tbody></table></div>        
@@ -909,11 +938,107 @@
                 </div>
             </div>
             <div id="sec-commission" class="section">
-                <div style="padding: 24px;">
-                    <div style="font-size: 24px; font-weight: 800; color: var(--t1);">Target Commission</div>
-                    <div style="font-size: 14px; font-weight: 500; color: var(--t3); margin-top: 6px;">Configure and simulate commission calculations for FY 2026</div>
+                <style>
+                    .hide-scrollbar::-webkit-scrollbar { display: none; }
+                    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+                    tr.expanded { background-color: rgba(248, 250, 252, 0.8); }
+                    .detail-panel { transition: transform 0.3s ease-in-out; }
+                    .detail-panel.closed { transform: translateX(100%); }
+                </style>
+
+                <header class="px-8 py-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <h1 class="text-2xl font-bold tracking-tight text-slate-800">Target Commission</h1>
+                        <p class="text-sm text-slate-500 mt-1 font-medium">Configure and simulate commission calculations for FY 2026</p>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <i data-lucide="search" class="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400"></i>
+                            <input 
+                                type="text" 
+                                id="searchInput"
+                                placeholder="Search members..." 
+                                class="pl-9 pr-4 py-2 bg-slate-100 border-none rounded-full text-xs w-60 focus:ring-1 focus:ring-emerald-500 transition-all outline-none text-slate-700"
+                            >
+                        </div>
+                        
+                        <button id="exportBtn" class="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-full text-xs font-semibold hover:bg-slate-800 transition-all shadow-sm">
+                            <i data-lucide="download" class="w-3.5 h-3.5"></i>
+                            Export
+                        </button>
+                    </div>
+                </header>
+
+                <main class="px-8 pb-8 max-w-[1600px] mx-auto w-full">
                     
-                    <div id="commission-content-area" style="margin-top: 32px;"></div>
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 mb-6">
+                        <div class="flex items-center gap-2 mb-1">
+                            <i data-lucide="dollar-sign" class="w-4 h-4 text-emerald-600"></i>
+                            <h2 class="text-lg font-bold text-slate-800">Commission Breakdown</h2>
+                        </div>
+                        <p class="text-[11px] text-slate-400 mb-5">Overall commission structure for FY 2026</p>
+
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3" id="breakdownGrid"></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8" id="statsRow"></div>
+
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="overflow-x-auto hide-scrollbar">
+                            <table class="w-full text-left border-collapse min-w-[1800px]">
+                                <thead>
+                                    <tr class="bg-slate-50 border-b border-slate-200">
+                                        <th class="sticky left-0 z-20 bg-slate-50 px-4 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest shadow-[1px_0_0_#e2e8f0]">Name</th>                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Target</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Tgt Comm</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">PCR</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Attained</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest w-32">Achieved</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Accel.</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">125%+</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Dir Comm</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Cross Sell</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">CS Comm</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Net Comm</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Svc Rev</th>
+                                        <th class="px-3 py-3.5 text-[10px] font-bold text-slate-500 uppercase tracking-widest text-right">Svc Comm</th>
+                                        <th class="px-4 py-3.5 text-[10px] font-bold bg-emerald-50/50 text-emerald-700 uppercase tracking-widest text-right">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody" class="divide-y divide-slate-100">
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="px-6 py-3 bg-slate-50/50 border-t border-slate-200 flex items-center justify-between">
+                            <span id="paginationInfo" class="text-[11px] font-medium text-slate-400 italic"></span>
+                            <div class="flex gap-1.5">
+                                <button id="prevPage" class="px-3 py-1 text-[11px] font-bold bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 transition-all">Prev</button>
+                                <div id="pageIndicator" class="flex items-center px-3 text-[11px] font-bold text-slate-500 bg-white border border-slate-200 rounded-lg">Page 1 / 1</div>
+                                <button id="nextPage" class="px-3 py-1 text-[11px] font-bold bg-white border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50 transition-all">Next</button>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+
+                <div id="detailOverlay" class="fixed inset-0 overflow-hidden hidden" style="position: fixed; z-index: 99999;">
+                    <div class="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] transition-opacity" onclick="closeDetails()"></div>
+                    
+                    <div id="detailPanel" class="detail-panel closed absolute inset-y-0 right-0 max-w-md w-full bg-white shadow-2xl flex flex-col">
+                        <div class="p-6 border-b border-slate-100 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div id="detailAvatar" class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-bold text-sm shadow-md"></div>
+                                <div>
+                                    <h2 id="detailName" class="text-sm font-bold text-slate-800"></h2>
+                                    <p id="detailPeriod" class="text-[10px] font-bold text-emerald-600 uppercase tracking-widest"></p>
+                                </div>
+                            </div>
+                            <button onclick="closeDetails()" class="p-1.5 hover:bg-slate-100 rounded-full transition-colors text-slate-400">
+                                <i data-lucide="x" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-6 space-y-6" id="detailContent"></div>
+                    </div>
                 </div>
             </div>
 
@@ -1176,5 +1301,6 @@
 <script src="leadership.js"></script>
 <script src="waterfall-board.js"></script>
 <script src="velocity-logic.js"></script>
+<script src="tc-logic.js"></script>
 </body>
 </html>
