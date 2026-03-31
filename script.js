@@ -1747,3 +1747,143 @@ window.handleTailwindToggle = function(btn) {
   // Set the clicked button to the solid black/active state
   btn.className = "px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all";
 };
+
+/* ════ ALERTS WIDGET ════ */
+const alertsData = [
+  { icon: '⚡', main: '$16,000 to accelerator', sub: 'Close by Jun 30' },
+  { icon: '⌛', main: '1 pending approval', sub: 'Luminary — $6,448' },
+  { icon: '📊', main: 'Rank #3 of 6 on team', sub: '+2 positions this month', highlight: true },
+  { icon: '🎯', main: 'Q2 ends in 97 days', sub: "You're on pace" }
+];
+
+function initializeAlerts() {
+  const alertCards = document.querySelectorAll('.alert-card');
+  alertCards.forEach(card => {
+    card.addEventListener('mouseenter', function() {
+      this.style.backgroundColor = '#f0ebe5';
+    });
+    card.addEventListener('mouseleave', function() {
+      this.style.backgroundColor = '#f7f3f0';
+    });
+  });
+}
+
+/* ════ QUOTA WIDGET ════ */
+function updateQuotaUI(current, target) {
+  const percent = Math.min((current / target) * 100, 100);
+  const donutFill = document.getElementById('quota-donut');
+  
+  // SVG Donut Math: Circumference is ~251.2
+  const circumference = 2 * Math.PI * 40;
+  const offset = circumference - (percent / 100) * circumference;
+  donutFill.style.strokeDashoffset = offset;
+
+  document.getElementById('quota-pct').textContent = `${Math.round(percent)}%`;
+  
+  // Update the progress bar at the bottom
+  document.getElementById('gap-progress').style.width = `${percent}%`;
+}
+
+// Initialize quota widget on page load
+document.addEventListener('DOMContentLoaded', function() {
+  updateQuotaUI(134000, 200000);
+});
+document.addEventListener('DOMContentLoaded', () => {
+  const slider = document.getElementById('sim-deal-slider');
+  const fill = document.getElementById('sim-slider-fill');
+  const thumb = document.getElementById('sim-slider-thumb');
+  const valueDisplay = document.getElementById('sim-deal-value-display');
+  const rateDisplay = document.getElementById('sim-rate-display');
+  const earnedDisplay = document.getElementById('sim-earned-display');
+  const tierDisplay = document.getElementById('sim-tier-display');
+
+  if (!slider) return;
+
+  function updateSimulator() {
+    const val = Number(slider.value);
+    const max = Number(slider.max);
+    const percent = (val / max) * 100;
+
+    fill.style.width = `${percent}%`;
+    thumb.style.left = `${percent}%`;
+
+    const format$ = (num) => new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      maximumFractionDigits: 0
+    }).format(num);
+
+    valueDisplay.textContent = format$(val);
+
+    let rate = 5.0;
+    let tier = "Base Rate";
+    let tClass = "text-slate-600 bg-slate-200 border-slate-300";
+    let calcDesc = "Standard base commission rate.";
+
+    if (val >= 150000) {
+      rate = 12.0;
+      tier = "Max Accel.";
+      tClass = "text-purple-700 bg-purple-100 border-purple-200";
+      calcDesc = "Includes maximum accelerator multiplier.";
+    } else if (val >= 75000) {
+      rate = 9.0;
+      tier = "Tier 3";
+      tClass = "text-indigo-700 bg-indigo-100 border-indigo-200";
+      calcDesc = "Includes Tier 3 volume bonus.";
+    } else if (val >= 25000) {
+      rate = 7.0;
+      tier = "Tier 2";
+      tClass = "text-emerald-700 bg-emerald-100 border-emerald-200";
+      calcDesc = "Includes Tier 2 volume bonus.";
+    }
+
+    const earned = val * (rate / 100);
+
+    rateDisplay.textContent = rate.toFixed(1) + '%';
+    tierDisplay.textContent = tier;
+    tierDisplay.className = `text-[10px] font-bold uppercase px-2 py-1.5 rounded-md border shadow-sm transition-colors ${tClass}`;
+    earnedDisplay.textContent = format$(earned);
+
+    document.getElementById('sim-calc-math').innerHTML = `${format$(val)} <span class="text-slate-400 mx-1">×</span> <span class="text-indigo-600">${rate.toFixed(1)}%</span>`;
+    document.getElementById('sim-calc-result').textContent = format$(earned);
+    document.getElementById('sim-calc-desc').innerHTML = `<i data-lucide="info" class="w-3.5 h-3.5 text-indigo-400"></i> ${calcDesc}`;
+
+    const baseTargetInput = document.getElementById('input-quarterly-goal');
+    const currentSalesInput = document.getElementById('input-sales-to-date');
+    const baseTarget = baseTargetInput ? (Number(baseTargetInput.value) || 30000) : 30000;
+    const currentSales = currentSalesInput ? (Number(currentSalesInput.value) || 12500) : 12500;
+    const newTotal = currentSales + val;
+    const currentPct = (currentSales / baseTarget) * 100;
+    const newPct = (newTotal / baseTarget) * 100;
+
+    document.getElementById('sim-base-target').textContent = format$(baseTarget);
+    document.getElementById('sim-new-total').textContent = format$(newTotal);
+    document.getElementById('sim-new-pct').textContent = `(${newPct.toFixed(0)}%)`;
+
+    const cappedCurrentPct = Math.min(currentPct, 100);
+    const cappedNewPct = Math.min(newPct - cappedCurrentPct, 100 - cappedCurrentPct);
+
+    document.getElementById('sim-prog-current').style.width = `${cappedCurrentPct}%`;
+    document.getElementById('sim-prog-new').style.width = `${cappedNewPct}%`;
+
+    if (window.lucide) window.lucide.createIcons();
+  }
+
+  slider.addEventListener('input', updateSimulator);
+  document.getElementById('input-quarterly-goal')?.addEventListener('input', updateSimulator);
+  document.getElementById('input-sales-to-date')?.addEventListener('input', updateSimulator);
+
+  updateSimulator();
+});
+
+// Add these to your existing updateSimulator function
+const earningsVal = document.getElementById('earnings-val');
+const forecastVal = document.getElementById('forecast-val');
+
+// Example logic:
+// If 'earned' is what you calculated in the previous step:
+earningsVal.textContent = format$(earned);
+
+// If 'forecast' is a future projection (e.g., earned + potential):
+const forecast = earned * 1.5; // Replace with your actual logic
+forecastVal.textContent = format$(forecast);

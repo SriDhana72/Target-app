@@ -573,76 +573,87 @@ function renderTargetConfig() {
 
     if (tcTab === 'individual') {
         bottomContent = `
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; border-top: 1px solid var(--border); padding-top: 24px;">
-            <div>
-                <div class="tc-label">Quarter</div>
-<div class="tc-pill-grid">
-    <div class="tc-pill active" onclick="selectTCPill(this)">Q1</div>
-    <div class="tc-pill" onclick="selectTCPill(this)">Q2</div>
-    <div class="tc-pill" onclick="selectTCPill(this)">Q3</div>
-    <div class="tc-pill" onclick="selectTCPill(this)">Q4</div>
-</div>
-                <div class="tc-label">Target Type</div>
-                <div class="tc-pill-grid cols-3">
-                    <div class="tc-pill active" onclick="selectTCPill(this)">Sales</div><div class="tc-pill" onclick="selectTCPill(this)">Partner</div><div class="tc-pill" onclick="selectTCPill(this)">Renewal</div>
-                </div>
-            </div>
-<div>
-                <div class="tc-label">BU Group</div>
-                <select class="tc-select" id="panel-bu" onchange="updatePanelServices()" style="margin-bottom: 16px;">${buOptions}</select>
-                <div class="tc-label">Included Service(s)</div>
-                <div class="tc-country-tags-wrap" id="tc-service-tags" style="max-height: 100px;">
-                    <div class="tc-ms-empty" style="padding:12px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left;">Select a BU Group above</div>
-                </div>
-            </div>
-            <div>
-                <div class="tc-label">Region</div>
-                <select class="tc-select" id="panel-region" style="margin-bottom: 16px;" onchange="updatePanelCountries()">${regionOptions}</select>
-                <div class="tc-label">Included Countries</div>
-                <div class="tc-country-tags-wrap" id="tc-country-tags" style="max-height: 100px;">
-                    <div class="tc-ms-empty" style="padding:12px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left;">Select a Region above to auto-populate countries</div>
-                </div>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 24px;">
+        <div style="border-top: 1px solid var(--border); padding-top: 24px;">
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
                 <div>
-                    <div class="tc-label">Reporting Manager</div>
-                    <select class="tc-select" style="margin-bottom: 0;">
-                        <option>${parentNode ? parentNode.name + ' (' + parentNode.role + ')' : 'N/A'}</option>
-                        <option>Sridhar Vembu (CEO)</option>
-                    </select>
+                    <div class="tc-label">Quarter</div>
+                    <div class="tc-pill-grid">
+                        <div class="tc-pill active" onclick="selectTCPill(this)">Q1</div>
+                        <div class="tc-pill" onclick="selectTCPill(this)">Q2</div>
+                        <div class="tc-pill" onclick="selectTCPill(this)">Q3</div>
+                        <div class="tc-pill" onclick="selectTCPill(this)">Q4</div>
+                    </div>
+                    <div class="tc-label">Target Type</div>
+                    <div class="tc-pill-grid cols-3">
+                        <div class="tc-pill active" onclick="selectTCPill(this)">Sales</div><div class="tc-pill" onclick="selectTCPill(this)">Partner</div><div class="tc-pill" onclick="selectTCPill(this)">Renewal</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="tc-label">BU Group</div>
+                    <select class="tc-select" id="panel-bu" onchange="updatePanelServices()" style="margin-bottom: 12px;">${buOptions}</select>
+                    <div class="tc-label">Included Service(s)</div>
+                    <div class="tc-country-tags-wrap" id="tc-service-tags" style="max-height: 80px;">
+                        <div class="tc-ms-empty" style="padding:10px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left; font-size:12px;">Select a BU Group above</div>
+                    </div>
+                </div>
+                <div>
+                    <div class="tc-label">Region</div>
+                    <select class="tc-select" id="panel-region" style="margin-bottom: 12px;" onchange="updatePanelCountries()">${regionOptions}</select>
+                    <div class="tc-label">Included Countries</div>
+                    <div class="tc-country-tags-wrap" id="tc-country-tags" style="max-height: 80px;">
+                        <div class="tc-ms-empty" style="padding:10px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left; font-size:12px;">Select a Region above</div>
+                    </div>
                 </div>
                 <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: all 0.2s;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--t1);">
                             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                            ${viewTotalInIndividual ? 'Total Target' : 'Self Target'}
+                            ${node.selfTargetPrefs?.includeTeam ? 'Total Target' : 'Self Target'}
                         </div>
                         <label style="display:flex; align-items:center; gap:6px; font-size:10px; font-weight:700; color:var(--t3); cursor:pointer; user-select:none;">
-                            <input type="checkbox" onchange="toggleTargetView(this.checked)" ${viewTotalInIndividual ? 'checked' : ''} style="cursor:pointer; accent-color:var(--accent);">
+                            <input type="checkbox" id="include-team-checkbox-${node.id}" ${node.selfTargetPrefs?.includeTeam ? 'checked' : ''} onchange="toggleSelfTargetTeamView('${node.id}', this.checked)" style="cursor:pointer; accent-color:var(--accent);">
                             Include Team
                         </label>
                     </div>
+                    
+                    ${node.selfTargetPrefs?.includeTeam ? `
+                    <!-- INCLUDE TEAM VIEW: Show Total Target with Editable Input -->
+                    <div style="display: flex; flex-direction: column; gap: 12px;">
+                        <div>
+                            <div style="font-size: 12px; color: var(--t3); margin-bottom: 8px;">Includes self target + team rollup.</div>
+                            <div style="display: flex; align-items: center; background: var(--surface); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);">
+                                <span style="font-size: 15px; font-weight: 800; color: var(--t2); margin-right: 8px;">$</span>
+                                <input type="text" id="total-target-input-${node.id}" value="${totalTargetVal}" onchange="updateRepTarget('${node.id}', this.value, false)" style="background: transparent; border: none; font-size: 15px; font-weight: 800; color: var(--t1); outline: none; width: 100%; text-align: right; font-family: inherit;">
+                                <button class="th-icon-btn" style="background: var(--accent2); color: white; border: none; border-radius: 6px; width: 32px; height: 32px; margin-left: 12px; flex-shrink: 0;" onclick="saveTotalTarget('${node.id}', this)" title="Save Target">
+                                    <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div style="border-top: 1px solid var(--border); padding-top: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <span style="font-size: 11px; color: var(--t3); font-weight: 600;">Self Target</span>
+                                <span style="font-size: 12px; font-weight: 800; color: var(--t1);">$${selfTargetVal.toLocaleString('en-US')}</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+                                <span style="font-size: 11px; color: var(--t3); font-weight: 600;">Team Roll-up</span>
+                                <span style="font-size: 12px; font-weight: 800; color: var(--accent2);">$${teamRollupVal.toLocaleString('en-US')}</span>
+                            </div>
+                        </div>
+                    </div>
+                    ` : `
+                    <!-- DEFAULT VIEW: Show Editable Self Target Input -->
                     <div style="font-size: 11px; color: var(--t3); margin-bottom: 12px;">
-                        ${viewTotalInIndividual ? 'Includes self target + team rollup.' : 'Direct contribution — not from team rollup.'}
+                        Direct contribution — not from team rollup.
                     </div>
                     <div style="display: flex; align-items: center; background: var(--surface); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border);">
                         <span style="font-size: 15px; font-weight: 800; color: var(--t2); margin-right: 8px;">$</span>
-                        <input type="text" value="${(viewTotalInIndividual ? totalTargetVal : selfTargetVal).toLocaleString('en-US')}" onchange="updateRepTarget('${node.id}', this.value, ${!viewTotalInIndividual})" style="background: transparent; border: none; font-size: 15px; font-weight: 800; color: var(--t1); outline: none; width: 100%; text-align: right; font-family: inherit;">
-                        <button class="th-icon-btn" style="background: var(--accent2); color: white; border: none; border-radius: 6px; width: 32px; height: 32px; margin-left: 12px; flex-shrink: 0;" onclick="saveNewTarget(this)" title="Save Target">
+                        <input type="text" id="self-target-input-${node.id}" value="${selfTargetVal}" onchange="updateRepTarget('${node.id}', this.value, true)" style="background: transparent; border: none; font-size: 15px; font-weight: 800; color: var(--t1); outline: none; width: 100%; text-align: right; font-family: inherit;">
+                        <button class="th-icon-btn" style="background: var(--accent2); color: white; border: none; border-radius: 6px; width: 32px; height: 32px; margin-left: 12px; flex-shrink: 0;" onclick="saveSelfTarget('${node.id}', this)" title="Save Target">
                             <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
                         </button>
                     </div>
-                    ${viewTotalInIndividual ? `
-                    <div style="display:flex; justify-content:space-between; margin-top:16px; padding-top:12px; border-top:1px dashed var(--border-hi);">
-                        <div style="font-size:11px;">
-                            <div style="color:var(--t3); font-weight:600; margin-bottom:4px;">Self Target</div>
-                            <div style="color:var(--t1); font-weight:800;">$${selfTargetVal.toLocaleString('en-US')}</div>
-                        </div>
-                        <div style="font-size:11px; text-align:right;">
-                            <div style="color:var(--t3); font-weight:600; margin-bottom:4px;">Team Roll-up</div>
-                            <div style="color:var(--t1); font-weight:800;">$${teamRollupVal.toLocaleString('en-US')}</div>
-                        </div>
-                    </div>` : ''}
+                    `}
                 </div>
             </div>
         </div>`;
@@ -841,6 +852,86 @@ function saveNewTarget(btn) {
     btn.innerHTML = '<b>✓</b>';
     btn.style.background = '#00A693';
     setTimeout(() => { btn.innerHTML = '💾'; btn.style.background = ''; }, 1500);
+}
+
+/* ════ SELF TARGET SAVE ════ */
+function saveSelfTarget(nodeId, btn) {
+    const node = window.ORG_DATA.find(n => n.id === nodeId);
+    if (!node) return;
+
+    // Get the value from the input field
+    const input = document.querySelector(`#self-target-input-${nodeId}`);
+    const newValue = input ? parseInt(input.value.replace(/[^0-9.-]+/g,""), 10) : 0;
+    
+    if (isNaN(newValue)) return;
+
+    // Check if "Include Team" checkbox is checked
+    const checkbox = document.querySelector(`#include-team-checkbox-${nodeId}`);
+    const includeTeam = checkbox ? checkbox.checked : false;
+
+    // Update the target based on Include Team flag
+    const directReports = window.ORG_DATA.filter(n => n.managerId === nodeId);
+    const teamTotalValue = directReports.reduce((sum, r) => sum + r.target, 0);
+    
+    if (includeTeam) {
+        // If Include Team is checked, add team to self target
+        node.target = newValue + teamTotalValue;
+    } else {
+        // If not checked, just use the self target value
+        node.target = newValue;
+    }
+
+    // Visual feedback
+    btn.innerHTML = '<b>✓</b>';
+    btn.style.background = '#00A693';
+    setTimeout(() => { 
+        btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>'; 
+        btn.style.background = ''; 
+    }, 1500);
+
+    renderOrgTargetsList();
+    renderTargetConfig();
+}
+
+/* ════ TOTAL TARGET SAVE ════ */
+function saveTotalTarget(nodeId, btn) {
+    const node = window.ORG_DATA.find(n => n.id === nodeId);
+    if (!node) return;
+
+    // Get the value from the input field
+    const input = document.querySelector(`#total-target-input-${nodeId}`);
+    const newValue = input ? parseInt(input.value.replace(/[^0-9.-]+/g,""), 10) : 0;
+    
+    if (isNaN(newValue)) return;
+
+    // Set the total target directly (which includes self + team)
+    node.target = newValue;
+
+    // Visual feedback
+    btn.innerHTML = '<b>✓</b>';
+    btn.style.background = '#00A693';
+    setTimeout(() => { 
+        btn.innerHTML = '<svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>'; 
+        btn.style.background = ''; 
+    }, 1500);
+
+    renderOrgTargetsList();
+    renderTargetConfig();
+}
+
+/* ════ TOGGLE TEAM VIEW ════ */
+function toggleSelfTargetTeamView(nodeId, includeTeam) {
+    const node = window.ORG_DATA.find(n => n.id === nodeId);
+    if (!node) return;
+
+    // Store the "Include Team" preference on the node
+    if (!node.selfTargetPrefs) {
+        node.selfTargetPrefs = {};
+    }
+    node.selfTargetPrefs.includeTeam = includeTeam;
+
+    // Re-render to update the display
+    renderTargetConfig();
 }
 
 window.addEventListener('DOMContentLoaded', () => {
