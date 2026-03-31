@@ -543,12 +543,9 @@
                         <div style="display: flex; align-items: center; gap: 16px;">
                             <input type="text" class="ap-text-input" style="width: 200px; margin: 0;" placeholder="Search person..." oninput="searchQuarterlyBreakdown(this.value)">
                             
-                            <div id="global-filter-container" class="filter-button-group">
-                                <button data-filter-type="all" onclick="setGlobalFilter('all', this)" class="active">All</button>
-                                <div class="filter-divider"></div>
-                                <button data-filter-type="my_target" onclick="setGlobalFilter('my_target', this)">Individual</button>
-                                <div class="filter-divider"></div>
-                                <button data-filter-type="my_team" onclick="setGlobalFilter('my_team', this)">Roll-up</button>
+                            <div id="global-filter-container" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner">
+                                <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setGlobalFilter('my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
+                                <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setGlobalFilter('my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
                             </div>
                         </div>
                     </div>
@@ -562,10 +559,9 @@
                                     <div class="node-name">Ananya Iyer</div>
                                     <div class="node-role">Regional Director | India South</div>
                                 </div>
-                                <div data-filter-for="ananya" class="filter-button-group" onclick="event.stopPropagation()">
-                                    <button data-filter-type="all" onclick="setIndividualFilter('ananya', 'all', this)" class="active">All</button><div class="filter-divider"></div>
-                                    <button data-filter-type="my_target" onclick="setIndividualFilter('ananya', 'my_target', this)">Individual</button><div class="filter-divider"></div>
-                                    <button data-filter-type="my_team" onclick="setIndividualFilter('ananya', 'my_team', this)">Roll-up</button>
+                                <div data-filter-for="ananya" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner" onclick="event.stopPropagation()">
+                                    <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setIndividualFilter('ananya', 'my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
+                                    <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setIndividualFilter('ananya', 'my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
                                 </div>
                             </div>
                         </div>
@@ -599,10 +595,9 @@
                                             <div class="node-name">Kavitha Rajan <span class="node-path">India S <span>&gt;</span> Ananya</span></div>
                                             <div class="node-role">Sr. Account Executive | CRM BU</div>
                                         </div>
-                                        <div data-filter-for="kavitha" class="filter-button-group" onclick="event.stopPropagation()">
-                                            <button data-filter-type="all" onclick="setIndividualFilter('kavitha', 'all', this)" class="active">All</button><div class="filter-divider"></div>
-                                            <button data-filter-type="my_target" onclick="setIndividualFilter('kavitha', 'my_target', this)">Individual</button><div class="filter-divider"></div>
-                                            <button data-filter-type="my_team" onclick="setIndividualFilter('kavitha', 'my_team', this)">Roll-up</button>
+                                        <div data-filter-for="kavitha" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner" onclick="event.stopPropagation()">
+                                            <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setIndividualFilter('kavitha', 'my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
+                                            <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setIndividualFilter('kavitha', 'my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
                                         </div>
                                     </div>
                                 </div>
@@ -656,10 +651,9 @@
                                     <div class="node-name">Rajesh Menon <span class="node-path">India N & Americas</span></div>
                                     <div class="node-role">Regional Director | Marketing BU</div>
                                 </div>
-                                <div data-filter-for="rajesh" class="filter-button-group" onclick="event.stopPropagation()">
-                                    <button data-filter-type="all" onclick="setIndividualFilter('rajesh', 'all', this)" class="active">All</button><div class="filter-divider"></div>
-                                    <button data-filter-type="my_target" onclick="setIndividualFilter('rajesh', 'my_target', this)">Individual</button><div class="filter-divider"></div>
-                                    <button data-filter-type="my_team" onclick="setIndividualFilter('rajesh', 'my_team', this)">Roll-up</button>
+                                <div data-filter-for="rajesh" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner" onclick="event.stopPropagation()">
+                                    <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setIndividualFilter('rajesh', 'my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
+                                    <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setIndividualFilter('rajesh', 'my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
                                 </div>
                             </div>
                         </div>

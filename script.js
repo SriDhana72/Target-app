@@ -1718,3 +1718,32 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   });
 });
+
+// --- Adding THIS HELPER FUNCTION ---
+// --- GLOBAL TREND HELPER ---
+window.withTrend = (formattedCurrencyValue, forcePositive = false) => {
+  const percent = (Math.random() * 34 + 1).toFixed(1);
+  const isUp = forcePositive || Math.random() > 0.3; 
+  
+  const colorClass = isUp ? 'text-emerald-500' : 'text-rose-500';
+  const arrow = isUp ? '▲' : '▼';
+  
+  return `
+      <div class="flex items-center justify-end gap-1.5">
+          <span class="text-inherit">${formattedCurrencyValue}</span>
+          <span class="${colorClass} text-[10px] font-bold tracking-tight">${arrow} ${percent}%</span>
+      </div>
+  `;
+};
+
+// --- TAILWIND SQUARE TOGGLE HELPER ---
+window.handleTailwindToggle = function(btn) {
+  const parent = btn.parentElement;
+  // Reset all buttons in this group to the grey/inactive state
+  const buttons = parent.querySelectorAll('button');
+  buttons.forEach(b => {
+      b.className = "px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all";
+  });
+  // Set the clicked button to the solid black/active state
+  btn.className = "px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all";
+};
