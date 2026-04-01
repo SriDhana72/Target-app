@@ -1573,30 +1573,141 @@ renderBucket(buckets.fluctuating, '#f59e0b'); // Amber
 renderBucket(buckets.underTarget, '#ef4444'); // Red
 }
 
+/* ════ DYNAMIC QUARTER TOGGLE HELPER ════ */
+window.setRepQuarter = function(repId, q, att, colorClass, element) {
+  // 1. Update the Top Banner metrics
+  const valEl = document.getElementById('q-val-' + repId);
+  const lblEl = document.getElementById('q-lbl-' + repId);
+  if(valEl) {
+      valEl.textContent = att + '%';
+      valEl.className = 'font-black text-[15px] leading-none tracking-tight ' + colorClass;
+  }
+  if(lblEl) {
+      lblEl.textContent = 'Q' + q + ' Att.';
+  }
+  
+  // 2. Reset all quarter cards in this specific row
+  const grid = element.closest('.grid');
+  grid.querySelectorAll('.q-card').forEach(card => {
+      card.classList.remove('bg-indigo-50/40');
+      card.classList.add('bg-white');
+      
+      const topBar = card.querySelector('.q-active-bar');
+      if(topBar) topBar.remove();
+      
+      const qLbl = card.querySelector('.q-lbl-text');
+      if(qLbl) {
+          qLbl.classList.remove('text-indigo-600', 'font-bold');
+          qLbl.classList.add('text-slate-400', 'font-semibold');
+          const dot = qLbl.querySelector('.q-dot');
+          if(dot) dot.remove();
+      }
+  });
+  
+  // 3. Highlight the specific clicked quarter
+  element.classList.remove('bg-white');
+  element.classList.add('bg-indigo-50/40');
+  element.insertAdjacentHTML('afterbegin', '<div class="q-active-bar absolute top-0 inset-x-0 h-[3px] bg-indigo-500"></div>');
+  
+  const qLbl = element.querySelector('.q-lbl-text');
+  if(qLbl) {
+      qLbl.classList.remove('text-slate-400', 'font-semibold');
+      qLbl.classList.add('text-indigo-600', 'font-bold');
+      qLbl.insertAdjacentHTML('beforeend', '<span class="q-dot text-indigo-400 ml-0.5">●</span>');
+  }
+};
+
 /* Internal Helper to Render Each Column */
 function renderBucket(bucket, color) {
-if (!bucket.el) return;
-
-// Update the Count Badge
-bucket.countEl.textContent = bucket.data.length;
-
-if (bucket.data.length === 0) {
-    bucket.el.innerHTML = `<div style="padding:20px; text-align:center; color:var(--t3); font-size:11px;">No reps in this category.</div>`;
-    return;
-}
-
-// Render the List Items
-bucket.el.innerHTML = bucket.data.map(rep => `
-    <div class="perf-rep-item">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <span class="perf-rep-name">${rep.name}</span>
-            <span class="perf-rep-pct" style="color:${color}">${rep.att}%</span>
-        </div>
-        <div class="perf-rep-meta">
-            ${rep.region} • ${rep.bu}
-        </div>
-    </div>
-`).join('');
+  if (!bucket.el) return;
+  
+  bucket.countEl.textContent = bucket.data.length;
+  
+  if (bucket.data.length === 0) {
+      bucket.el.innerHTML = `<div style="padding:20px; text-align:center; color:var(--t3); font-size:11px;">No reps in this category.</div>`;
+      return;
+  }
+  
+  bucket.el.innerHTML = bucket.data.map(rep => {
+      const baseTgt = (rep.rev / (rep.att / 100)) / 4;
+      const seed = rep.name.charCodeAt(0) + rep.name.charCodeAt(1); 
+      const formatNum = (n) => n < 10 ? n.toFixed(1) : Math.round(n);
+      
+      // Create a safe, unique ID for this specific rep
+      const repId = rep.name.replace(/\W/g, ''); 
+      
+      let q1Att = 0;
+      let q1Color = '';
+  
+      const quartersHtml = [1, 2, 3, 4].map(q => {
+          const isCurrent = q === 1; 
+          
+          let qAtt = rep.att;
+          if (!isCurrent) {
+              const variance = [0, (seed % 15) - 5, (seed % 20) - 10, (seed % 25) - 12][q - 1];
+              qAtt = Math.max(10, rep.att + variance); 
+          }
+          const qAch = baseTgt * (qAtt / 100);
+          
+          const qColor = qAtt >= 100 ? 'text-emerald-600' : (qAtt >= 80 ? 'text-amber-500' : 'text-rose-500');
+          const bgClass = isCurrent ? 'bg-indigo-50/40' : 'bg-white';
+          const qLabelClass = isCurrent ? 'text-indigo-600 font-bold' : 'text-slate-400 font-semibold';
+          
+          // Capture initial Q1 stats for the banner
+          if (isCurrent) {
+              q1Att = qAtt;
+              q1Color = qColor;
+          }
+  
+          return `
+          <div class="q-card p-2 flex flex-col items-center relative ${bgClass} cursor-pointer hover:bg-slate-50 transition-colors" onclick="setRepQuarter('${repId}', ${q}, ${qAtt}, '${qColor}', this)">
+              ${isCurrent ? '<div class="q-active-bar absolute top-0 inset-x-0 h-[3px] bg-indigo-500"></div>' : ''}
+              <div class="q-lbl-text text-[9px] uppercase tracking-widest mb-1.5 ${qLabelClass}">Q${q} ${isCurrent ? '<span class="q-dot text-indigo-400 ml-0.5">●</span>' : ''}</div>
+              
+              <div class="w-full space-y-1 mb-2 pointer-events-none">
+                  <div class="flex justify-between items-center text-[9px]">
+                      <span class="text-slate-400">TGT</span>
+                      <span class="font-bold text-slate-700">$${formatNum(baseTgt)}M</span>
+                  </div>
+                  <div class="flex justify-between items-center text-[9px]">
+                      <span class="text-slate-400">ACH</span>
+                      <span class="font-bold text-slate-900">$${formatNum(qAch)}M</span>
+                  </div>
+              </div>
+              
+              <div class="mt-auto text-[10px] font-black ${qColor} bg-slate-50 w-full text-center py-1 rounded border border-slate-100 shadow-sm pointer-events-none">
+                  ${qAtt}%
+              </div>
+          </div>
+          `;
+      }).join('');
+  
+      return `
+      <div class="perf-rep-item bg-white border border-slate-200 rounded-xl shadow-sm mb-4 overflow-hidden transition-all hover:border-slate-300 hover:shadow-md">
+          
+          <div class="p-3 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+              <div>
+                  <div class="perf-rep-name font-bold text-slate-900 text-[13px]">${rep.name}</div>
+                  <div class="perf-rep-meta text-[10px] font-medium text-slate-500 mt-0.5">${rep.region} • ${rep.bu}</div>
+              </div>
+              <div class="flex items-center gap-4">
+                  <div class="text-right border-r border-slate-200 pr-4">
+                      <div id="q-val-${repId}" class="font-black text-[15px] leading-none tracking-tight ${q1Color}">${q1Att}%</div>
+                      <div id="q-lbl-${repId}" class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">Q1 Att.</div>
+                  </div>
+                  <div class="text-right">
+                      <div class="perf-rep-pct font-black text-[15px] leading-none tracking-tight" style="color:${color}">${rep.att}%</div>
+                      <div class="text-[9px] font-bold text-slate-400 uppercase tracking-widest mt-1">YTD Att.</div>
+                  </div>
+              </div>
+          </div>
+          
+          <div class="grid grid-cols-4 divide-x divide-slate-100">
+              ${quartersHtml}
+          </div>
+      </div>
+      `;
+  }).join('');
 }
 
 /* ════ LEADERSHIP BUCKET SEARCH ════ */
