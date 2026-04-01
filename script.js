@@ -1134,59 +1134,59 @@ function renderAPDashboard() {
   };
   const currentMonths = quarterMonths[quarter];
 
-  // Exact matches for your data array
-  const targetTitles = [
-    "NEW + EXISTING BUSINESS", 
-    "NEW BUSINESS REVENUE", 
-    "EXISTING BUSINESS", 
-    "UPGRADE REVENUE", 
-    "RENEWAL REVENUE"
-  ];
+// Exact matches for your data array
+const targetTitles = [
+  "NEW + EXISTING BUSINESS", 
+  "NEW BUSINESS REVENUE", 
+  "EXISTING BUSINESS", 
+  "UPGRADE REVENUE", 
+  "RENEWAL REVENUE"
+];
 
-  // Map data and ensure all properties like desc and momLbl are preserved
-  const filteredMetrics = targetTitles.map(title => {
-      return apMetrics.find(m => m.title.toUpperCase() === title.toUpperCase());
-  }).filter(m => m !== undefined);
+// Map data and ensure all properties like desc and momLbl are preserved
+const filteredMetrics = targetTitles.map(title => {
+    return apMetrics.find(m => m.title.toUpperCase() === title.toUpperCase());
+}).filter(m => m !== undefined);
 
-  horizontalRow.innerHTML = filteredMetrics.map((m, index) => {
-      const fullTrendData = [75, 85, 70, 95, 80, 110, 65, 115, 85, 95, 75, 110];
-      const activeTrend = fullTrendData.slice(startIdx, startIdx + 3);
-      
-      return `
-          <div class="ap-card" style="border-radius: 12px; height: 320px; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); padding: 16px; min-width: 0; overflow: visible !important;">
-              <div class="ap-card-head" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 12px;">
-                  <div class="ap-card-title" style="font-size: 8.5px; font-weight: 800; color: var(--t3); white-space: nowrap;">${m.title}</div>
-                  <div class="ap-info-sm" data-desc="${m.desc}" style="width: 16px; height: 16px; font-size: 9px; border-radius: 50%; background: var(--surface3); display: flex; align-items: center; justify-content: center; color:var(--t3); cursor: help;">i</div>
-              </div>
-              
-              <div class="ap-card-val" style="color: ${m.color}; font-size: 26px; font-weight: 900; margin-bottom: 15px;">${m.val}</div>
-              
-              <div class="ap-chart-area" style="flex: 1; display: flex; align-items: flex-end; gap: 8px; margin-bottom: 20px; height: 100px;">
-                  ${activeTrend.map((h, i) => `
-                      <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; min-width: 0;">
-                          <div style="font-size: 8px; font-weight: 800; color: var(--t2); text-align: center; margin-bottom: 4px;">$${h}K</div>
-                          <div class="kpi-bar-fill" 
-                               data-val="${h}" 
-                               style="height: 0%; width: 100%; background: ${m.color}; border-radius: 4px 4px 1px 1px; opacity: 0.9;">
-                          </div>
-                          <div style="font-size: 9px; font-weight: 700; color: var(--t3); text-align: center; margin-top: 6px; text-transform: uppercase;">${currentMonths[i]}</div>
-                      </div>
-                  `).join('')}
-              </div>
+horizontalRow.innerHTML = filteredMetrics.map((m, index) => {
+    const fullTrendData = [75, 85, 70, 95, 80, 110, 65, 115, 85, 95, 75, 110];
+    const activeTrend = fullTrendData.slice(startIdx, startIdx + 3);
+    
+    return `
+        <div class="ap-card" style="border-radius: 12px; height: 320px; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--border); padding: 16px; min-width: 0; overflow: visible !important;">
+            <div class="ap-card-head" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 8px; margin-bottom: 12px;">
+                <div class="ap-card-title" style="font-size: 10px; font-weight: 900; color: #000000; white-space: nowrap;">${m.title}</div>
+                <div class="ap-info-sm" data-desc="${m.desc}" style="width: 16px; height: 16px; font-size: 9px; border-radius: 50%; background: var(--surface3); display: flex; align-items: center; justify-content: center; color:var(--t3); cursor: help;">i</div>
+            </div>
+            
+            <div class="ap-card-val" style="color: ${m.color}; font-size: 26px; font-weight: 900; margin-bottom: 15px;">${m.val}</div>
+            
+            <div class="ap-chart-area" style="flex: 1; display: flex; align-items: flex-end; gap: 8px; margin-bottom: 20px; height: 100px;">
+                ${activeTrend.map((h, i) => `
+                    <div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; height: 100%; min-width: 0;">
+                        <div style="font-size: 9px; font-weight: 800; color: #000000; text-align: center; margin-bottom: 4px;">$${h}K</div>
+                        <div class="kpi-bar-fill" 
+                             data-val="${h}" 
+                             style="height: 0%; width: 100%; background: ${m.color}; border-radius: 4px 4px 1px 1px; opacity: 0.9;">
+                        </div>
+                        <div style="font-size: 9px; font-weight: 800; color: #000000; text-align: center; margin-top: 6px; text-transform: uppercase;">${currentMonths[i]}</div>
+                    </div>
+                `).join('')}
+            </div>
 
-              <div class="ap-card-foot" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 12px;">
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 8px; font-weight: 800; color: var(--t3);">${m.momLbl}</span>
-                      <div style="background: ${m.color}1A; color: ${m.color}; font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px;">${m.mom}</div>
-                  </div>
-                  <div style="display: flex; justify-content: space-between; align-items: center;">
-                      <span style="font-size: 8px; font-weight: 800; color: var(--t3);">${m.rankLbl}</span>
-                      <div style="background: var(--surface2); color: var(--t2); font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; border: 1px solid var(--border);">${m.rank}</div>
-                  </div>
-              </div>
-          </div>
-      `;
-  }).join('');
+            <div class="ap-card-foot" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 800; color: #000000;">${m.momLbl}</span>
+                    <div style="background: ${m.color}1A; color: ${m.color}; font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px;">${m.mom}</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <span style="font-size: 9px; font-weight: 800; color: #000000;">${m.rankLbl}</span>
+                    <div style="background: var(--surface2); color: #000000; font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; border: 1px solid var(--border);">${m.rank}</div>
+                </div>
+            </div>
+        </div>
+    `;
+}).join('');
 
   setTimeout(() => {
     document.querySelectorAll('.kpi-bar-fill').forEach(bar => {
@@ -1799,7 +1799,7 @@ document.addEventListener('DOMContentLoaded', () => {
           responsive: true,
           maintainAspectRatio: false,
           plugins: {
-              legend: { display: false }, // Hidden because we built a prettier custom HTML legend above!
+              legend: { display: false }, 
               tooltip: {
                   backgroundColor: 'rgba(15, 23, 42, 0.9)',
                   titleFont: { size: 13, family: 'Inter' },
@@ -1830,7 +1830,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// --- Adding THIS HELPER FUNCTION ---
 // --- GLOBAL TREND HELPER ---
 window.withTrend = (formattedCurrencyValue, forcePositive = false) => {
   const percent = (Math.random() * 34 + 1).toFixed(1);
@@ -2013,3 +2012,4 @@ earningsVal.textContent = format$(earned);
 // If 'forecast' is a future projection (e.g., earned + potential):
 const forecast = earned * 1.5; // Replace with your actual logic
 forecastVal.textContent = format$(forecast);
+

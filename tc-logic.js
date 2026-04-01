@@ -66,8 +66,8 @@ function tcRenderBreakdown() {
         { label: 'Direct Commission', value: totals.direct, bg: 'bg-slate-50', border: 'border-slate-100', text: 'text-slate-800' },
         { label: 'Accelerator', value: totals.accelerator, bg: 'bg-emerald-50/50', border: 'border-emerald-100', text: 'text-emerald-600' },
         { label: '>125% Bonus', value: totals.bonus, bg: 'bg-orange-50/50', border: 'border-orange-100', text: 'text-orange-500' },
-        { label: 'Service', value: totals.service, bg: 'bg-blue-50/50', border: 'border-blue-100', text: 'text-blue-500' },
-        { label: 'Cross Sell', value: totals.crossSell, bg: 'bg-cyan-50/50', border: 'border-cyan-100', text: 'text-cyan-600' },
+        { label: 'Service Commission', value: totals.service, bg: 'bg-blue-50/50', border: 'border-blue-100', text: 'text-blue-500' },
+        { label: 'Cross-Sell Commission', value: totals.crossSell, bg: 'bg-cyan-50/50', border: 'border-cyan-100', text: 'text-cyan-600' },
         { label: 'Grand Total', value: totals.grandTotal, bg: 'bg-emerald-50', border: 'border-emerald-200', text: 'text-emerald-700', isLarge: true },
     ];
     breakdownGrid.innerHTML = cards.map(card => `

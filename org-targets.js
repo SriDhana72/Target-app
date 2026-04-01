@@ -709,13 +709,8 @@ function renderTargetConfig() {
                     </div>
                 </div>
                 
-                <div style="display: flex; flex-direction: column; gap: 20px;">
+<div style="display: flex; flex-direction: column; gap: 20px;">
                     <div>
-                        <div class="tc-label" style="margin-top:0; margin-bottom: 6px;">Reporting Manager</div>
-                        <select class="tc-select" style="margin-bottom: 20px;">
-                            <option>${parentNode ? parentNode.name + ' (' + parentNode.role + ')' : 'N/A'}</option>
-                            <option>Sridhar Vembu (CEO)</option>
-                        </select>
                         <div style="font-size: 14px; font-weight: 800; color: var(--t1); margin-bottom: 4px;">Total Target — 2026</div>
                         <div style="font-size: 11px; color: var(--t3); margin-bottom: 10px;">Includes self target + team rollup.</div>
                         <div style="display: flex; align-items: center; background: var(--surface2); padding: 10px 14px; border-radius: 8px; border: 1px solid var(--border);">
