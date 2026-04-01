@@ -3174,7 +3174,22 @@ input:checked + .setting-slider:before {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
-
-  
- 
-
+/* --- ACCELERATOR NUDGE PATTERN ACCENT --- */
+/* Mimics the feel of the modern vector image provided */
+.accelerator-accent-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200px; /* How far across the card it goes */
+    height: 100px; /* How far down it goes */
+    opacity: 0.25; /* Keep it subtle */
+    pointer-events: none; /* Make sure it doesn't block clicks */
+    z-index: 0; /* Keep it behind the content */
+    
+    /* The core pattern, using teals, emeralds, and light blues from the photo */
+    background-image: linear-gradient(135deg, rgba(16, 185, 129, 0.3) 10%, rgba(20, 184, 166, 0.4) 40%, rgba(56, 189, 248, 0.2) 70%);
+    
+    /* The actual shape cut (a curved diagonal path) */
+    mask-image: linear-gradient(to right bottom, white 50%, transparent 80%);
+    -webkit-mask-image: linear-gradient(to right bottom, white 50%, transparent 80%);
+}

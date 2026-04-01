@@ -1860,8 +1860,23 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('sim-new-total').textContent = format$(newTotal);
     document.getElementById('sim-new-pct').textContent = `(${newPct.toFixed(0)}%)`;
 
-    const cappedCurrentPct = Math.min(currentPct, 100);
-    const cappedNewPct = Math.min(newPct - cappedCurrentPct, 100 - cappedCurrentPct);
+// 7. Update Stacked Progress Bar & Tooltips
+const cappedCurrentPct = Math.min(currentPct, 100);
+const cappedNewPct = Math.min(newPct - cappedCurrentPct, 100 - cappedCurrentPct);
+
+const progCurrent = document.getElementById('sim-prog-current');
+const progNew = document.getElementById('sim-prog-new');
+
+if (progCurrent) {
+    progCurrent.style.width = `${cappedCurrentPct}%`;
+    // Dynamically round corners so it stays perfectly pill-shaped
+    progCurrent.style.borderRadius = cappedNewPct === 0 ? '9999px' : '9999px 0 0 9999px';
+}
+if (progNew) {
+    progNew.style.width = `${cappedNewPct}%`;
+    // Dynamically round corners so it stays perfectly pill-shaped
+    progNew.style.borderRadius = cappedCurrentPct === 0 ? '9999px' : '0 9999px 9999px 0';
+}
 
     document.getElementById('sim-prog-current').style.width = `${cappedCurrentPct}%`;
     document.getElementById('sim-prog-new').style.width = `${cappedNewPct}%`;
