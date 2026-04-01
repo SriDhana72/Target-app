@@ -769,60 +769,33 @@
                         </div>
                     </div>
                 
-                    <div>
-                        <div id="ananya-row" class="hier-node" onclick="toggleDropdown('ananya-data', 'ananya-arrow', event)">
-                            <svg id="ananya-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            <div class="node-level">RD</div>
-                            <div class="node-content">
-                                <div>
-                                    <div class="node-name">Ananya Iyer</div>
-                                    <div class="node-role">Regional Director | India South</div>
-                                </div>
-                                <div data-filter-for="ananya" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner" onclick="event.stopPropagation()">
-                                    <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setIndividualFilter('ananya', 'my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
-                                    <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setIndividualFilter('ananya', 'my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
-                                </div>
-                            </div>
-                        </div>
-                
-                        <div id="ananya-data" class="hidden hierarchy-container">
-                            <div class="qb-data-panel">
-                                <div class="qb-table-wrap">
-                                    <table class="quarter-table">
-                                        <thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead>
-                                        <tbody id="ananya-q-data"></tbody>
-                                    </table>
-                                </div>
-                                <div class="qb-ytd-card" id="ananya-ytd-summary">
-                                    <div class="qb-ytd-title">YTD Summary</div>
-                                    <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
-                                    <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
-                                    <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
-                                    <div style="margin-top:12px">
-                                        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
-                                        <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                    <div class="flex flex-col gap-4">
+                        
+                        <div class="border border-slate-200 rounded-xl bg-white shadow-sm overflow-hidden transition-all hover:border-slate-300">
+                            <div id="ananya-row" class="hier-node" onclick="toggleDropdown('ananya-data', 'ananya-arrow', event)" style="border:none; margin:0; box-shadow:none; border-radius:0;">
+                                <svg id="ananya-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <div class="node-level">RD</div>
+                                <div class="node-content">
+                                    <div>
+                                        <div class="node-name">Ananya Iyer</div>
+                                        <div class="node-role">Regional Director | India South</div>
+                                    </div>
+                                    <div data-filter-for="ananya" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner" onclick="event.stopPropagation()">
+                                        <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setIndividualFilter('ananya', 'my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
+                                        <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setIndividualFilter('ananya', 'my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
                                     </div>
                                 </div>
                             </div>
-                
-                            <div class="hierarchy-item">
-                                <div id="kavitha-row" class="hier-node" onclick="toggleDropdown('kavitha-data', 'kavitha-arrow', event)">
-                                    <svg id="kavitha-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    <div class="node-level" style="background:var(--surface2)">👤</div>
-                                    <div class="node-content">
-                                        <div>
-                                            <div class="node-name">Kavitha Rajan <span class="node-path">India S <span>&gt;</span> Ananya</span></div>
-                                            <div class="node-role">Sr. Account Executive | CRM BU</div>
-                                        </div>
-                                        <div data-filter-for="kavitha" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner" onclick="event.stopPropagation()">
-                                            <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setIndividualFilter('kavitha', 'my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
-                                            <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setIndividualFilter('kavitha', 'my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
-                                        </div>
+                    
+                            <div id="ananya-data" class="hidden hierarchy-container" style="margin:0;">
+                                <div class="qb-data-panel" style="border:none; margin:0; border-radius:0; border-top:1px solid #f1f5f9; border-bottom:1px solid #e2e8f0; box-shadow:none; background:#f8fafc;">
+                                    <div class="qb-table-wrap">
+                                        <table class="quarter-table">
+                                            <thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead>
+                                            <tbody id="ananya-q-data"></tbody>
+                                        </table>
                                     </div>
-                                </div>
-                                <div id="kavitha-data" class="hidden qb-data-panel" style="margin-top:8px">
-                                    <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead><tbody id="kavitha-q-data"></tbody></table></div>
-                                    <div class="qb-ytd-card" id="kavitha-ytd-summary">
+                                    <div class="qb-ytd-card" id="ananya-ytd-summary">
                                         <div class="qb-ytd-title">YTD Summary</div>
                                         <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
                                         <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
@@ -833,84 +806,94 @@
                                         </div>
                                     </div>
                                 </div>
+                    
+                                <div class="hierarchy-item" style="padding: 16px; background: white;">
+                                    
+                                    <div class="border border-slate-200 rounded-xl bg-white shadow-sm overflow-hidden mb-3 transition-all hover:border-slate-300">
+                                        <div id="kavitha-row" class="hier-node" onclick="toggleDropdown('kavitha-data', 'kavitha-arrow', event)" style="border:none; margin:0; box-shadow:none; border-radius:0;">
+                                            <svg id="kavitha-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <div class="node-level" style="background:var(--surface2)">👤</div>
+                                            <div class="node-content">
+                                                <div>
+                                                    <div class="node-name">Kavitha Rajan <span class="node-path">India S <span>&gt;</span> Ananya</span></div>
+                                                    <div class="node-role">Sr. Account Executive | CRM BU</div>
+                                                </div>
+                                                <div data-filter-for="kavitha" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner" onclick="event.stopPropagation()">
+                                                    <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setIndividualFilter('kavitha', 'my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
+                                                    <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setIndividualFilter('kavitha', 'my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="kavitha-data" class="hidden qb-data-panel" style="border:none; margin:0; border-radius:0; border-top:1px solid #f1f5f9; box-shadow:none; background:#f8fafc;">
+                                            <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead><tbody id="kavitha-q-data"></tbody></table></div>
+                                            <div class="qb-ytd-card" id="kavitha-ytd-summary">
+                                                <div class="qb-ytd-title">YTD Summary</div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                                <div style="margin-top:12px">
+                                                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                                    <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                <div class="hierarchy-item">
-                                    <div class="hier-node" onclick="toggleDropdown('arjun-data', 'arjun-arrow', event)">
-                                        <svg id="arjun-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                        <div class="node-level" style="background:var(--surface2)">👤</div>
-                                        <div class="node-content">
-                                            <div>
-                                                <div class="node-name">Arjun Pillai <span class="node-path">India S <span>&gt;</span> Ananya</span></div>
-                                                <div class="node-role">Account Executive | CRM BU</div>
+                                    <div class="border border-slate-200 rounded-xl bg-white shadow-sm overflow-hidden transition-all hover:border-slate-300">
+                                        <div id="arjun-row" class="hier-node" onclick="toggleDropdown('arjun-data', 'arjun-arrow', event)" style="border:none; margin:0; box-shadow:none; border-radius:0;">
+                                            <svg id="arjun-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <div class="node-level" style="background:var(--surface2)">👤</div>
+                                            <div class="node-content">
+                                                <div>
+                                                    <div class="node-name">Arjun Pillai <span class="node-path">India S <span>&gt;</span> Ananya</span></div>
+                                                    <div class="node-role">Account Executive | CRM BU</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="arjun-data" class="hidden qb-data-panel" style="border:none; margin:0; border-radius:0; border-top:1px solid #f1f5f9; box-shadow:none; background:#f8fafc;">
+                                            <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead><tbody id="arjun-q-data"></tbody></table></div>
+                                            <div class="qb-ytd-card" id="arjun-ytd-summary">
+                                                <div class="qb-ytd-title">YTD Summary</div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                                <div style="margin-top:12px">
+                                                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                                    <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="arjun-data" class="hidden qb-data-panel" style="margin-top:8px">
-                                        <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead><tbody id="arjun-q-data"></tbody></table></div>
-                                        <div class="qb-ytd-card" id="arjun-ytd-summary">
-                                            <div class="qb-ytd-title">YTD Summary</div>
-                                            <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
-                                            <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
-                                            <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
-                                            <div style="margin-top:12px">
-                                                <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
-                                                <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
 
-                        <div id="rajesh-row" class="hier-node" onclick="toggleDropdown('rajesh-data', 'rajesh-arrow', event)" style="margin-top: 16px;">
-                            <svg id="rajesh-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            <div class="node-level">RD</div>
-                            <div class="node-content">
-                                <div>
-                                    <div class="node-name">Rajesh Menon <span class="node-path">India N & Americas</span></div>
-                                    <div class="node-role">Regional Director | Marketing BU</div>
-                                </div>
-                                <div data-filter-for="rajesh" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner" onclick="event.stopPropagation()">
-                                    <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setIndividualFilter('rajesh', 'my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
-                                    <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setIndividualFilter('rajesh', 'my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
-                                </div>
-                            </div>
-                        </div>
-                
-                        <div id="rajesh-data" class="hidden hierarchy-container">
-                            <div class="qb-data-panel">
-                                <div class="qb-table-wrap">
-                                    <table class="quarter-table">
-                                        <thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead>
-                                        <tbody id="rajesh-q-data"></tbody>
-                                    </table>
-                                </div>
-                                <div class="qb-ytd-card" id="rajesh-ytd-summary">
-                                    <div class="qb-ytd-title">YTD Summary</div>
-                                    <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
-                                    <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
-                                    <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
-                                    <div style="margin-top:12px">
-                                        <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
-                                        <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                        <div class="border border-slate-200 rounded-xl bg-white shadow-sm overflow-hidden transition-all hover:border-slate-300">
+                            <div id="rajesh-row" class="hier-node" onclick="toggleDropdown('rajesh-data', 'rajesh-arrow', event)" style="border:none; margin:0; box-shadow:none; border-radius:0;">
+                                <svg id="rajesh-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <div class="node-level">RD</div>
+                                <div class="node-content">
+                                    <div>
+                                        <div class="node-name">Rajesh Menon <span class="node-path">India N & Americas</span></div>
+                                        <div class="node-role">Regional Director | Marketing BU</div>
+                                    </div>
+                                    <div data-filter-for="rajesh" class="inline-flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 shadow-inner" onclick="event.stopPropagation()">
+                                        <button data-filter-type="my_target" onclick="handleTailwindToggle(this); setIndividualFilter('rajesh', 'my_target', this)" class="px-4 py-1.5 text-xs font-bold bg-slate-900 text-white rounded-md shadow-sm transition-all">Self</button>
+                                        <button data-filter-type="my_team" onclick="handleTailwindToggle(this); setIndividualFilter('rajesh', 'my_team', this)" class="px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 rounded-md transition-all">Roll up</button>
                                     </div>
                                 </div>
                             </div>
-                
-                            <div class="hierarchy-item">
-                                <div class="hier-node" onclick="toggleDropdown('meena-data', 'meena-arrow', event)">
-                                    <svg id="meena-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                    <div class="node-level" style="background:var(--surface2)">👤</div>
-                                    <div class="node-content">
-                                        <div>
-                                            <div class="node-name">Meena Krishnan <span class="node-path">India N <span>&gt;</span> Rajesh</span></div>
-                                            <div class="node-role">Sr. Account Executive | Marketing BU</div>
-                                        </div>
+                    
+                            <div id="rajesh-data" class="hidden hierarchy-container" style="margin:0;">
+                                <div class="qb-data-panel" style="border:none; margin:0; border-radius:0; border-top:1px solid #f1f5f9; border-bottom:1px solid #e2e8f0; box-shadow:none; background:#f8fafc;">
+                                    <div class="qb-table-wrap">
+                                        <table class="quarter-table">
+                                            <thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead>
+                                            <tbody id="rajesh-q-data"></tbody>
+                                        </table>
                                     </div>
-                                </div>
-                                <div id="meena-data" class="hidden qb-data-panel" style="margin-top:8px">
-                                    <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead><tbody id="meena-q-data"></tbody></table></div>
-                                    <div class="qb-ytd-card" id="meena-ytd-summary">
+                                    <div class="qb-ytd-card" id="rajesh-ytd-summary">
                                         <div class="qb-ytd-title">YTD Summary</div>
                                         <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
                                         <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
@@ -918,6 +901,34 @@
                                         <div style="margin-top:12px">
                                             <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
                                             <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                                <div class="hierarchy-item" style="padding: 16px; background: white;">
+                                    <div class="border border-slate-200 rounded-xl bg-white shadow-sm overflow-hidden transition-all hover:border-slate-300">
+                                        <div id="meena-row" class="hier-node" onclick="toggleDropdown('meena-data', 'meena-arrow', event)" style="border:none; margin:0; box-shadow:none; border-radius:0;">
+                                            <svg id="meena-arrow" class="node-arrow" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                            <div class="node-level" style="background:var(--surface2)">👤</div>
+                                            <div class="node-content">
+                                                <div>
+                                                    <div class="node-name">Meena Krishnan <span class="node-path">India N <span>&gt;</span> Rajesh</span></div>
+                                                    <div class="node-role">Sr. Account Executive | Marketing BU</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="meena-data" class="hidden qb-data-panel" style="border:none; margin:0; border-radius:0; border-top:1px solid #f1f5f9; box-shadow:none; background:#f8fafc;">
+                                            <div class="qb-table-wrap"><table class="quarter-table"><thead><tr><th>Quarter</th><th>Target</th><th>Achievement</th><th>Gap</th><th>Pipeline</th><th>Prediction</th><th>%</th><th>EARNED COMMISSION</th></tr></thead><tbody id="meena-q-data"></tbody></table></div>
+                                            <div class="qb-ytd-card" id="meena-ytd-summary">
+                                                <div class="qb-ytd-title">YTD Summary</div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Target</span><span class="ytd-val" data-ytd="target"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Achieved</span><span class="ytd-val green" data-ytd="achieved"></span></div>
+                                                <div class="ytd-row"><span class="ytd-lbl">Gap</span><span class="ytd-val red" data-ytd="gap"></span></div>
+                                                <div style="margin-top:12px">
+                                                    <div style="display:flex;justify-content:space-between;margin-bottom:4px"><span class="ytd-lbl">% Achieved</span><span class="ytd-val" data-ytd="percentage"></span></div>
+                                                    <div style="background:var(--border);border-radius:4px;height:6px;overflow:hidden"><div style="background:var(--green);height:100%;width:0%" data-ytd="progress"></div></div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
