@@ -3209,6 +3209,17 @@ input:checked + .setting-slider:before {
         100% { transform: scale(14); opacity: 0; border-width: 0px; } 
     }
 
+    /* NEW: Smooth, premium fade-in for the left Sidebar */
+    @keyframes sidebar-glide-in {
+        0%   { opacity: 0; transform: translateY(15px); }
+        100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Automatically applies the glide animation to your sidebar on load */
+    .ap-sidebar {
+        animation: sidebar-glide-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
     /* Animation classes applied via JavaScript */
     .animate-stamp {
         animation: stamp-slam 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
@@ -3216,7 +3227,6 @@ input:checked + .setting-slider:before {
     
     /* Trigger the radiating rings exactly ONCE per ring */
     .animate-stamp .stamp-ripple {
-        /* Slowed down to 4.5 seconds for a very premium, sweeping radar effect */
         animation: radiate 4.5s ease-out 1 forwards;
     }
 

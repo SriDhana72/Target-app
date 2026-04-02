@@ -1338,18 +1338,17 @@ initQuarterSelection();  // Highlights Q1 in #00A693 and colors the bars
 });
 /* ════ DYNAMIC DEFAULT QUARTER ════ */
 function initQuarterSelection() {
-const container = document.getElementById('ap-quarter-container');
-if (!container) return;
+  const container = document.getElementById('ap-quarter-container');
+  if (!container) return;
 
-// We are in March 2026, so currentQ will be 1
-const month = new Date().getMonth(); 
-const currentQ = Math.floor(month / 3) + 1; 
+  // Hardcoded to always default to Q1 for the FQ demo
+  const currentQ = 1; 
 
-// Find the Q1 button and trigger the click logic
-const targetBtn = container.querySelector(`button[data-q="${currentQ}"]`);
-if (targetBtn) {
-    selectAPQuarter(targetBtn); // This will apply the green color and update bars
-}
+  // Find the FQ button and trigger the click logic
+  const targetBtn = container.querySelector(`button[data-q="${currentQ}"]`);
+  if (targetBtn) {
+      selectAPQuarter(targetBtn); 
+  }
 }
 
 /* Accordion Filter Logic */
@@ -1990,16 +1989,6 @@ if (progNew) {
 
 document.getElementById('sim-prog-current').style.width = `${cappedCurrentPct}%`;
         document.getElementById('sim-prog-new').style.width = `${cappedNewPct}%`;
-
-        // FIXED: Moved the Earnings and Forecast update INSIDE the function so it has access to 'earned'
-        const earningsVal = document.getElementById('earnings-val');
-        const forecastVal = document.getElementById('forecast-val');
-        if (earningsVal) earningsVal.textContent = format$(earned);
-        if (forecastVal) {
-            const forecast = earned * 1.5; 
-            forecastVal.textContent = format$(forecast);
-        }
-
         if (window.lucide) window.lucide.createIcons();
     } // End of updateSimulator function
 
