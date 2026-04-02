@@ -2078,3 +2078,36 @@ function triggerAccelerator() {
     // Move to the next tier for the next click!
     currentTierIndex++;
 }
+// AUTO-CHECK QUOTA STATUS ON LOAD
+function checkQuotaStatus() {
+  // 1. Grab the text from the card and turn it into raw numbers
+  const achievedText = document.getElementById('mission-achieved').innerText.replace(/[^0-9.-]+/g,"");
+  const targetText = document.getElementById('mission-target').innerText.replace(/[^0-9.-]+/g,"");
+  
+  const achieved = parseFloat(achievedText);
+  const target = parseFloat(targetText);
+
+  const lockedBtn = document.getElementById('locked-accel-btn');
+  const activeBtn = document.getElementById('accelerator-btn');
+
+  // 2. Logic: Did they hit the target?
+  if (achieved >= target) {
+      // Target Hit! Show Gold Button
+      if (lockedBtn) lockedBtn.classList.add('hidden');
+      if (activeBtn) activeBtn.classList.remove('hidden');
+  } else {
+      // Target Missed! Show Locked Button
+      if (lockedBtn) lockedBtn.classList.remove('hidden');
+      if (activeBtn) activeBtn.classList.add('hidden');
+
+      // Bonus: Auto-calculate the remaining gap for the dark tooltip!
+      const gap = target - achieved;
+      const tooltipGapText = lockedBtn.querySelector('p strong');
+      if (tooltipGapText) {
+          tooltipGapText.innerText = '$' + gap.toLocaleString();
+      }
+  }
+}
+
+// Run this check immediately when the page loads
+window.addEventListener('DOMContentLoaded', checkQuotaStatus);

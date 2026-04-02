@@ -429,12 +429,34 @@
                                                 </div>
                                             </div>
 
-                                            <button id="accelerator-btn" onclick="triggerAccelerator()" class="relative group cursor-pointer border-none bg-transparent p-0 outline-none">
-                                                <div class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 px-3 py-1.5 rounded-md border border-amber-500 shadow-md transition-all animate-pulse hover:scale-105">
-                                                    <i data-lucide="unlock" class="w-3.5 h-3.5 text-white"></i>
-                                                    <span id="btn-multiplier-text" class="text-[10px] font-black text-white uppercase tracking-widest shadow-sm">Unlock 1.2x</span>
+                                            <div class="flex items-center gap-2">
+                                                
+                                                <div id="locked-accel-btn" class="relative group cursor-help hidden">
+                                                    <div class="inline-flex items-center gap-1.5 bg-[#fefcf8] px-3 py-1.5 rounded-md border border-amber-300 shadow-sm transition-all hover:bg-amber-50">
+                                                        <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-600"></i>
+                                                        <span class="text-[10px] font-bold text-amber-600 uppercase tracking-widest">Accelerator</span>
+                                                    </div>
+                                    
+                                                    <div class="absolute bottom-full right-0 mb-2 w-52 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none bg-[#1e2330] text-white p-3 rounded-lg shadow-xl z-50 transform translate-y-1 group-hover:translate-y-0">
+                                                        <div class="flex items-center gap-1.5 mb-1.5">
+                                                            <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+                                                            <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest">1.2x Multiplier Locked</span>
+                                                        </div>
+                                                        <p class="text-[11px] text-slate-300 leading-snug">
+                                                            Close <strong class="text-white">$21,580</strong> more to hit your target and unlock the accelerator tier!
+                                                        </p>
+                                                        <div class="absolute top-full right-6 border-[5px] border-transparent border-t-[#1e2330]"></div>
+                                                    </div>
                                                 </div>
-                                            </button>
+
+                                                <button id="accelerator-btn" onclick="triggerAccelerator()" class="relative group cursor-pointer border-none bg-transparent p-0 outline-none">
+                                                    <div class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 px-3 py-1.5 rounded-md border border-amber-500 shadow-md transition-all animate-pulse hover:scale-105">
+                                                        <i data-lucide="unlock" class="w-3.5 h-3.5 text-white"></i>
+                                                        <span id="btn-multiplier-text" class="text-[10px] font-black text-white uppercase tracking-widest shadow-sm">Unlock 1.2x</span>
+                                                    </div>
+                                                </button>
+
+                                            </div>
                                         </div>
                                     </div>
                         
