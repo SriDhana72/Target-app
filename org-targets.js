@@ -573,37 +573,63 @@ function renderTargetConfig() {
 
     if (tcTab === 'individual') {
         bottomContent = `
-        <div style="border-top: 1px solid var(--border); padding-top: 24px;">
-            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+<div style="border-top: 1px solid var(--border); padding: 32px 40px 16px 40px; display: flex; flex-direction: column; gap: 32px;">            
+            <div style="display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: start;">
                 <div>
-                    <div class="tc-label">Quarter</div>
-                    <div class="tc-pill-grid">
+                    <div class="tc-label" style="margin-bottom: 8px;">Quarter</div>
+                    <div class="tc-pill-grid" style="grid-template-columns: repeat(4, 1fr);">
                         <div class="tc-pill active" onclick="selectTCPill(this)">Q1</div>
                         <div class="tc-pill" onclick="selectTCPill(this)">Q2</div>
                         <div class="tc-pill" onclick="selectTCPill(this)">Q3</div>
                         <div class="tc-pill" onclick="selectTCPill(this)">Q4</div>
                     </div>
-                    <div class="tc-label">Target Type</div>
-                    <div class="tc-pill-grid cols-3">
-                        <div class="tc-pill active" onclick="selectTCPill(this)">Sales</div><div class="tc-pill" onclick="selectTCPill(this)">Partner</div><div class="tc-pill" onclick="selectTCPill(this)">Renewal</div>
-                    </div>
                 </div>
                 <div>
-                    <div class="tc-label">BU Group</div>
-                    <select class="tc-select" id="panel-bu" onchange="updatePanelServices()" style="margin-bottom: 12px;">${buOptions}</select>
-                    <div class="tc-label">Included Service(s)</div>
-                    <div class="tc-country-tags-wrap" id="tc-service-tags" style="max-height: 80px;">
-                        <div class="tc-ms-empty" style="padding:10px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left; font-size:12px;">Select a BU Group above</div>
+                    <div class="tc-label" style="margin-bottom: 8px;">Target Type</div>
+                    <div class="tc-pill-grid" style="display: flex; flex-wrap: wrap; gap: 8px;">
+                        <div class="tc-pill active" onclick="selectTCPill(this)">New Business</div>
+                        <div class="tc-pill" onclick="selectTCPill(this)">New Existing Business</div>
+                        <div class="tc-pill" onclick="selectTCPill(this)">New + Existing Business</div>
+                        <div class="tc-pill" onclick="selectTCPill(this)">Upgrade</div>
+                        <div class="tc-pill" onclick="selectTCPill(this)">Renewal</div>
                     </div>
                 </div>
-                <div>
-                    <div class="tc-label">Region</div>
-                    <select class="tc-select" id="panel-region" style="margin-bottom: 12px;" onchange="updatePanelCountries()">${regionOptions}</select>
-                    <div class="tc-label">Included Countries</div>
-                    <div class="tc-country-tags-wrap" id="tc-country-tags" style="max-height: 80px;">
-                        <div class="tc-ms-empty" style="padding:10px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left; font-size:12px;">Select a Region above</div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; align-items: start;">
+                
+                <div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div>
+                        <div class="tc-label" style="margin-bottom: 8px;">BU Group</div>
+                        <select class="tc-select" id="panel-bu" onchange="updatePanelServices()" style="width: 100%;">${buOptions}</select>
+                    </div>
+                    <div>
+                        <div class="tc-label" style="margin-bottom: 8px;">Included Service(s)</div>
+                        <div class="tc-country-tags-wrap" id="tc-service-tags" style="max-height: 80px; width: 100%; overflow-y: auto;">
+                            <div class="tc-ms-empty" style="padding:10px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left; font-size:12px;">Select a BU Group above</div>
+                        </div>
                     </div>
                 </div>
+
+<div style="display: flex; flex-direction: column; gap: 20px;">
+                    <div>
+                        <div class="tc-label" style="margin-bottom: 8px;">Region</div>
+                        <select class="tc-select" id="panel-region" onchange="updatePanelCountries()" style="width: 100%;">${regionOptions}</select>
+                    </div>
+                    <div>
+                        <div class="tc-label" style="margin-bottom: 8px;">Included Countries</div>
+                        <div class="tc-country-tags-wrap" id="tc-country-tags" style="max-height: 80px; width: 100%; overflow-y: auto;">
+                            <div class="tc-ms-empty" style="padding:10px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left; font-size:12px;">Select a Region above</div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="tc-label" style="margin-bottom: 8px;">Included States</div>
+                        <div class="tc-country-tags-wrap" id="tc-state-tags" style="max-height: 80px; width: 100%; overflow-y: auto;">
+                            <div class="tc-ms-empty" style="padding:10px; width:100%; background:var(--surface2); border:1px solid var(--border); border-radius:8px; text-align:left; font-size:12px;">No states selected.</div>
+                        </div>
+                    </div>
+                </div>
+
                 <div style="background: var(--surface2); border: 1px solid var(--border); border-radius: 12px; padding: 16px; transition: all 0.2s;">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
                         <div style="display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 800; color: var(--t1);">
@@ -617,7 +643,6 @@ function renderTargetConfig() {
                     </div>
                     
                     ${node.selfTargetPrefs?.includeTeam ? `
-                    <!-- INCLUDE TEAM VIEW: Show Total Target with Editable Input -->
                     <div style="display: flex; flex-direction: column; gap: 12px;">
                         <div>
                             <div style="font-size: 12px; color: var(--t3); margin-bottom: 8px;">Includes self target + team rollup.</div>
@@ -629,7 +654,6 @@ function renderTargetConfig() {
                                 </button>
                             </div>
                         </div>
-                        
                         <div style="border-top: 1px solid var(--border); padding-top: 12px;">
                             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                                 <span style="font-size: 11px; color: var(--t3); font-weight: 600;">Self Target</span>
@@ -642,7 +666,6 @@ function renderTargetConfig() {
                         </div>
                     </div>
                     ` : `
-                    <!-- DEFAULT VIEW: Show Editable Self Target Input -->
                     <div style="font-size: 11px; color: var(--t3); margin-bottom: 12px;">
                         Direct contribution — not from team rollup.
                     </div>
