@@ -3193,3 +3193,30 @@ input:checked + .setting-slider:before {
     mask-image: linear-gradient(to right bottom, white 50%, transparent 80%);
     -webkit-mask-image: linear-gradient(to right bottom, white 50%, transparent 80%);
 }
+    /* Custom physics for the rubber stamp slamming and shaking */
+    @keyframes stamp-slam {
+        0%   { opacity: 0; transform: scale(3) rotate(0deg); }
+        20%  { opacity: 1; transform: scale(0.9) rotate(16deg); }
+        40%  { transform: scale(1.05) rotate(10deg); }
+        60%  { transform: scale(0.98) rotate(13deg); }
+        80%  { transform: scale(1.02) rotate(11deg); }
+        100% { transform: scale(1) rotate(12deg); opacity: 1; }
+    }
+    
+    /* Elegant, thinner radiation rings that fade out smoothly over the content area */
+    @keyframes radiate {
+        0%   { transform: scale(0.8); opacity: 0.35; border-width: 1.5px; }
+        100% { transform: scale(14); opacity: 0; border-width: 0px; } 
+    }
+
+    /* Animation classes applied via JavaScript */
+    .animate-stamp {
+        animation: stamp-slam 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+    
+    /* Trigger the radiating rings exactly ONCE per ring */
+    .animate-stamp .stamp-ripple {
+        /* Slowed down to 4.5 seconds for a very premium, sweeping radar effect */
+        animation: radiate 4.5s ease-out 1 forwards;
+    }
+

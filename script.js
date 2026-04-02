@@ -1988,28 +1988,93 @@ if (progNew) {
     progNew.style.borderRadius = cappedCurrentPct === 0 ? '9999px' : '0 9999px 9999px 0';
 }
 
-    document.getElementById('sim-prog-current').style.width = `${cappedCurrentPct}%`;
-    document.getElementById('sim-prog-new').style.width = `${cappedNewPct}%`;
+document.getElementById('sim-prog-current').style.width = `${cappedCurrentPct}%`;
+        document.getElementById('sim-prog-new').style.width = `${cappedNewPct}%`;
 
-    if (window.lucide) window.lucide.createIcons();
-  }
+        // FIXED: Moved the Earnings and Forecast update INSIDE the function so it has access to 'earned'
+        const earningsVal = document.getElementById('earnings-val');
+        const forecastVal = document.getElementById('forecast-val');
+        if (earningsVal) earningsVal.textContent = format$(earned);
+        if (forecastVal) {
+            const forecast = earned * 1.5; 
+            forecastVal.textContent = format$(forecast);
+        }
 
-  slider.addEventListener('input', updateSimulator);
-  document.getElementById('input-quarterly-goal')?.addEventListener('input', updateSimulator);
-  document.getElementById('input-sales-to-date')?.addEventListener('input', updateSimulator);
+        if (window.lucide) window.lucide.createIcons();
+    } // End of updateSimulator function
 
-  updateSimulator();
-});
+    slider.addEventListener('input', updateSimulator);
+    document.getElementById('input-quarterly-goal')?.addEventListener('input', updateSimulator);
+    document.getElementById('input-sales-to-date')?.addEventListener('input', updateSimulator);
 
-// Add these to your existing updateSimulator function
-const earningsVal = document.getElementById('earnings-val');
-const forecastVal = document.getElementById('forecast-val');
+    updateSimulator();
+}); // End of Simulator DOMContentLoaded listener
 
-// Example logic:
-// If 'earned' is what you calculated in the previous step:
-earningsVal.textContent = format$(earned);
 
-// If 'forecast' is a future projection (e.g., earned + potential):
-const forecast = earned * 1.5; // Replace with your actual logic
-forecastVal.textContent = format$(forecast);
+// ════ ACCELERATOR TIER PROGRESSION ════
+let currentTierIndex = 0;
+const accelTiers = ['1.2×', '1.5×', '2.0×', '2.5×'];
 
+function triggerAccelerator() {
+    if (currentTierIndex >= accelTiers.length) return; // Stop if maxed out
+
+    const unlockedTier = accelTiers[currentTierIndex];
+    const nextTier = accelTiers[currentTierIndex + 1];
+
+    // 1. Update the Button Text (or hide it if they reached max)
+    const btn = document.getElementById('accelerator-btn');
+    const btnText = document.getElementById('btn-multiplier-text');
+    
+    if (nextTier) {
+        if (btnText) btnText.textContent = `Unlock ${nextTier}`;
+    } else {
+        if (btn) btn.style.display = 'none'; // Max tier achieved, hide button
+    }
+
+    // 2. Update the SVG Stamp Text
+    const stampText = document.getElementById('stamp-multiplier-text');
+    if (stampText) stampText.textContent = unlockedTier;
+
+    // 3. Fire the "Slam" Stamp & Radiation Animation (Force replay)
+    const stamp = document.getElementById('unlocked-stamp');
+    if (stamp) {
+        stamp.classList.remove('hidden');
+        
+        // This trick forces the browser to restart the CSS animation!
+        stamp.classList.remove('animate-stamp');
+        void stamp.offsetWidth; 
+        stamp.classList.add('animate-stamp'); 
+    }
+
+    // 4. Update the Success Banner Text
+    const bannerText = document.getElementById('banner-multiplier-text');
+    if (bannerText) {
+        bannerText.innerHTML = `⚡ ${unlockedTier} Accelerator Active!`;
+    }
+
+    // 5. Slide in the Success Banner smoothly
+    setTimeout(() => {
+        const banner = document.getElementById('active-accel-banner');
+        if (banner) {
+            banner.classList.remove('hidden');
+            void banner.offsetWidth; 
+            banner.classList.remove('opacity-0', 'translate-y-4');
+            banner.classList.add('opacity-100', 'translate-y-0');
+            
+            // If they upgrade while banner is already visible, give it a quick visual flash
+            if (currentTierIndex > 1) {
+                banner.style.transform = 'scale(1.02)';
+                banner.classList.add('bg-emerald-100/50');
+                setTimeout(() => {
+                    banner.style.transform = 'scale(1)';
+                    banner.classList.remove('bg-emerald-100/50');
+                }, 200);
+            }
+            
+            if (window.lucide) window.lucide.createIcons();
+        }
+    }, 450);
+
+    // Move to the next tier for the next click!
+    currentTierIndex++;
+}

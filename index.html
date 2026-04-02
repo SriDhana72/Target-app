@@ -12,6 +12,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
@@ -360,36 +361,65 @@
                         
                                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                     
-                                    <div class="lg:col-span-2 bg-gradient-to-br from-[#f4fcf7] to-[#e6f5eb] border border-[#cce6d6] rounded-xl p-4 shadow-sm flex flex-col justify-between relative overflow-hidden">
+                                    <div class="lg:col-span-2 bg-gradient-to-br from-[#f4fcf7] to-[#e6f5eb] border border-[#cce6d6] rounded-xl p-4 shadow-sm flex flex-col justify-between relative">
                                         
-                                        <div class="relative z-10 flex items-start w-full mb-3">
+                                        <div id="unlocked-stamp" class="hidden absolute -top-7 -right-6 w-[105px] h-[105px] z-50 pointer-events-none origin-center mix-blend-multiply opacity-0 scale-150">
+                                            
+                                            <div class="stamp-ripple absolute inset-0 rounded-full border-2 border-emerald-500 opacity-0" style="animation-delay: 0.0s"></div>
+                                            <div class="stamp-ripple absolute inset-0 rounded-full border-2 border-emerald-500 opacity-0" style="animation-delay: 0.7s"></div>
+                                            <div class="stamp-ripple absolute inset-0 rounded-full border-2 border-emerald-500 opacity-0" style="animation-delay: 1.4s"></div>
+
+                                            <svg viewBox="0 0 168 168" class="w-full h-full drop-shadow-sm relative z-10">
+                                                <defs>
+                                                    <path id="top-arc" d="M 24 84 A 60 60 0 0 1 144 84" fill="none" />
+                                                    <path id="bot-arc" d="M 144 84 A 60 60 0 0 1 24 84" fill="none" />
+                                                </defs>
+                                                <circle cx="84" cy="84" r="80" fill="none" stroke="#059669" stroke-width="4.5"/>
+                                                <circle cx="84" cy="84" r="62" fill="none" stroke="#059669" stroke-width="2"/>
+                                                <circle cx="84" cy="84" r="71" fill="none" stroke="#059669" stroke-width="4" stroke-dasharray="3 10.9" opacity="0.6"/>
+                                                <text font-family="'Courier New', Courier, monospace" font-size="13" font-weight="bold" fill="#059669" letter-spacing="3">
+                                                    <textPath href="#top-arc" startOffset="50%" text-anchor="middle">ACCELERATOR</textPath>
+                                                </text>
+                                                <text font-family="'Courier New', Courier, monospace" font-size="13" font-weight="bold" fill="#059669" letter-spacing="3">
+                                                    <textPath href="#bot-arc" startOffset="50%" text-anchor="middle">UNLOCKED</textPath>
+                                                </text>
+                                                <text id="stamp-multiplier-text" x="84" y="104" text-anchor="middle" font-family="Impact, sans-serif" font-size="52" fill="#059669">1.2×</text>
+                                            </svg>
+                                        </div>
+
+                                        <div class="relative z-10 flex items-start w-full mb-2">
                                             <div class="flex items-center gap-1.5 text-emerald-700">
                                                 <i data-lucide="clock" class="w-4 h-4"></i>
                                                 <span class="text-[10px] font-bold uppercase tracking-wider">Today's Mission</span>
                                             </div>
                                         </div>
 
-                                        <div class="relative z-10 my-1.5 grid grid-cols-3 gap-2 divide-x divide-[#cce6d6]">
-                                            
+                                        <div id="active-accel-banner" class="hidden relative z-10 mb-3 bg-emerald-50 border border-emerald-200 rounded-lg p-2.5 flex items-start gap-2.5 shadow-sm transition-all duration-700 opacity-0 translate-y-4">
+                                            <div class="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shrink-0 shadow-sm mt-0.5">
+                                                <i data-lucide="zap" class="w-3.5 h-3.5 text-white"></i>
+                                            </div>
+                                            <p class="text-[11px] text-emerald-900 font-medium leading-snug">
+                                                <strong id="banner-multiplier-text" class="font-black text-emerald-800 uppercase tracking-wide">⚡ 1.2× Accelerator Active!</strong><br> 
+                                                You crushed your target. Every new deal you close this month now earns premium commission.
+                                            </p>
+                                        </div>
+
+                                        <div class="relative z-10 my-1 grid grid-cols-3 gap-2 divide-x divide-[#cce6d6]">
                                             <div>
                                                 <p class="text-[9px] font-bold text-emerald-800/70 uppercase tracking-widest mb-1">Total Target</p>
                                                 <h3 class="text-[22px] font-black text-emerald-950 leading-none tracking-tight" id="mission-target">$30,000</h3>
                                             </div>
-                                            
                                             <div class="pl-3">
                                                 <p class="text-[9px] font-bold text-emerald-800/70 uppercase tracking-widest mb-1">Achieved</p>
-                                                <h3 class="text-[22px] font-black text-emerald-950 leading-none tracking-tight" id="mission-achieved">$8,420</h3>
+                                                <h3 class="text-[22px] font-black text-emerald-950 leading-none tracking-tight" id="mission-achieved">$32,000</h3>
                                             </div>
-                                            
                                             <div class="pl-3">
                                                 <p class="text-[9px] font-bold text-emerald-800/70 uppercase tracking-widest mb-1">Daily Goal</p>
-                                                <h3 class="text-[22px] font-black text-emerald-950 leading-none tracking-tight" id="daily-quota">$1,050</h3>
+                                                <h3 class="text-[22px] font-black text-emerald-950 leading-none tracking-tight" id="daily-quota">$0</h3>
                                             </div>
-
                                         </div>
 
-                                        <div class="relative z-10 mt-4 flex justify-between items-center w-full border-t border-[#cce6d6]/60 pt-3">
-                                            
+                                        <div class="relative z-10 mt-3 flex justify-between items-center w-full border-t border-[#cce6d6]/60 pt-3">
                                             <div class="flex items-center gap-2">
                                                 <div class="bg-white/90 px-2.5 py-1 rounded-md text-[9px] border border-[#cce6d6] font-bold text-emerald-700 shadow-sm" id="days-left-badge">
                                                     21 days left
@@ -399,101 +429,120 @@
                                                 </div>
                                             </div>
 
-                                            <div class="relative group cursor-help">
-                                                <div class="inline-flex items-center gap-1 bg-slate-100/80 px-2.5 py-1 rounded-md border border-slate-200 shadow-sm transition-all group-hover:bg-amber-50 group-hover:border-amber-200">
-                                                    <i data-lucide="lock" class="w-3 h-3 text-slate-400 group-hover:text-amber-500 transition-colors"></i>
-                                                    <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest group-hover:text-amber-600 transition-colors">Accelerator</span>
+                                            <button id="accelerator-btn" onclick="triggerAccelerator()" class="relative group cursor-pointer border-none bg-transparent p-0 outline-none">
+                                                <div class="inline-flex items-center gap-1.5 bg-gradient-to-r from-amber-400 to-amber-500 px-3 py-1.5 rounded-md border border-amber-500 shadow-md transition-all animate-pulse hover:scale-105">
+                                                    <i data-lucide="unlock" class="w-3.5 h-3.5 text-white"></i>
+                                                    <span id="btn-multiplier-text" class="text-[10px] font-black text-white uppercase tracking-widest shadow-sm">Unlock 1.2x</span>
                                                 </div>
-
-                                                <div class="absolute bottom-full right-0 mb-2 w-48 opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none bg-slate-800 text-white p-3 rounded-lg shadow-xl z-50 transform translate-y-1 group-hover:translate-y-0">
-                                                    <div class="flex items-center gap-1.5 mb-1.5">
-                                                        <i data-lucide="zap" class="w-3 h-3 text-amber-400"></i>
-                                                        <span class="text-[10px] font-bold text-amber-400 uppercase tracking-widest">1.2x Multiplier Locked</span>
-                                                    </div>
-                                                    <p class="text-[10px] text-slate-300 leading-snug">
-                                                        Close <strong class="text-white">$21,580</strong> more to hit your target and unlock the accelerator tier!
-                                                    </p>
-                                                    <div class="absolute top-full right-6 border-[5px] border-transparent border-t-slate-800"></div>
-                                                </div>
-                                            </div>
-
+                                            </button>
                                         </div>
                                     </div>
                         
-                                    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex flex-col justify-between">
-                                        <div class="flex flex-col gap-3">
-                                            <div>
-                                                <div class="flex items-center justify-between mb-1">
-                                                    <div class="flex items-center gap-1.5">
-                                                        <i data-lucide="target" class="w-3.5 h-3.5 text-emerald-500"></i>
-                                                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Monthly Pacing</span>
-                                                    </div>
+                                    <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex flex-col h-full">
+                                        <div class="flex flex-col justify-between h-full">
+                                            
+                                            <div class="flex flex-col">
+                                                <div class="flex items-center gap-1.5 mb-1.5">
+                                                    <i data-lucide="target" class="w-4 h-4 text-emerald-500"></i>
+                                                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Monthly Pacing</span>
                                                 </div>
-                                                <h3 class="text-lg font-bold text-slate-800 leading-tight" id="monthly-target">$0</h3>
-                                                <div class="mt-1 pt-1.5 border-t border-slate-100 flex justify-between items-center">
-                                                    <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Avg. Daily</span>
-                                                    <span class="text-[11px] font-bold text-slate-600" id="avg-daily-target">$0</span>
+                                                <h3 class="text-[22px] font-black text-slate-800 leading-none tracking-tight mb-2.5" id="monthly-target">$10,000</h3>
+                                                
+                                                <div class="flex items-center justify-between bg-slate-50 px-2.5 py-1.5 rounded-md border border-slate-100">
+                                                    <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Avg. Daily</span>
+                                                    <span class="text-[11px] font-black text-slate-700" id="avg-daily-target">$455</span>
                                                 </div>
                                             </div>
                                             
-                                            <div class="border-t border-slate-100 pt-3">
-                                                <div class="flex items-center justify-between mb-1">
+                                            <div class="border-t border-slate-100 pt-3 mt-auto">
+                                                <div class="flex items-center justify-between mb-1.5">
                                                     <div class="flex items-center gap-1.5">
-                                                        <i data-lucide="trending-up" class="w-3.5 h-3.5 text-orange-500"></i>
-                                                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">QTD Achieved</span>
+                                                        <i data-lucide="trending-up" class="w-4 h-4 text-orange-500"></i>
+                                                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">QTD Achieved</span>
                                                     </div>
-                                                    <span class="text-[11px] font-bold text-slate-800" id="progress-percentage">0%</span>
+                                                    <span class="text-[11px] font-black text-slate-800" id="progress-percentage">42%</span>
                                                 </div>
-                                                <h3 class="text-lg font-bold text-slate-800 leading-tight" id="current-sales-display">$0</h3>
-                                                <div class="mt-1 mb-1.5">
-                                                    <span class="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100" id="earned-comm-display">
-                                                        Comm: $0
+                                                
+                                                <div class="flex items-end justify-between mb-2">
+                                                    <h3 class="text-[22px] font-black text-slate-800 leading-none tracking-tight" id="current-sales-display">$12,500</h3>
+                                                    <span class="inline-flex items-center gap-1 text-[9px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-100" id="earned-comm-display">
+                                                        Comm: $625
                                                     </span>
                                                 </div>
+                                                
                                                 <div class="mt-1">
-                                                    <div class="w-full bg-slate-100 rounded-full h-1 mb-1">
-                                                        <div id="progress-bar" class="bg-orange-500 h-1 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                                    <div class="w-full bg-slate-100 rounded-full h-1.5 mb-1.5 shadow-inner overflow-hidden">
+                                                        <div id="progress-bar" class="bg-orange-500 h-1.5 rounded-full transition-all duration-1000" style="width: 42%"></div>
                                                     </div>
                                                     <div class="text-[9px] text-slate-400 font-bold flex justify-between uppercase tracking-wider">
                                                         <span>Target</span>
-                                                        <span id="progress-target">$0</span>
+                                                        <span id="progress-target" class="text-slate-600">$30,000</span>
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                         </div>
                                     </div>
 
                                     <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex flex-col justify-between">
-                                        <h2 class="text-[10px] font-bold text-slate-800 uppercase tracking-widest mb-3">Alerts</h2>
+                                        <h2 class="text-[10px] font-bold text-slate-800 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                                            <i data-lucide="target" class="w-3 h-3 text-indigo-500"></i> Commission Nudges
+                                        </h2>
                                         
-                                        <div class="space-y-2.5">
-                                            <div class="flex items-start gap-2">
-                                                <div class="w-1.5 h-1.5 rounded-full bg-rose-500 mt-1 shrink-0"></div>
-                                                <div>
-                                                    <p class="text-[11px] font-bold text-slate-700 leading-tight">$16k to accelerator</p>
-                                                    <p class="text-[9px] text-slate-500 font-medium">Close by Jun 30</p>
+                                        <div class="space-y-3">
+                                            <div class="flex items-start justify-between group cursor-default">
+                                                <div class="flex items-start gap-2">
+                                                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i>
+                                                    <div>
+                                                        <p class="text-[11px] font-bold text-slate-700 leading-tight">Base Commission</p>
+                                                        <p class="text-[9px] text-emerald-600 font-semibold mt-0.5">Active (7% Rate)</p>
+                                                    </div>
                                                 </div>
+                                                <span class="text-[11px] font-black text-slate-800">$1,500</span>
                                             </div>
-                                            <div class="flex items-start gap-2">
-                                                <div class="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1 shrink-0"></div>
-                                                <div>
-                                                    <p class="text-[11px] font-bold text-slate-700 leading-tight">1 pending approval</p>
-                                                    <p class="text-[9px] text-slate-500 font-medium">Luminary — $6,448</p>
+
+                                            <div class="flex items-start justify-between group cursor-default">
+                                                <div class="flex items-start gap-2">
+                                                    <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-500 mt-0.5 transition-transform group-hover:scale-110"></i>
+                                                    <div>
+                                                        <p class="text-[11px] font-bold text-slate-700 leading-tight">Accelerator (100%+)</p>
+                                                        <p class="text-[9px] text-amber-600 font-medium mt-0.5"><strong class="font-bold">$16k</strong> more to unlock</p>
+                                                    </div>
                                                 </div>
+                                                <span class="text-[11px] font-black text-slate-400">1.2x</span>
                                             </div>
-                                            <div class="flex items-start gap-2">
-                                                <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 mt-1 shrink-0"></div>
-                                                <div>
-                                                    <p class="text-[11px] font-bold text-slate-700 leading-tight">Rank #3 of 6</p>
-                                                    <p class="text-[9px] text-emerald-600 font-bold">+2 pos this month</p>
+
+                                            <div class="flex items-start justify-between group cursor-default">
+                                                <div class="flex items-start gap-2">
+                                                    <i data-lucide="lock" class="w-3.5 h-3.5 text-slate-300 mt-0.5 transition-transform group-hover:scale-110"></i>
+                                                    <div>
+                                                        <p class="text-[11px] font-bold text-slate-700 leading-tight">Bonus Tier (125%+)</p>
+                                                        <p class="text-[9px] text-slate-400 font-medium mt-0.5"><strong class="font-bold">$35k</strong> more to unlock</p>
+                                                    </div>
                                                 </div>
+                                                <span class="text-[11px] font-black text-slate-400">1.5x</span>
                                             </div>
-                                            <div class="flex items-start gap-2">
-                                                <div class="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1 shrink-0"></div>
-                                                <div>
-                                                    <p class="text-[11px] font-bold text-slate-700 leading-tight">Q2 ends in 97 days</p>
-                                                    <p class="text-[9px] text-slate-500 font-medium">You're on pace</p>
+
+                                            <div class="flex items-start justify-between group cursor-default">
+                                                <div class="flex items-start gap-2">
+                                                    <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-emerald-500 mt-0.5"></i>
+                                                    <div>
+                                                        <p class="text-[11px] font-bold text-slate-700 leading-tight">Cross-Sell Comm</p>
+                                                        <p class="text-[9px] text-emerald-600 font-semibold mt-0.5">Active (Tier 1)</p>
+                                                    </div>
                                                 </div>
+                                                <span class="text-[11px] font-black text-slate-800">$450</span>
+                                            </div>
+
+                                            <div class="flex items-start justify-between group cursor-default">
+                                                <div class="flex items-start gap-2">
+                                                    <i data-lucide="lock" class="w-3.5 h-3.5 text-amber-500 mt-0.5 transition-transform group-hover:scale-110"></i>
+                                                    <div>
+                                                        <p class="text-[11px] font-bold text-slate-700 leading-tight">Services Comm</p>
+                                                        <p class="text-[9px] text-amber-600 font-medium mt-0.5"><strong class="font-bold">$2.4k</strong> to next tier</p>
+                                                    </div>
+                                                </div>
+                                                <span class="text-[11px] font-black text-slate-400">Tier 2</span>
                                             </div>
                                         </div>
                                     </div>
