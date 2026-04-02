@@ -1174,14 +1174,18 @@ horizontalRow.innerHTML = filteredMetrics.map((m, index) => {
                 `).join('')}
             </div>
 
-            <div class="ap-card-foot" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 12px;">
+<div class="ap-card-foot" style="display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--border); padding-top: 12px;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 9px; font-weight: 800; color: #000000;">${m.momLbl}</span>
-                    <div style="background: ${m.color}1A; color: ${m.color}; font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px;">${m.mom}</div>
+                    <div style="background: ${m.color}1A; color: ${m.color}; font-size: 10px; font-weight: 800; padding: 4px 6px; border-radius: 4px; display: inline-flex; align-items: center; justify-content: center; gap: 3px; white-space: nowrap;">
+                        ${m.mom.replace('margin-bottom:2px;', 'margin-bottom:0;')}
+                    </div>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <span style="font-size: 9px; font-weight: 800; color: #000000;">${m.rankLbl}</span>
-                    <div style="background: var(--surface2); color: #000000; font-size: 10px; font-weight: 800; padding: 3px 6px; border-radius: 4px; border: 1px solid var(--border);">${m.rank}</div>
+                    <div style="background: var(--surface2); color: #000000; font-size: 10px; font-weight: 800; padding: 4px 6px; border-radius: 4px; border: 1px solid var(--border); display: inline-flex; align-items: center; gap: 3px; white-space: nowrap;">
+                        ${m.rank}
+                    </div>
                 </div>
             </div>
         </div>
