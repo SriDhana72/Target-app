@@ -1385,63 +1385,66 @@ checkboxes.forEach(cb => cb.checked = selectAllCb.checked);
 
 // 1. Updated Manager List Generator
 function runCascades() {
-const selectedBUs = getSelectedValues('bu-list');
-const selectedRegions = getSelectedValues('region-list');
+  const selectedBUs = getSelectedValues('bu-list');
+  const selectedRegions = getSelectedValues('region-list');
 
-let filteredMgrs = managerDataMap;
-if (selectedBUs.length > 0) filteredMgrs = filteredMgrs.filter(m => selectedBUs.includes(m.bu));
-if (selectedRegions.length > 0) filteredMgrs = filteredMgrs.filter(m => selectedRegions.includes(m.region));
+  let filteredMgrs = managerDataMap;
+  if (selectedBUs.length > 0) filteredMgrs = filteredMgrs.filter(m => selectedBUs.includes(m.bu));
+  if (selectedRegions.length > 0) filteredMgrs = filteredMgrs.filter(m => selectedRegions.includes(m.region));
 
-window.currentFilteredMgrs = filteredMgrs; 
+  window.currentFilteredMgrs = filteredMgrs; 
 
-const mgrContainer = document.querySelector('#manager-list > div');
-if (mgrContainer) {
-    if (filteredMgrs.length === 0) {
-        mgrContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:12px 0;">No managers match filters.</div>';
-    } else {
-        mgrContainer.innerHTML = `
-            <div class="ap-multi-item" style="font-style: italic; opacity: 0.7; margin-bottom: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--border);" onclick="toggleAllInList('manager-list')">
-                Select All Managers
-            </div>
-        ` + filteredMgrs.map(m => `
-            <div class="ap-multi-item" onclick="toggleMultiItem(this, '${m.name}')">
-                ${m.name} <span style="font-weight: 500; font-size: 11px; color: var(--t3); opacity: 0.6;">(${m.region})</span>
-            </div>
-        `).join('');
-    }
+  // FIX: Target the specific ID so we don't accidentally overwrite the scrollbar
+  const mgrContainer = document.getElementById('manager-items-container');
+  if (mgrContainer) {
+      if (filteredMgrs.length === 0) {
+          mgrContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:12px 0;">No managers match filters.</div>';
+      } else {
+          mgrContainer.innerHTML = `
+              <div class="ap-multi-item" style="font-style: italic; opacity: 0.7; margin-bottom: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--border);" onclick="toggleAllInList('manager-list')">
+                  Select All Managers
+              </div>
+          ` + filteredMgrs.map(m => `
+              <div class="ap-multi-item" onclick="toggleMultiItem(this, '${m.name}')">
+                  ${m.name} <span style="font-weight: 500; font-size: 11px; color: var(--t3); opacity: 0.6;">(${m.region})</span>
+              </div>
+          `).join('');
+      }
+  }
+
+  updateReportees(); 
 }
 
-updateReportees(); 
-}
 // 2. Updated Reportee List Generator
 function updateReportees() {
-const filteredMgrs = window.currentFilteredMgrs || managerDataMap;
-const selectedMgrs = getSelectedValues('manager-list');
+  const filteredMgrs = window.currentFilteredMgrs || managerDataMap;
+  const selectedMgrs = getSelectedValues('manager-list');
 
-let activeMgrs = selectedMgrs.length > 0 ? filteredMgrs.filter(m => selectedMgrs.includes(m.name)) : filteredMgrs;
+  let activeMgrs = selectedMgrs.length > 0 ? filteredMgrs.filter(m => selectedMgrs.includes(m.name)) : filteredMgrs;
 
-let reportees = [];
-activeMgrs.forEach(m => {
-    if (m.reps) reportees.push(...m.reps);
-});
-reportees = [...new Set(reportees)].sort();
+  let reportees = [];
+  activeMgrs.forEach(m => {
+      if (m.reps) reportees.push(...m.reps);
+  });
+  reportees = [...new Set(reportees)].sort();
 
-const repContainer = document.querySelector('#reportee-list > div');
-if (repContainer) {
-    if (reportees.length === 0) {
-        repContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:12px 0;">No reportees found.</div>';
-    } else {
-        repContainer.innerHTML = `
-            <div class="ap-multi-item" style="font-style: italic; opacity: 0.7; margin-bottom: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--border);" onclick="toggleAllInList('reportee-list')">
-                Select All Reportees
-            </div>
-        ` + reportees.map(rep => `
-            <div class="ap-multi-item" onclick="toggleMultiItem(this, '${rep}')">
-                ${rep}
-            </div>
-        `).join('');
-    }
-}
+  // FIX: Target the specific ID so we don't accidentally delete the Search Bar!
+  const repContainer = document.getElementById('reportee-items-container');
+  if (repContainer) {
+      if (reportees.length === 0) {
+          repContainer.innerHTML = '<div style="font-size:12px; color:var(--t3); padding:12px 0;">No reportees found.</div>';
+      } else {
+          repContainer.innerHTML = `
+              <div class="ap-multi-item" style="font-style: italic; opacity: 0.7; margin-bottom: 4px; padding-bottom: 8px; border-bottom: 1px solid var(--border);" onclick="toggleAllInList('reportee-list')">
+                  Select All Reportees
+              </div>
+          ` + reportees.map(rep => `
+              <div class="ap-multi-item" onclick="toggleMultiItem(this, '${rep}')">
+                  ${rep}
+              </div>
+          `).join('');
+      }
+  }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -1667,14 +1670,14 @@ function renderBucket(bucket, color) {
               ${isCurrent ? '<div class="q-active-bar absolute top-0 inset-x-0 h-[3px] bg-indigo-500"></div>' : ''}
               <div class="q-lbl-text text-[9px] uppercase tracking-widest mb-1.5 ${qLabelClass}">Q${q} ${isCurrent ? '<span class="q-dot text-indigo-400 ml-0.5">●</span>' : ''}</div>
               
-              <div class="w-full space-y-1 mb-2 pointer-events-none">
+<div class="w-full space-y-1 mb-2 pointer-events-none">
                   <div class="flex justify-between items-center text-[9px]">
-                      <span class="text-slate-400">TGT</span>
-                      <span class="font-bold text-slate-700">$${formatNum(baseTgt)}M</span>
+                      <span class="text-slate-400 font-medium">TGT</span>
+                      <span class="font-bold text-slate-500">$${formatNum(baseTgt)}M</span>
                   </div>
                   <div class="flex justify-between items-center text-[9px]">
-                      <span class="text-slate-400">ACH</span>
-                      <span class="font-bold text-slate-900">$${formatNum(qAch)}M</span>
+                      <span class="text-slate-400 font-medium">ACH</span>
+                      <span class="font-black ${qColor}">$${formatNum(qAch)}M</span>
                   </div>
               </div>
               
@@ -2104,3 +2107,62 @@ function checkQuotaStatus() {
 
 // Run this check immediately when the page loads
 window.addEventListener('DOMContentLoaded', checkQuotaStatus);
+
+// ==========================================
+    // DYNAMIC TREND INDICATOR LOGIC
+    // ==========================================
+    function updateTrendPercentage() {
+      const targetEl = document.getElementById('mission-target');
+      const achievedEl = document.getElementById('mission-achieved');
+      const trendEl = document.getElementById('achieved-trend');
+
+      if (!targetEl || !achievedEl || !trendEl) return;
+
+      // Strip the '$' and ',' out of the text so we can do math with the raw numbers
+      const targetVal = parseFloat(targetEl.innerText.replace(/[^0-9.-]+/g,""));
+      const achievedVal = parseFloat(achievedEl.innerText.replace(/[^0-9.-]+/g,""));
+
+      if (targetVal > 0) {
+          // Calculate the percentage
+          const percentage = (achievedVal / targetVal) * 100;
+
+          // Format it to 1 decimal place (e.g., 6.6%)
+          const formattedPct = percentage.toFixed(1) + '%';
+
+// Inject the new dynamic percentage and the Lucide icon back into the badge
+trendEl.innerHTML = `
+<i data-lucide="trending-up" class="w-2.5 h-2.5 mr-0.5 text-[#00A693]"></i>
+${formattedPct}
+`;
+
+          // Re-render the icon so it doesn't disappear
+          if (window.lucide) {
+              lucide.createIcons();
+          }
+      }
+  }
+
+  // Run the calculation automatically as soon as the page loads
+  document.addEventListener('DOMContentLoaded', updateTrendPercentage);
+
+// ==========================================
+    // INLINE REPORTEE SEARCH LOGIC
+    // ==========================================
+    function filterReportees(searchTerm) {
+      const term = searchTerm.toLowerCase().trim();
+      const container = document.getElementById('reportee-items-container');
+      if (!container) return;
+      
+      // Find all injected items
+      const items = container.querySelectorAll('.ap-multi-item');
+      
+      items.forEach(item => {
+          const text = item.textContent || item.innerText;
+          // Clear styles to show, set 'none' to hide
+          if (text.toLowerCase().includes(term)) {
+              item.style.display = ''; 
+          } else {
+              item.style.display = 'none';
+          }
+      });
+  }
